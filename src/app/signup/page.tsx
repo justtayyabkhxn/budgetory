@@ -36,7 +36,7 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white px-4">
       {/* Clickable Header */}
-      <a href="/" className="mb-10 text-center hover:opacity-80 transition">
+      <Link href="/" className="mb-10 text-center hover:opacity-80 transition">
         <div className="inline-flex items-center space-x-1">
           <span className="text-4xl">💰</span>
           <span className="text-4xl text-indigo-400 font-extrabold tracking-tight">Budgetory</span>
@@ -44,7 +44,7 @@ export default function SignupPage() {
         <p className="mt-2 text-lg text-gray-300 font-bold">
         💳 Your Budget.📜 Your Story.
         </p>
-      </a>
+      </Link>
 
       {/* Signup Card */}
       <div className="text-center w-full max-w-md bg-[#111111]/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-gray-700">

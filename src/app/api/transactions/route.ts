@@ -44,12 +44,19 @@ export async function POST(req: Request) {
       status: 201,
       headers: { 'Content-Type': 'application/json' },
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const errorMessage =
+      err instanceof Error ? err.message : 'Failed to add transaction';
+  
     return new Response(
-      JSON.stringify({ error: err.message || 'Failed to add transaction' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      JSON.stringify({ error: errorMessage }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }
     );
   }
+  
 }
 
 export async function GET(req: Request) {

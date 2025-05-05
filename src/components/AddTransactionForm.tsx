@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
   const [form, setForm] = useState({
@@ -9,9 +9,21 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
     date: "",
     comment: "",
   });
+
+  interface Transaction {
+    _id: string;
+    title: string;
+    amount: number;
+    category: string;
+    type: "income" | "expense";
+    date: string;
+    comment: string;
+  }
+  
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [txs, setTxs] = useState<any[]>([]); // <-- FIXED
+  const [txs, setTxs] = useState<Transaction[]>([]);
 
   const categories = [
     "Food",

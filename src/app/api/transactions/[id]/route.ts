@@ -39,7 +39,7 @@ export async function DELETE(
       );
       
   } catch (err) {
-    return new Response(JSON.stringify({ error: "Server error" }), {
+    return new Response(JSON.stringify({ error: "Server error"+err }), {
       status: 500,
     });
   }

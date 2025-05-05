@@ -15,8 +15,15 @@ interface Transaction {
   comment: string;
 }
 
+type User = {
+  id: string;
+  email: string;
+  // Add any other fields you decode from the token
+};
+
+
 export default function Dashboard() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null >(null);
   const [txs, setTxs] = useState<Transaction[]>([]);
   const [inflow, setInflow] = useState<number>(0);
   const [expense, setExpense] = useState<number>(0);
