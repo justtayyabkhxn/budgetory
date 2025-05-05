@@ -45,9 +45,9 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white px-4">
       {/* Header */}
       <a href="/" className="mb-10 text-center hover:opacity-80 transition">
-        <div className="inline-flex items-center space-x-3">
+        <div className="inline-flex items-center ">
           <span className="text-4xl">💰</span>
-          <span className="text-4xl font-bold text-indigo-400">Budgetory</span>
+          <span className="text-4xl text-indigo-400 font-extrabold tracking-tight">Budgetory</span>
         </div>
         <p className="mt-2 text-lg text-gray-300 font-bold">
         💳 Your Budget.📜 Your Story.
@@ -85,7 +85,7 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 transition-colors py-2 rounded font-semibold text-white"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 transition-colors py-2 rounded font-semibold text-white cursor-pointer"
           >
             Login
           </button>

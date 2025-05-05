@@ -3,7 +3,7 @@ export default function LandingPage() {
     <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-black text-gray-800 dark:text-gray-200 px-6 py-12 transition-colors duration-300">
       {/* Hero Section */}
       <section className="text-center max-w-2xl mx-auto space-y-6">
-        <h1 className="text-4xl md:text-5xl font-bold text-indigo-600 dark:text-indigo-400">
+        <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
           💰Budgetory
         </h1>
         <p className="mt-2 text-lg text-gray-300 font-bold">
