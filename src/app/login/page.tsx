@@ -16,17 +16,30 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      body: JSON.stringify(form),
-    });
-    if (res.ok) {
-      router.push('/dashboard');
-    } else {
+  
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+  
       const data = await res.json();
-      setError(data.error || 'Login failed');
+  
+      if (res.ok) {
+        localStorage.setItem('token', data.token); // Store token
+        router.push('/dashboard');
+      } else {
+        setError(data.error || 'Login failed');
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+      console.error(err);
     }
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white px-4">
