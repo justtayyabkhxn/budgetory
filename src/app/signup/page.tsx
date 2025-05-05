@@ -50,7 +50,7 @@ export default function SignupPage() {
       <div className="text-center w-full max-w-md bg-[#111111]/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-gray-700">
         {/* Headings */}
         <h1 className="text-3xl font-bold inline-block">
-          Let's Register You.
+          Let&apos;s Register You.
         </h1>
 
         {/* Greeting */}
