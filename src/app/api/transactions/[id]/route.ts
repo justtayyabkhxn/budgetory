@@ -1,22 +1,23 @@
+import { NextRequest, NextResponse } from "next/server";
 import { getUserFromToken } from "@/utils/getUserFromToken";
 import Transaction from "@/models/Transaction";
 import dbConnect from "@/lib/dbConnect";
+import mongoose from "mongoose";
 
-export async function DELETE(
-  request: Request,
-  context: { params: { id: string } }
-) {
-  const user = await getUserFromToken(request);
+export async function DELETE(req: NextRequest) {
+  const user = await getUserFromToken(req);
   if (!user) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   await dbConnect();
 
-  const { id } = context.params;
+  // Extract transaction ID from the URL
+  const id = req.nextUrl.pathname.split("/").pop();
+
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json({ error: "Invalid transaction ID" }, { status: 400 });
+  }
 
   try {
     const deleted = await Transaction.findOneAndDelete({
@@ -25,27 +26,18 @@ export async function DELETE(
     });
 
     if (!deleted) {
-      return new Response(JSON.stringify({ error: "Transaction not found" }), {
-        status: 404,
-        headers: { "Content-Type": "application/json" },
-      });
+      return NextResponse.json({ error: "Transaction not found" }, { status: 404 });
     }
 
-    return new Response(
-      JSON.stringify({ success: true, message: "Transaction deleted" }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
+    return NextResponse.json(
+      { success: true, message: "Transaction deleted" },
+      { status: 200 }
     );
   } catch (err) {
     console.error("Delete error:", err);
-    return new Response(
-      JSON.stringify({ error: "Server error", detail: `${err}` }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
+    return NextResponse.json(
+      { error: "Server error", detail: `${err}` },
+      { status: 500 }
     );
   }
 }
