@@ -163,7 +163,6 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           </h3>
           <ul className="space-y-2 text-sm text-gray-300">
             {[...txs]
-              .reverse()
               .slice(0, 1)
               .map((tx, index) => (
                 <li key={index} className="border-b border-gray-600 pb-1">

@@ -153,17 +153,17 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 ">
           <TxnCard
             title="Total Inflow"
-            amount={`₹ ${inflow.toLocaleString()}`}
+            amount={`₹ ${inflow.toLocaleString()}.00`}
             color="text-green-400"
           />
           <TxnCard
             title="Total Expenses"
-            amount={`₹ ${expense.toLocaleString()}`}
+            amount={`₹ ${expense.toLocaleString()}.00`}
             color="text-red-500"
           />
           <TxnCard
             title="Net"
-            amount={`₹ ${net.toLocaleString()}`}
+            amount={`₹ ${net.toLocaleString()}.00`}
             color="text-gray-300"
           />
         </div>
@@ -179,7 +179,7 @@ export default function Dashboard() {
             <p className="text-gray-400">No transactions yet.</p>
           ) : (
             <ul className="space-y-3">
-              {[...txs].reverse().map((tx) => (
+              {[...txs].slice(0, 10).map((tx) => (
                 <li
                   key={tx._id}
                   className="flex justify-between items-center p-3 bg-white/5 rounded-md"

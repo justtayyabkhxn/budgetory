@@ -74,7 +74,7 @@ export async function GET(req: Request) {
   try {
     const transactions = await Transaction.find({ userId })
       .sort({ date: -1 })
-      .limit(20);
+      
     return new Response(JSON.stringify({ transactions }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
