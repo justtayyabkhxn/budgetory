@@ -21,9 +21,8 @@ type User = {
   // Add any other fields you decode from the token
 };
 
-
 export default function Dashboard() {
-  const [user, setUser] = useState<User | null >(null);
+  const [user, setUser] = useState<User | null>(null);
   const [txs, setTxs] = useState<Transaction[]>([]);
   const [inflow, setInflow] = useState<number>(0);
   const [expense, setExpense] = useState<number>(0);
@@ -31,12 +30,26 @@ export default function Dashboard() {
 
   const router = useRouter();
   useEffect(() => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+
     const inflowSum = txs
-      .filter((tx) => tx.type === "income")
+      .filter(
+        (tx) =>
+          tx.type === "income" &&
+          new Date(tx.date).getMonth() === currentMonth &&
+          new Date(tx.date).getFullYear() === currentYear
+      )
       .reduce((sum, tx) => sum + tx.amount, 0);
 
     const expenseSum = txs
-      .filter((tx) => tx.type === "expense")
+      .filter(
+        (tx) =>
+          tx.type === "expense" &&
+          new Date(tx.date).getMonth() === currentMonth &&
+          new Date(tx.date).getFullYear() === currentYear
+      )
       .reduce((sum, tx) => sum + tx.amount, 0);
 
     setInflow(inflowSum);
@@ -151,18 +164,28 @@ export default function Dashboard() {
 
         {/* Summary Cards (you can update these with real sums later) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 ">
+          <Link href="/inflow" className="cursor-pointer">
+            <TxnCard
+              title={`Total Inflow (${new Date().toLocaleString("default", {
+                month: "long",
+              })})`}
+              amount={`₹ ${inflow.toLocaleString()}.00`}
+              color="text-green-400"
+            />
+          </Link>
+          <Link href="/expenses">
+            <TxnCard
+              title={`Total Expenses (${new Date().toLocaleString("default", {
+                month: "long",
+              })})`}
+              amount={`₹ ${expense.toLocaleString()}.00`}
+              color="text-red-500"
+            />
+          </Link>
           <TxnCard
-            title="Total Inflow"
-            amount={`₹ ${inflow.toLocaleString()}.00`}
-            color="text-green-400"
-          />
-          <TxnCard
-            title="Total Expenses"
-            amount={`₹ ${expense.toLocaleString()}.00`}
-            color="text-red-500"
-          />
-          <TxnCard
-            title="Net"
+            title={`Net (${new Date().toLocaleString("default", {
+              month: "long",
+            })})`}
             amount={`₹ ${net.toLocaleString()}.00`}
             color="text-gray-300"
           />
@@ -209,9 +232,7 @@ export default function Dashboard() {
             </ul>
           )}
           <div className="font-bold text-blue-400 mt-5 text-right">
-            <Link href="/transactions">
-            See All Transactions
-            </Link>
+            <Link href="/transactions">See All Transactions</Link>
           </div>
         </div>
       </div>
