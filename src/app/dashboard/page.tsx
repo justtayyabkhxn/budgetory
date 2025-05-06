@@ -231,7 +231,7 @@ export default function Dashboard() {
               ))}
             </ul>
           )}
-          <div className="font-bold text-blue-400 mt-5 text-right">
+          <div className="font-bold text-blue-400 mt-1 text-right">
             <Link href="/transactions">See All Transactions</Link>
           </div>
         </div>
