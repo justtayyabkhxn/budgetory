@@ -1,8 +1,8 @@
-// app/signup/page.tsx
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Eye, EyeOff } from 'lucide-react'; // Optional: for show/hide icons
 
 export default function SignupPage() {
   const [form, setForm] = useState({
@@ -12,6 +12,9 @@ export default function SignupPage() {
     password: '',
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,44 +24,42 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    const res = await fetch('/api/signup', {
-      method: 'POST',
-      body: JSON.stringify(form),
-    });
-    if (res.ok) {
-      router.push('/login');
-    } else {
-      const data = await res.json();
-      setError(data.error || 'Signup failed');
+    setLoading(true);
+    try {
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      if (res.ok) {
+        router.push('/login');
+      } else {
+        const data = await res.json();
+        setError(data.error || 'Signup failed');
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white px-4">
-      {/* Clickable Header */}
       <Link href="/" className="mb-10 text-center hover:opacity-80 transition">
         <div className="inline-flex items-center space-x-1">
           <span className="text-4xl">💰</span>
-          <span className="text-4xl text-indigo-400 font-extrabold tracking-tight">💰MyBudgetory</span>
+          <span className="text-4xl text-indigo-400 font-extrabold tracking-tight">MyBudgetory</span>
         </div>
-        <p className="mt-2 text-lg text-gray-300 font-bold">
-        💳 Your Budget.📜 Your Story.
-        </p>
+        <p className="mt-2 text-lg text-gray-300 font-bold">💳 Your Budget.📜 Your Story.</p>
       </Link>
 
-      {/* Signup Card */}
       <div className="text-center w-full max-w-md bg-[#111111]/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-gray-700">
-        {/* Headings */}
-        <h1 className="text-3xl font-bold inline-block">
-          Let&apos;s Register You.
-        </h1>
+        <h1 className="text-3xl font-bold inline-block">Let&apos;s Register You.</h1>
+        <p className="mt-3 text-gray-300">Register to start your journey!</p>
 
-        {/* Greeting */}
-        <p className="mt-3 text-gray-300">
-          Register to start your journey!
-        </p>
-
-        {/* Form */}
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <input
             type="text"
@@ -66,7 +67,7 @@ export default function SignupPage() {
             placeholder="Name"
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400 placeholder-normal"
+            className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
           />
           <input
             type="tel"
@@ -74,7 +75,7 @@ export default function SignupPage() {
             placeholder="Phone"
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400 placeholder-normal"
+            className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
           />
           <input
             type="email"
@@ -82,24 +83,38 @@ export default function SignupPage() {
             placeholder="Email"
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400 placeholder-normal"
+            className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400 placeholder-normal"
-          />
+
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="Password"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-3 text-gray-400 hover:text-white focus:outline-none"
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 transition-colors py-2 rounded font-semibold text-white cursor-pointer"
+            disabled={loading}
+            className={`w-full ${
+              loading ? 'bg-gray-600' : 'bg-green-600 hover:bg-green-700'
+            } transition-colors py-2 rounded font-semibold text-white cursor-pointer`}
           >
-            Sign Up
+            {loading ? 'Signing up...' : 'Sign Up'}
           </button>
         </form>
 
