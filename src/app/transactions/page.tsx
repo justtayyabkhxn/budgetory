@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AddTransactionForm } from "../../components/AddTransactionForm";
-import { TxnCard } from "../../components/TxnCard";
 import Link from "next/link";
 
 interface Transaction {
