@@ -4,7 +4,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="text-center max-w-2xl mx-auto space-y-6">
         <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
-          💰Budgetory
+        💰MyBudgetory
         </h1>
         <p className="mt-2 text-lg text-gray-300 font-bold">
         💳 Your Budget.📜 Your Story.
@@ -57,7 +57,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="text-center mt-10 bottom-4 text-sm text-gray-500 font-semibold">
-        © 2025 Budgetory. Built with ❤️ by{" "}
+        © 2025 💰MyBudgetory. Built with ❤️ by{" "}
         <a
           href="https://justtayyabkhan.vercel.app"
           target="_blank"

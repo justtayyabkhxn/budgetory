@@ -39,7 +39,7 @@ export default function SignupPage() {
       <Link href="/" className="mb-10 text-center hover:opacity-80 transition">
         <div className="inline-flex items-center space-x-1">
           <span className="text-4xl">💰</span>
-          <span className="text-4xl text-indigo-400 font-extrabold tracking-tight">Budgetory</span>
+          <span className="text-4xl text-indigo-400 font-extrabold tracking-tight">💰MyBudgetory</span>
         </div>
         <p className="mt-2 text-lg text-gray-300 font-bold">
         💳 Your Budget.📜 Your Story.

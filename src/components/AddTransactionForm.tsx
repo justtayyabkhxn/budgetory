@@ -131,14 +131,15 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
         <input
           type="date"
           name="date"
+          placeholder="Date"
           value={form.date}
           onChange={handleChange}
           required
-          className="p-2 rounded bg-black border border-gray-700 text-white"
+          className="p-2 rounded bg-black border border-gray-700 text-white w-87"
         />
         <input
           name="comment"
-          placeholder="Optional comment"
+          placeholder="Comment"
           value={form.comment}
           onChange={handleChange}
           className=" p-2 rounded bg-black border border-gray-700 text-white resize-none"

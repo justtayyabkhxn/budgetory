@@ -129,7 +129,7 @@ export default function Dashboard() {
         {/* Header */}
         <section className="text-center max-w-2xl mx-auto space-y-6 mb-5">
           <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
-            <Link href="/">💰Budgetory</Link>
+            <Link href="/">💰MyBudgetory</Link>
           </h1>
         </section>
         <div className="mb-10 flex items-center justify-between">
