@@ -2,22 +2,21 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 import Transaction from "@/models/Transaction";
 import dbConnect from "@/lib/dbConnect";
 
-// This is the correct signature for dynamic route handlers
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   const user = await getUserFromToken(request);
   if (!user) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
+      headers: { "Content-Type": "application/json" },
     });
   }
 
   await dbConnect();
 
-  // Await params before destructuring
-  const { id } = await params;
+  const { id } = context.params;
 
   try {
     const deleted = await Transaction.findOneAndDelete({
@@ -28,19 +27,25 @@ export async function DELETE(
     if (!deleted) {
       return new Response(JSON.stringify({ error: "Transaction not found" }), {
         status: 404,
+        headers: { "Content-Type": "application/json" },
       });
     }
 
     return new Response(
-        JSON.stringify({ success: true, message: "Transaction deleted" }),
-        {
-          status: 200,
-        }
-      );
-      
+      JSON.stringify({ success: true, message: "Transaction deleted" }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } catch (err) {
-    return new Response(JSON.stringify({ error: "Server error"+err }), {
-      status: 500,
-    });
+    console.error("Delete error:", err);
+    return new Response(
+      JSON.stringify({ error: "Server error", detail: `${err}` }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
 }
