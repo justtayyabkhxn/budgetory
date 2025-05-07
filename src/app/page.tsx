@@ -1,29 +1,45 @@
+"use client"
 import Header from "@/components/Header";
+import IMG from "../../public/img1.png";
+import IMG2 from "../../public/img2.png";
+import Image from "next/image";
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-linear-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-black text-gray-800 dark:text-gray-200 px-6 py-12 transition-colors duration-300">
+    <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-black text-gray-800 dark:text-gray-200 px-6 py-5 transition-colors duration-300">
+      <Header />
+
       {/* Hero Section */}
-      <section className="text-center max-w-2xl mx-auto space-y-6">
-       <Header/>
-        <div className="mt-8 flex justify-center gap-4">
-          <a
-            href="/dashboard"
-            className="px-4 py-3 text-shadow-lg/10 font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 transition text-lg"
+      <section className="text-center max-w-3xl mx-auto space-y-6 mt-10">
+        <h1 className="text-4xl  text-green-500 dark:text-green-500 font-extrabold tracking-tight">
+          Take Control !
+        </h1>
+        <p className="text-lg text-gray-600 dark:text-gray-300">
+          MyBudgetory helps you track your expenses, analyze spending habits,
+          and stay financially organized — all in one place.
+        </p>
+        <Image
+          src={IMG}
+          alt="Money Management"
+          className="mx-auto w-full max-w-sm"
+          placeholder="blur"
+        />
+        <div className="mt-6 flex justify-center gap-4">
+          <button
+            onClick={() => {
+              document
+                .getElementById("final-cta")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="px-6 py-3 font-bold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 transition text-lg cursor-pointer"
           >
             Get Started
-          </a>
-          {/* <a
-            href="/login"
-            className="px-6 py-3 border border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-300 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-800 transition text-lg"
-          >
-            Login
-          </a> */}
+          </button>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="mt-15 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <section className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         {[
           {
             title: "Track Daily Expenses",
@@ -51,9 +67,133 @@ export default function LandingPage() {
           </div>
         ))}
       </section>
+      <Image
+        src={IMG2}
+        alt="Money Management"
+        width={200} // adjust as needed
+        height={200} // maintain aspect ratio
+        className="mx-auto rounded-lg mt-5" // optional styling
+        placeholder="blur"
+      />
+      {/* How It Works Section */}
+      <section className="mt-20 max-w-4xl mx-auto text-center space-y-10">
+        <h2 className="text-3xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
+          How It Works?
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+          {[
+            {
+              step: "1. Add Transactions",
+              detail:
+                "Manually input or upload your daily expenses and incomes.",
+            },
+            {
+              step: "2. Categorize",
+              detail:
+                "Organize entries into categories like food, travel, rent, etc.",
+            },
+            {
+              step: "3. Analyze",
+              detail:
+                "Visualize your spending patterns and plan your budget wisely.",
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow hover:shadow-md"
+            >
+              <h4 className="text-lg font-semibold text-indigo-500">
+                {item.step}
+              </h4>
+              <p className="text-gray-600 dark:text-gray-300 mt-1">
+                {item.detail}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="mt-20 max-w-4xl mx-auto text-center space-y-10">
+        <h2 className="text-3xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
+          What Users Say?
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            {
+              name: "Ayesha R.",
+              feedback:
+                "MyBudgetory has changed how I manage money. I love the clean interface!",
+            },
+            {
+              name: "Rahul M.",
+              feedback:
+                "Finally found an app that makes expense tracking actually fun and useful.",
+            },
+          ].map((t, i) => (
+            <div
+              key={i}
+              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow text-left"
+            >
+              <p className="text-gray-700 dark:text-gray-300 italic">
+                “{t.feedback}”
+              </p>
+              <p className="text-sm text-indigo-600 dark:text-indigo-400 mt-2 font-semibold">
+                — {t.name}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section className="mt-20 max-w-3xl mx-auto">
+        <h2 className="text-3xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight text-center mb-5">
+          Frequently Asked Questions
+        </h2>
+        <div className="space-y-4">
+          {[
+            {
+              q: "Is MyBudgetory free to use?",
+              a: "Yes, it’s completely free. You can start tracking your expenses right away.",
+            },
+            {
+              q: "Is my data safe?",
+              a: "Absolutely. We use encrypted storage and don’t share your data with anyone.",
+            },
+            {
+              q: "Can I access it from multiple devices?",
+              a: "Yes. Your data is synced across devices as long as you're logged in.",
+            },
+          ].map((item, i) => (
+            <details
+              key={i}
+              className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow cursor-pointer"
+            >
+              <summary className="font-semibold text-indigo-600 dark:text-indigo-400">
+                {item.q}
+              </summary>
+              <p className="mt-2 text-gray-600 dark:text-gray-300">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="mt-20 text-center" id="final-cta">
+        <h2 className="text-3xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight mb-8">
+          Ready to master your finances?
+        </h2>
+        <a
+          href="/dashboard"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 transition text-lg font-bold"
+        >
+          Start Now – It&apos;s Free
+        </a>
+      </section>
 
       {/* Footer */}
-      <footer className="text-center mt-10 bottom-4 text-sm text-gray-500 font-semibold">
+      <footer className="text-center mt-20 bottom-4 text-sm text-gray-500 font-semibold">
         © 2025 💰MyBudgetory. Built with ❤️ by{" "}
         <a
           href="https://justtayyabkhan.vercel.app"

@@ -28,6 +28,7 @@ export default function Dashboard() {
   const [expense, setExpense] = useState<number>(0);
   const [net, setNet] = useState<number>(0);
   const [today, setToday] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const router = useRouter();
   useEffect(() => {
@@ -54,14 +55,17 @@ export default function Dashboard() {
       )
       .reduce((sum, tx) => sum + tx.amount, 0);
 
-    const todaySum = txs
-      .filter(
-        (tx) =>
-          new Date(tx.date).getDay() == currentDay &&
-          new Date(tx.date).getMonth() === currentMonth
-      )
+      const todaySum = txs
+      .filter((tx) => {
+        const txDate = new Date(tx.date);
+        return (
+          tx.type === "expense" &&
+          txDate.getDate() === now.getDate()
+          
+        );
+      })
       .reduce((sum, tx) => sum + tx.amount, 0);
-
+    
     setToday(todaySum);
     setInflow(inflowSum);
     setExpense(expenseSum);
@@ -134,6 +138,8 @@ export default function Dashboard() {
   const fetchTransactions = () => {
     const token = localStorage.getItem("token");
     if (!token) return;
+
+    setLoading(true); // start loading
     fetch("/api/transactions", {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -141,8 +147,10 @@ export default function Dashboard() {
       .then((data) => {
         if (data.transactions) setTxs(data.transactions);
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setLoading(false)); // stop loading
   };
+
   useEffect(() => {
     if (user) fetchTransactions();
   }, [user]);
@@ -173,17 +181,21 @@ export default function Dashboard() {
           </button>
         </div>
         <div className="text-2xl font-extrabold tracking-tight mb-5">
-          Today : <span className="text-gray-300">₹ {today}.00</span>
+          Today :{" "}
+          <span className="text-gray-300">
+            {loading ? "Loading..." : `₹ ${today}.00`}
+          </span>
         </div>
 
-        {/* Summary Cards (you can update these with real sums later) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           <Link href="/inflow" className="cursor-pointer">
             <TxnCard
               title={`Total Inflow (${new Date().toLocaleString("default", {
                 month: "long",
               })})`}
-              amount={`₹ ${inflow.toLocaleString()}.00`}
+              amount={
+                loading ? "Loading..." : `₹ ${inflow.toLocaleString()}.00`
+              }
               color="text-green-400"
             />
           </Link>
@@ -192,7 +204,9 @@ export default function Dashboard() {
               title={`Total Expenses (${new Date().toLocaleString("default", {
                 month: "long",
               })})`}
-              amount={`₹ ${expense.toLocaleString()}.00`}
+              amount={
+                loading ? "Loading..." : `₹ ${expense.toLocaleString()}.00`
+              }
               color="text-red-500"
             />
           </Link>
@@ -200,7 +214,7 @@ export default function Dashboard() {
             title={`Net (${new Date().toLocaleString("default", {
               month: "long",
             })})`}
-            amount={`₹ ${net.toLocaleString()}.00`}
+            amount={loading ? "Loading..." : `₹ ${net.toLocaleString()}.00`}
             color="text-gray-300"
           />
         </div>
