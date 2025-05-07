@@ -16,7 +16,6 @@ type Transaction = {
 };
 
 const ChartsPage = () => {
-  const [txs, setTxs] = useState<Transaction[]>([]);
   const [inflow, setInflow] = useState(0);
   const [expense, setExpense] = useState(0);
   const [dailyBarData, setDailyBarData] = useState<{
@@ -47,7 +46,6 @@ const ChartsPage = () => {
 
         const data = await res.json();
         const allTxs = data.transactions;
-        setTxs(allTxs);
 
         const now = new Date();
         const currentMonth = now.getMonth();
