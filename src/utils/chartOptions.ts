@@ -70,7 +70,7 @@ export const getBarChartOptions = (dailyBarData: {
   plotOptions: {
     column: {
       pointPadding: 2.5,
-      borderWidth: 0.2,
+      borderWidth: 0,
       pointWidth: 5,
     },
   },

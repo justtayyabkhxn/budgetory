@@ -27,10 +27,12 @@ export default function Dashboard() {
   const [inflow, setInflow] = useState<number>(0);
   const [expense, setExpense] = useState<number>(0);
   const [net, setNet] = useState<number>(0);
+  const [today, setToday] = useState<number>(0);
 
   const router = useRouter();
   useEffect(() => {
     const now = new Date();
+    const currentDay = now.getDay();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
 
@@ -52,6 +54,15 @@ export default function Dashboard() {
       )
       .reduce((sum, tx) => sum + tx.amount, 0);
 
+    const todaySum = txs
+      .filter(
+        (tx) =>
+          new Date(tx.date).getDay() == currentDay &&
+          new Date(tx.date).getMonth() === currentMonth
+      )
+      .reduce((sum, tx) => sum + tx.amount, 0);
+
+    setToday(todaySum);
     setInflow(inflowSum);
     setExpense(expenseSum);
     setNet(inflowSum - expenseSum);
@@ -160,6 +171,9 @@ export default function Dashboard() {
           >
             Logout
           </button>
+        </div>
+        <div className="text-2xl font-extrabold tracking-tight mb-5">
+          Today : <span className="text-gray-300">₹ {today}.00</span>
         </div>
 
         {/* Summary Cards (you can update these with real sums later) */}
