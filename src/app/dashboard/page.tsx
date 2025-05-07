@@ -33,7 +33,6 @@ export default function Dashboard() {
   const router = useRouter();
   useEffect(() => {
     const now = new Date();
-    const currentDay = now.getDay();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
 
