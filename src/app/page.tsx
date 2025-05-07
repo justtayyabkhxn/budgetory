@@ -1,14 +1,11 @@
+import Header from "@/components/Header";
+
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-black text-gray-800 dark:text-gray-200 px-6 py-12 transition-colors duration-300">
+    <main className="min-h-screen bg-linear-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-black text-gray-800 dark:text-gray-200 px-6 py-12 transition-colors duration-300">
       {/* Hero Section */}
       <section className="text-center max-w-2xl mx-auto space-y-6">
-        <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
-        💰MyBudgetory
-        </h1>
-        <p className="mt-2 text-lg text-gray-300 font-bold">
-        💳 Your Budget.📜 Your Story.
-        </p>
+       <Header/>
         <div className="mt-8 flex justify-center gap-4">
           <a
             href="/dashboard"

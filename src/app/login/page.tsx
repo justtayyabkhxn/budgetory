@@ -47,7 +47,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-gray-900 via-black to-gray-800 text-white px-4">
       <Link href="/" className="mb-10 text-center hover:opacity-80 transition">
         <div className="inline-flex items-center">
           <span className="text-4xl">💰</span>

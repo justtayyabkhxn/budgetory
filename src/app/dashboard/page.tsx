@@ -137,7 +137,7 @@ export default function Dashboard() {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-8">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <section className="text-center max-w-2xl mx-auto space-y-6 mb-5">
@@ -235,6 +235,14 @@ export default function Dashboard() {
             <Link href="/transactions">See All Transactions</Link>
           </div>
         </div>
+      </div>
+      <div className="flex justify-center mt-6">
+        <Link
+          href="/charts"
+          className="px-5 py-3 text-shadow-lg/10  bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 transition text-lg font-bold"
+        >
+          View Charts
+        </Link>
       </div>
     </div>
   );
