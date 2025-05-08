@@ -1,6 +1,5 @@
 "use client";
 
-
 import Link from "next/link";
 import router from "next/router";
 import { useEffect, useState } from "react";
@@ -27,6 +26,18 @@ const ChartsPage = () => {
     inflow: [],
     expense: [],
   });
+
+  const [monthlyBarData, setMonthlyBarData] = useState<{
+    categories: string[];
+    inflow: number[];
+    expense: number[];
+  }>({
+    categories: [],
+    inflow: [],
+    expense: [],
+  });
+
+  // Prepare data for monthly bar chart (Jan–Dec)
 
   const handleLogout = async () => {
     await fetch("/api/logout");
@@ -89,6 +100,25 @@ const ChartsPage = () => {
           else if (tx.type === "expense") expensePerDay[day] += tx.amount;
         });
 
+        const months = Array.from({ length: 12 }, (_, i) =>
+          new Date(0, i).toLocaleString("default", { month: "short" })
+        );
+        const inflowPerMonth = Array(12).fill(0);
+        const expensePerMonth = Array(12).fill(0);
+
+        allTxs.forEach((tx: Transaction) => {
+          const txDate = new Date(tx.date);
+          const month = txDate.getMonth();
+          if (tx.type === "income") inflowPerMonth[month] += tx.amount;
+          else if (tx.type === "expense") expensePerMonth[month] += tx.amount;
+        });
+
+        setMonthlyBarData({
+          categories: months,
+          inflow: inflowPerMonth,
+          expense: expensePerMonth,
+        });
+
         setDailyBarData({
           categories,
           inflow: inflowPerDay,
@@ -141,6 +171,7 @@ const ChartsPage = () => {
                 inflow={inflow}
                 expense={expense}
                 dailyBarData={dailyBarData}
+                monthlyBarData={monthlyBarData}
               />
             </div>
           </div>
