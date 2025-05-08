@@ -54,17 +54,13 @@ export default function Dashboard() {
       )
       .reduce((sum, tx) => sum + tx.amount, 0);
 
-      const todaySum = txs
+    const todaySum = txs
       .filter((tx) => {
         const txDate = new Date(tx.date);
-        return (
-          tx.type === "expense" &&
-          txDate.getDate() === now.getDate()
-          
-        );
+        return tx.type === "expense" && txDate.getDate() === now.getDate();
       })
       .reduce((sum, tx) => sum + tx.amount, 0);
-    
+
     setToday(todaySum);
     setInflow(inflowSum);
     setExpense(expenseSum);
@@ -181,7 +177,7 @@ export default function Dashboard() {
         </div>
         <div className="text-2xl font-extrabold tracking-tight mb-5">
           Today :{" "}
-          <span className="text-gray-300">
+          <span className={`text-gray-300 ${loading ? "animate-pulse" : ""}`}>
             {loading ? "Loading..." : `₹ ${today}.00`}
           </span>
         </div>
@@ -198,6 +194,7 @@ export default function Dashboard() {
               color="text-green-400"
             />
           </Link>
+
           <Link href="/expenses">
             <TxnCard
               title={`Total Expenses (${new Date().toLocaleString("default", {
@@ -209,6 +206,7 @@ export default function Dashboard() {
               color="text-red-500"
             />
           </Link>
+
           <TxnCard
             title={`Net (${new Date().toLocaleString("default", {
               month: "long",
@@ -225,7 +223,11 @@ export default function Dashboard() {
         <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg">
           <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
 
-          {txs.length === 0 ? (
+          {loading ? (
+            <p className="text-gray-400 animate-pulse">
+              Loading transactions...
+            </p>
+          ) : txs.length === 0 ? (
             <p className="text-gray-400">No transactions yet.</p>
           ) : (
             <ul className="space-y-3">
@@ -258,17 +260,26 @@ export default function Dashboard() {
               ))}
             </ul>
           )}
-          <div className="font-bold text-blue-400 mt-1 text-right">
-            <Link href="/transactions">See All Transactions</Link>
-          </div>
+
+          {!loading && (
+            <div className="font-bold text-blue-400 mt-1 text-right">
+              <Link href="/transactions">See All Transactions</Link>
+            </div>
+          )}
         </div>
       </div>
-      <div className="flex justify-center mt-6">
+      <div className="flex flex-row justify-evenly mt-6">
         <Link
           href="/charts"
           className="px-5 py-3 text-shadow-lg/10  bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 transition text-lg font-bold"
         >
           View Charts
+        </Link>
+        <Link
+          href="/stats"
+          className="px-5 py-3 text-shadow-lg/10  bg-green-600 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-500 transition text-lg font-bold"
+        >
+          View Stats
         </Link>
       </div>
     </div>
