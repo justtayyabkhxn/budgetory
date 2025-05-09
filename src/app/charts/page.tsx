@@ -134,11 +134,15 @@ const ChartsPage = () => {
         } = {};
 
         allTxs.forEach((tx) => {
+          if (tx.category === "Other") return; // ✅ Skip "Other" category
+
           const txDate = new Date(tx.date);
           const month = txDate.toLocaleString("default", { month: "short" });
+
           if (!categoryData[month]) categoryData[month] = {};
           if (!categoryData[month][tx.category])
             categoryData[month][tx.category] = 0;
+
           categoryData[month][tx.category] += tx.amount;
         });
 
