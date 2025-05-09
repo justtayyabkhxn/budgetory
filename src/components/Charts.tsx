@@ -5,6 +5,7 @@ import {
   getDonutOptions,
   getBarChartOptions,
   getMonthlyBarChartOptions,
+  getCategoryWiseMonthlyOptions,
 } from "@/utils/chartOptions";
 
 interface Props {
@@ -20,12 +21,26 @@ interface Props {
     inflow: number[];
     expense: number[];
   };
+
+  categoryWiseMonthlyData: {
+    categories: string[];
+    data: number[];
+  };
 }
 
-const Charts: React.FC<Props> = ({ inflow, expense, dailyBarData,monthlyBarData }) => {
+const Charts: React.FC<Props> = ({
+  inflow,
+  expense,
+  dailyBarData,
+  monthlyBarData,
+  categoryWiseMonthlyData,
+}) => {
   const donutOptions = getDonutOptions(inflow, expense);
   const barChartOptions = getBarChartOptions(dailyBarData);
   const monthlyBarChartOptions = getMonthlyBarChartOptions(monthlyBarData);
+  const categoryWiseOptions = getCategoryWiseMonthlyOptions(
+    categoryWiseMonthlyData
+  );
 
   return (
     <div className="grid grid-cols-1 gap-8 mt-2">
@@ -65,11 +80,27 @@ const Charts: React.FC<Props> = ({ inflow, expense, dailyBarData,monthlyBarData 
             This chart visualizes your inflow and expenses for each month,
             helping you compare financial performance over time.
           </p>
-          <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+          <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3 mb-8">
             <HighchartsReact
               highcharts={Highcharts}
               options={monthlyBarChartOptions}
             />
+          </div>
+
+          <div>
+            <span className="text-2xl mb-2 text-indigo-400 border-b-4 font-extrabold tracking-tight mt-5">
+              Category-Wise Monthly Expenses
+            </span>
+            <p className="text-gray-400 mb-4 mt-3">
+              This chart shows how your monthly expenses are divided across
+              different categories.
+            </p>
+            <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+              <HighchartsReact
+                highcharts={Highcharts}
+                options={categoryWiseOptions}
+              />
+            </div>
           </div>
         </div>
       </div>

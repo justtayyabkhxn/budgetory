@@ -156,3 +156,51 @@ export const getMonthlyBarChartOptions = (data: {
     },
   ],
 });
+
+
+export const getCategoryWiseMonthlyOptions = (
+  categoryWiseMonthlyData: {
+    categories: string[];
+    data: number[];
+  }
+) => ({
+  chart: {
+    type: 'column',
+    backgroundColor: 'transparent'
+  },
+  title: {
+    text: 'Spending by Category - This Month',
+    style: { color: '#ccc' }
+  },
+  xAxis: {
+    categories: categoryWiseMonthlyData.categories,
+    labels: { style: { color: '#ccc' } }
+  },
+  yAxis: {
+    min: 0,
+    title: {
+      text: 'Amount Spent',
+      style: { color: '#ccc' }
+    },
+    labels: { style: { color: '#ccc' } }
+  },
+  legend: {
+    itemStyle: {
+      color: '#ccc',
+    }
+  },
+  series: [
+    {
+      name: 'Expenses',
+      data: categoryWiseMonthlyData.data,
+      type: 'column',
+      color: '#46d212'
+    }
+  ],
+  plotOptions: {
+    column: {
+      pointPadding: 0.2,
+      borderWidth: 0,
+    },
+  },
+});

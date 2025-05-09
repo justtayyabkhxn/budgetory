@@ -320,7 +320,7 @@ export default function StatsPage() {
           <StatCard
             title="🔝 Top 3 Most Spent Days"
             value={top3Days.map((day, index) => (
-              <p key={index}>{day}</p>
+              <p key={index}>💠{" "}{day}</p>
             ))}
           />
           <StatCard

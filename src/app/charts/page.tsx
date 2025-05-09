@@ -17,6 +17,7 @@ type Transaction = {
 const ChartsPage = () => {
   const [inflow, setInflow] = useState(0);
   const [expense, setExpense] = useState(0);
+
   const [dailyBarData, setDailyBarData] = useState<{
     categories: string[];
     inflow: number[];
@@ -37,7 +38,10 @@ const ChartsPage = () => {
     expense: [],
   });
 
-  // Prepare data for monthly bar chart (Jan–Dec)
+  const [categoryWiseMonthlyData, setCategoryWiseMonthlyData] = useState<{
+    categories: string[];
+    data: number[];
+  }>({ categories: [], data: [] });
 
   const handleLogout = async () => {
     await fetch("/api/logout");
@@ -56,13 +60,13 @@ const ChartsPage = () => {
         });
 
         const data = await res.json();
-        const allTxs = data.transactions;
+        const allTxs: Transaction[] = data.transactions;
 
         const now = new Date();
         const currentMonth = now.getMonth();
         const currentYear = now.getFullYear();
 
-        const monthlyTxs = allTxs.filter((tx: Transaction) => {
+        const monthlyTxs = allTxs.filter((tx) => {
           const txDate = new Date(tx.date);
           return (
             txDate.getMonth() === currentMonth &&
@@ -81,7 +85,7 @@ const ChartsPage = () => {
         setInflow(inflowAmt);
         setExpense(expenseAmt);
 
-        // Prepare data for daily bar chart
+        // ✅ Daily Bar Data
         const daysInMonth = new Date(
           currentYear,
           currentMonth + 1,
@@ -99,14 +103,19 @@ const ChartsPage = () => {
           if (tx.type === "income") inflowPerDay[day] += tx.amount;
           else if (tx.type === "expense") expensePerDay[day] += tx.amount;
         });
-
+        setDailyBarData({
+          categories,
+          inflow: inflowPerDay,
+          expense: expensePerDay,
+        });
+        // ✅ Monthly Bar Data
         const months = Array.from({ length: 12 }, (_, i) =>
           new Date(0, i).toLocaleString("default", { month: "short" })
         );
         const inflowPerMonth = Array(12).fill(0);
         const expensePerMonth = Array(12).fill(0);
 
-        allTxs.forEach((tx: Transaction) => {
+        allTxs.forEach((tx) => {
           const txDate = new Date(tx.date);
           const month = txDate.getMonth();
           if (tx.type === "income") inflowPerMonth[month] += tx.amount;
@@ -119,10 +128,28 @@ const ChartsPage = () => {
           expense: expensePerMonth,
         });
 
-        setDailyBarData({
-          categories,
-          inflow: inflowPerDay,
-          expense: expensePerDay,
+        // ✅ Category-wise Monthly Data
+        const categoryData: {
+          [month: string]: { [category: string]: number };
+        } = {};
+
+        allTxs.forEach((tx) => {
+          const txDate = new Date(tx.date);
+          const month = txDate.toLocaleString("default", { month: "short" });
+          if (!categoryData[month]) categoryData[month] = {};
+          if (!categoryData[month][tx.category])
+            categoryData[month][tx.category] = 0;
+          categoryData[month][tx.category] += tx.amount;
+        });
+
+        const currentMonthName = new Date().toLocaleString("default", {
+          month: "short",
+        });
+        const selectedMonthCategoryData = categoryData[currentMonthName] || {};
+
+        setCategoryWiseMonthlyData({
+          categories: Object.keys(selectedMonthCategoryData),
+          data: Object.values(selectedMonthCategoryData),
         });
       } catch (err) {
         console.error("❌ Failed to fetch transactions", err);
@@ -135,7 +162,6 @@ const ChartsPage = () => {
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-5">
       <div className="max-w-5xl mx-auto">
-        {/* Header */}
         <section className="text-center max-w-2xl mx-auto space-y-6 mb-5">
           <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
             <Link href="/">💰MyBudgetory</Link>
@@ -164,16 +190,14 @@ const ChartsPage = () => {
 
         {/* Charts */}
         <div className="grid grid-cols-1 gap-8">
-          {/* Donut Chart Section */}
           <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-6 space-y-4">
-            <div>
-              <Charts
-                inflow={inflow}
-                expense={expense}
-                dailyBarData={dailyBarData}
-                monthlyBarData={monthlyBarData}
-              />
-            </div>
+            <Charts
+              inflow={inflow}
+              expense={expense}
+              dailyBarData={dailyBarData}
+              monthlyBarData={monthlyBarData}
+              categoryWiseMonthlyData={categoryWiseMonthlyData} // 👈 Pass to Charts
+            />
           </div>
         </div>
       </div>
