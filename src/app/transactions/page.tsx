@@ -27,7 +27,7 @@ export default function Transactions() {
   const router = useRouter();
 
   const handleExportCSV = () => {
-    const dataToExport = txs.map(({ _id, ...tx }) => tx); // Remove _id from CSV
+    const dataToExport = txs.map(({ ...tx }) => tx); // Remove _id from CSV
     const csv = Papa.unparse(dataToExport);
 
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
