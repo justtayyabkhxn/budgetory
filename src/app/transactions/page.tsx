@@ -148,8 +148,16 @@ export default function Transactions() {
           </button>
         </div>
         {/* Recent Transactions */}
-        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg">
-          <h2 className="text-xl font-semibold mb-4">All Transactions</h2>
+        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg ">
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <h2 className="text-xl font-semibold">All Transactions</h2>
+            <button
+              onClick={handleExportCSV}
+              className="whitespace-nowrap cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors mr-4"
+            >
+              Export CSV
+            </button>
+          </div>
 
           {txs.length === 0 ? (
             <p className="text-gray-400">No transactions yet.</p>
@@ -163,12 +171,6 @@ export default function Transactions() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-grow px-4 py-3 rounded-md bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
-                <button
-                  onClick={handleExportCSV}
-                  className="whitespace-nowrap cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-md text-sm font-bold transition-colors mr-4"
-                >
-                  Export
-                </button>
               </div>
 
               {[...txs]
