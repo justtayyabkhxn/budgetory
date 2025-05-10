@@ -165,9 +165,9 @@ export default function Transactions() {
                 />
                 <button
                   onClick={handleExportCSV}
-                  className="whitespace-nowrap cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-md text-sm font-bold transition-colors"
+                  className="whitespace-nowrap cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-md text-sm font-bold transition-colors mr-4"
                 >
-                  Export CSV
+                  Export
                 </button>
               </div>
 
