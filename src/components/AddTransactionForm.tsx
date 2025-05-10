@@ -19,7 +19,6 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
     date: string;
     comment: string;
   }
-  
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -135,8 +134,9 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           value={form.date}
           onChange={handleChange}
           required
-          className="p-2 rounded bg-black border border-gray-700 text-white w-87"
+          className="p-2 rounded bg-black border border-gray-700 text-white w-87 sm:w-full md:w-80 lg:w-94 xl:w-120"
         />
+        
         <input
           name="comment"
           placeholder="Comment"
@@ -147,7 +147,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
 
         <button
           type="submit"
-          className="sm:col-span-2 mt-2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded cursor-pointer"
+          className="sm:col-span-2 mt-2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded cursor-pointer font-bold"
         >
           Add Transaction
         </button>
@@ -162,17 +162,15 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
             Most recent transaction
           </h3>
           <ul className="space-y-2 text-sm text-gray-300">
-            {[...txs]
-              .slice(0, 1)
-              .map((tx, index) => (
-                <li key={index} className="border-b border-gray-600 pb-1">
-                  <strong>{tx.title}</strong> - ₹{tx.amount} ({tx.type}) on{" "}
-                  {new Date(tx.date).toLocaleDateString()}
-                  {tx.comment && (
-                    <p className="text-gray-400 italic mt-1">{tx.comment}</p>
-                  )}
-                </li>
-              ))}
+            {[...txs].slice(0, 1).map((tx, index) => (
+              <li key={index} className="border-b border-gray-600 pb-1">
+                <strong>{tx.title}</strong> - ₹{tx.amount} ({tx.type}) on{" "}
+                {new Date(tx.date).toLocaleDateString()}
+                {tx.comment && (
+                  <p className="text-gray-400 italic mt-1">{tx.comment}</p>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
       )}

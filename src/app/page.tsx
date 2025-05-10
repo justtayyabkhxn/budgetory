@@ -1,28 +1,31 @@
-"use client"
+"use client";
 import Header from "@/components/Header";
-import IMG from "../../public/img1.png";
 import IMG2 from "../../public/img2.png";
 import Image from "next/image";
+import Piggy from "../../public/piggy.png";
 
 export default function LandingPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-black text-gray-800 dark:text-gray-200 px-6 py-5 transition-colors duration-300">
       <Header />
-
       {/* Hero Section */}
       <section className="text-center max-w-3xl mx-auto space-y-6 mt-10">
-        <h1 className="text-4xl  text-green-500 dark:text-green-500 font-extrabold tracking-tight">
-          Take Control !
+        <h1 className="text-4xl font-extrabold tracking-tight">
+          Take{" "}
+          <span className="text-green-500 ">
+            Control
+          </span>
+          !
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-300">
           MyBudgetory helps you track your expenses, analyze spending habits,
           and stay financially organized — all in one place.
         </p>
         <Image
-          src={IMG}
+          src={Piggy}
           alt="Money Management"
           className="mx-auto w-full max-w-sm"
-          placeholder="blur"
+         
         />
         <div className="mt-6 flex justify-center gap-4">
           <button
@@ -37,7 +40,6 @@ export default function LandingPage() {
           </button>
         </div>
       </section>
-
       {/* Features Section */}
       <section className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         {[
@@ -112,7 +114,6 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
-
       {/* Testimonials */}
       <section className="mt-20 max-w-4xl mx-auto text-center space-y-10">
         <h2 className="text-3xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
@@ -145,7 +146,6 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
-
       {/* FAQs */}
       <section className="mt-20 max-w-3xl mx-auto">
         <h2 className="text-3xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight text-center mb-5">
@@ -178,7 +178,6 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
-
       {/* Final CTA */}
       <section className="mt-20 text-center" id="final-cta">
         <h2 className="text-3xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight mb-8">
@@ -191,7 +190,6 @@ export default function LandingPage() {
           Start Now – It&apos;s Free
         </a>
       </section>
-
       {/* Footer */}
       <footer className="text-center mt-20 bottom-4 text-sm text-gray-500 font-semibold">
         © 2025 💰MyBudgetory. Built with ❤️ by{" "}
