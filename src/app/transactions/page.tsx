@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Papa from "papaparse";
 
 interface Transaction {
   _id: string;
@@ -24,6 +25,20 @@ export default function Transactions() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const router = useRouter();
+
+  const handleExportCSV = () => {
+    const dataToExport = txs.map(({ _id, ...tx }) => tx); // Remove _id from CSV
+    const csv = Papa.unparse(dataToExport);
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "transactions.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // Check auth + decode user
   useEffect(() => {
@@ -140,13 +155,21 @@ export default function Transactions() {
             <p className="text-gray-400">No transactions yet.</p>
           ) : (
             <ul className="space-y-3">
-              <input
-                type="text"
-                placeholder="Search by title or comment..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="mb-4 w-full px-4 py-2 rounded-md bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
+              <div className="flex items-center gap-4 mb-4">
+                <input
+                  type="text"
+                  placeholder="Search by title or comment..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-grow px-4 py-3 rounded-md bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+                <button
+                  onClick={handleExportCSV}
+                  className="whitespace-nowrap cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-md text-sm font-bold transition-colors"
+                >
+                  Export CSV
+                </button>
+              </div>
 
               {[...txs]
                 .filter(
