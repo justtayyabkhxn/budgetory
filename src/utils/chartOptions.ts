@@ -204,3 +204,55 @@ export const getCategoryWiseMonthlyOptions = (
     },
   },
 });
+
+
+export const getCategoryWiseMonthlyOptionsDonut = ({
+  categories,
+  data,
+}: {
+  categories: string[];
+  data: number[];
+}): Highcharts.Options => {
+  const donutCategoryData = categories.map((category, idx) => ({
+    name: category,
+    y: data[idx],
+  }));
+
+  return {
+    chart: {
+      type: "pie",
+      backgroundColor: "transparent",
+    },
+    title: {
+      text: "Category-wise Monthly Expenses",
+      style: {
+        color: "#ffffff",
+        fontSize: "18px",
+      },
+    },
+    tooltip: {
+      pointFormat: "<b>{point.y:.2f}</b> ({point.percentage:.1f}%)",
+    },
+    plotOptions: {
+      pie: {
+        innerSize: "60%", // donut look
+        dataLabels: {
+          enabled: true,
+          format: "<b>{point.name}</b>: {point.percentage:.1f}%",
+          style: {
+            color: "#ffffff",
+          },
+        },
+      },
+    },
+    series: [
+      {
+        data: donutCategoryData,
+        type: "pie",
+      },
+    ],
+    credits: {
+      enabled: false,
+    },
+  };
+};
