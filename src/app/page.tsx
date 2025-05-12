@@ -13,9 +13,9 @@ export default function LandingPage() {
         <h1 className="text-4xl font-extrabold tracking-tight">
           Take{" "}
           <span className="text-green-500 ">
-            Control
+            Control !
           </span>
-          !
+          
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-300">
           MyBudgetory helps you track your expenses, analyze spending habits,
