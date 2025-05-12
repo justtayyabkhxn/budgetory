@@ -21,6 +21,101 @@ type User = {
   // Add any other fields you decode from the token
 };
 
+const financialQuotes = [
+  "An investment in knowledge pays the best interest. – Benjamin Franklin",
+  "Do not save what is left after spending, but spend what is left after saving. – Warren Buffet",
+  "The goal is not to get rich quickly but to get rich slowly. – Unknown",
+  "It's not your salary that makes you rich, it's your spending habits. – Charles A. Jaffe",
+  "Wealth consists not in having great possessions, but in having few wants. – Epictetus",
+  "Beware of little expenses. A small leak will sink a great ship. – Benjamin Franklin",
+  "The way to get started is to quit talking and begin doing. – Walt Disney",
+  "Formal education will make you a living; self-education will make you a fortune. – Jim Rohn",
+  "A penny saved is a penny earned. – Benjamin Franklin",
+  "The rich invest in time, the poor invest in money. – Warren Buffet",
+  "The stock market is filled with individuals who know the price of everything, but the value of nothing. – Philip Fisher",
+  "Wealth is the ability to fully experience life. – Henry David Thoreau",
+  "Never depend on a single income. Make investment to create a second source. – Warren Buffett",
+  "Risk comes from not knowing what you’re doing. – Warren Buffett",
+  "Do not save what is left after spending, but spend what is left after saving. – Warren Buffet",
+  "The key to financial freedom is to earn money while you sleep. – Unknown",
+  "The most important investment you can make is in yourself. – Warren Buffet",
+  "A budget is telling your money where to go instead of wondering where it went. – Dave Ramsey",
+  "The rich invest in time, the poor invest in money. – Warren Buffet",
+  "In investing, what is comfortable is rarely profitable. – Robert Arnott",
+  "The four most dangerous words in investing are: 'This time it’s different.' – Sir John Templeton",
+  "Know what you own, and know why you own it. – Peter Lynch",
+  "The best way to predict the future is to create it. – Peter Drucker",
+  "Financial freedom is available to those who learn about it and work for it. – Robert Kiyosaki",
+  "When you combine ignorance and leverage, you get some pretty interesting results. – Warren Buffett",
+  "If you’re not willing to own a stock for 10 years, don’t even think about owning it for 10 minutes. – Warren Buffett",
+  "The goal of investing is not to get rich, but to remain rich. – Unknown",
+  "The only way to do great work is to love what you do. – Steve Jobs",
+  "Make your money work for you, don’t work for money. – Unknown",
+  "To achieve financial freedom, you must first master self-discipline. – Unknown",
+  "It’s not your income that makes you wealthy, it’s your financial discipline. – Unknown",
+  "The best investment on earth is earth. – Louis Glickman",
+  "If you want to be rich, don’t allow your expenses to exceed your income. – Unknown",
+  "Money is a terrible master but an excellent servant. – P.T. Barnum",
+  "The rich are those who know how to control money, rather than letting money control them. – Unknown",
+  "Don't just make money, make a difference. – Unknown",
+  "The greatest wealth is to live content with little. – Plato",
+  "The secret to wealth is simple: Spend less than you earn and invest the difference. – Unknown",
+  "The key to wealth is not just working hard but working smart with your money. – Unknown",
+  "Financial success is not about how much money you make, but how much you keep. – Unknown",
+  "To be successful with money, you have to understand how it works. – Unknown",
+  "You can't have a million-dollar dream with a minimum-wage work ethic. – Unknown",
+  "It’s not about how much money you make, it’s about how much you keep. – Unknown",
+  "Wealth consists not in having great possessions, but in having few wants. – Epictetus",
+  "Investing should be more like watching paint dry or watching grass grow. If you want excitement, take $800 and go to Las Vegas. – Paul Samuelson",
+  "The goal of investing is not to get rich quickly, but to get rich slowly. – Unknown",
+  "The more you learn, the more you earn. – Warren Buffett",
+  "Do not wait to buy real estate. Buy real estate and wait. – T. Harv Eker",
+  "The stock market is a device for transferring money from the impatient to the patient. – Warren Buffett",
+  "Never let a lack of money stop you from pursuing your dreams. – Unknown",
+  "Financial independence is not a dream, it’s a goal. – Unknown",
+  "Being rich is having money; being wealthy is having time. – Margaret Bonnano",
+  "Money grows on the tree of persistence. – Japanese Proverb",
+  "Opportunities are never lost; someone will take the one you miss. – Andy Rooney",
+  "Money is not the only thing that counts, but it sure counts for a lot. – Unknown",
+  "In investing, there’s no such thing as a free lunch. – Unknown",
+  "The more you give, the more you will receive. – Unknown",
+  "A good reputation is more valuable than money. – Publilius Syrus",
+  "If you want to be rich, think of how you can help others. – Unknown",
+  "It’s easier to feel a sense of accomplishment with your finances when you are living below your means. – Unknown",
+  "The first rule of wealth is to spend less than you earn. – Unknown",
+  "The best way to predict the future is to create it. – Peter Drucker",
+  "Being rich is not about how much money you have, but how much you can do with it. – Unknown",
+  "Your wealth can be stolen, but the knowledge you have can never be taken from you. – Unknown",
+  "The rich don't work for money. They make money work for them. – Robert Kiyosaki",
+  "Successful people don’t make excuses, they make things happen. – Unknown",
+  "Never spend your money before you have it. – Thomas Jefferson",
+  "A man is rich in proportion to the number of things he can afford to let go of. – Henry David Thoreau",
+  "The habit of saving is itself an education; it fosters every virtue, teaches self-denial, cultivates the sense of order, trains to foresight, and so broadens the mind. – T.T. Munger",
+  "If you do not learn to master your emotions, you will never become a successful investor. – Unknown",
+  "Wealth is the ability to fully experience life. – Henry David Thoreau",
+  "The best investment you can make is in yourself. – Warren Buffett",
+  "Time is money, and it's important to understand the value of both. – Unknown",
+  "Your wealth can be stolen, but the knowledge you have can never be taken from you. – Unknown",
+  "The best way to get rich is to invest in things that appreciate. – Unknown",
+  "The best way to predict the future is to invent it. – Alan Kay",
+  "A goal without a plan is just a wish. – Antoine de Saint-Exupery",
+  "Be fearful when others are greedy, and greedy when others are fearful. – Warren Buffett",
+  "The real measure of your wealth is how much you’d be worth if you lost all your money. – Unknown",
+  "Your savings account is a key to unlocking your financial future. – Unknown",
+  "You don’t have to be great to start, but you have to start to be great. – Zig Ziglar",
+  "In the business world, the rearview mirror is always clearer than the windshield. – Warren Buffett",
+  "What you lack in talent can be made up with desire, hustle, and giving 110% all the time. – Don Zimmer",
+  "Don’t watch the clock; do what it does. Keep going. – Sam Levenson",
+  "The secret to getting ahead is getting started. – Mark Twain",
+  "Money doesn’t change people, it reveals them. – Unknown",
+  "The art is not in making money, but in keeping it. – Unknown",
+  "To be rich, you must know how to control your spending habits. – Unknown",
+  "The best investment you can make is in yourself. – Warren Buffett",
+  "The greatest glory in living lies not in never falling, but in rising every time we fall. – Nelson Mandela",
+  "Financial freedom is not about how much you make, it’s about how much you keep. – Unknown"
+];
+
+
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [txs, setTxs] = useState<Transaction[]>([]);
@@ -29,8 +124,16 @@ export default function Dashboard() {
   const [net, setNet] = useState<number>(0);
   const [today, setToday] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const [quote, setQuote] = useState<string>("");
+  
   const router = useRouter();
+
+  // Fetch random quote of the day
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * financialQuotes.length);
+    setQuote(financialQuotes[randomIndex]);
+  }, []);
+
   useEffect(() => {
     const now = new Date();
     const currentMonth = now.getMonth();
@@ -102,6 +205,7 @@ export default function Dashboard() {
     localStorage.removeItem("token");
     router.push("/login");
   };
+
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -159,6 +263,14 @@ export default function Dashboard() {
             <Link href="/">💰MyBudgetory</Link>
           </h1>
         </section>
+
+        {/* Quote of the Day */}
+        <section className="text-center rounded-xl p-6 shadow-lg mb-6">
+          <h2 className="text-xl font-semibold mb-4">Quote of the Day</h2>
+          <p className="text-gray-400 italic">“{quote}”</p>
+        </section>
+
+        {/* Dashboard and Transactions */}
         <div className="mb-10 flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-extrabold tracking-tight">
