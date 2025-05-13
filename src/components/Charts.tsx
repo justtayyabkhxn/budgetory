@@ -7,6 +7,7 @@ import {
   getMonthlyBarChartOptions,
   getCategoryWiseMonthlyOptions,
   getCategoryWiseMonthlyOptionsDonut,
+  getCategoryWiseYearlyOptions, // ✅ NEW IMPORT
 } from "@/utils/chartOptions";
 
 interface Props {
@@ -26,6 +27,10 @@ interface Props {
     categories: string[];
     data: number[];
   };
+  categoryWiseYearlyData: {
+    categories: string[];
+    data: number[];
+  };
 }
 
 const Charts: React.FC<Props> = ({
@@ -34,6 +39,7 @@ const Charts: React.FC<Props> = ({
   dailyBarData,
   monthlyBarData,
   categoryWiseMonthlyData,
+  categoryWiseYearlyData,
 }) => {
   const donutOptions = getDonutOptions(inflow, expense);
   const barChartOptions = getBarChartOptions(dailyBarData);
@@ -43,6 +49,10 @@ const Charts: React.FC<Props> = ({
   );
   const categoryWiseDonutOptions = getCategoryWiseMonthlyOptionsDonut(
     categoryWiseMonthlyData
+  );
+
+  const categoryWiseYearlyOptions = getCategoryWiseYearlyOptions(
+    categoryWiseYearlyData
   );
 
   return (
@@ -121,6 +131,23 @@ const Charts: React.FC<Props> = ({
           <HighchartsReact
             highcharts={Highcharts}
             options={categoryWiseDonutOptions}
+          />
+        </div>
+      </div>
+
+      {/* Category-Wise Yearly Expenses Section */}
+      <div className="mt-10">
+          <span className="text-2xl mb-2 text-indigo-400 border-b-4 font-extrabold tracking-tight">
+            Category-Wise Yearly Expenses
+          </span>
+        <p className="text-gray-400 mb-4 mt-3">
+          This bar chart highlights your total expenses in each category for the
+          current year.
+        </p>
+        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={categoryWiseYearlyOptions}
           />
         </div>
       </div>

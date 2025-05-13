@@ -43,6 +43,11 @@ const ChartsPage = () => {
     data: number[];
   }>({ categories: [], data: [] });
 
+  const [yearlyCategoryExpenseData, setYearlyCategoryExpenseData] = useState<{
+    categories: string[];
+    data: number[];
+  }>({ categories: [], data: [] });
+
   const handleLogout = async () => {
     await fetch("/api/logout");
     localStorage.removeItem("token");
@@ -120,6 +125,29 @@ const ChartsPage = () => {
           const month = txDate.getMonth();
           if (tx.type === "income") inflowPerMonth[month] += tx.amount;
           else if (tx.type === "expense") expensePerMonth[month] += tx.amount;
+        });
+
+        const yearlyCategoryData: { [category: string]: number } = {};
+
+        allTxs.forEach((tx) => {
+          const txDate = new Date(tx.date);
+          const year = txDate.getFullYear();
+
+          if (
+            tx.type === "expense" &&
+            year === currentYear &&
+            tx.category !== "Other"
+          ) {
+            if (!yearlyCategoryData[tx.category]) {
+              yearlyCategoryData[tx.category] = 0;
+            }
+            yearlyCategoryData[tx.category] += tx.amount;
+          }
+        });
+
+        setYearlyCategoryExpenseData({
+          categories: Object.keys(yearlyCategoryData),
+          data: Object.values(yearlyCategoryData),
         });
 
         setMonthlyBarData({
@@ -201,6 +229,7 @@ const ChartsPage = () => {
               dailyBarData={dailyBarData}
               monthlyBarData={monthlyBarData}
               categoryWiseMonthlyData={categoryWiseMonthlyData} // 👈 Pass to Charts
+              categoryWiseYearlyData={yearlyCategoryExpenseData} // 👈 Pass to Charts
             />
           </div>
         </div>

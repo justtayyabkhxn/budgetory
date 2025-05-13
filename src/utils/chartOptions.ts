@@ -256,3 +256,69 @@ export const getCategoryWiseMonthlyOptionsDonut = ({
     },
   };
 };
+
+
+export const getCategoryWiseYearlyOptions = ({
+  categories,
+  data,
+}: {
+  categories: string[];
+  data: number[];
+}): Highcharts.Options => ({
+  chart: {
+    type: "column",
+    backgroundColor: "transparent",
+  },
+  title: {
+    text: "Category-wise Spending – This Year",
+    style: {
+      color: "#fff", // light text color for dark mode
+      fontSize: "18px",
+    },
+  },
+  xAxis: {
+    categories: categories,
+    title: {
+      text: "Categories",
+      style: { color: "#ccc" }, // subtle gray text for axis title
+    },
+    labels: {
+      style: { color: "#ccc" }, // gray labels
+    },
+    gridLineColor: "#444", // subtle grid lines
+  },
+  yAxis: {
+    min: 0,
+    title: {
+      text: "Amount Spent (₹)",
+      style: { color: "#ccc" },
+    },
+    labels: {
+      style: { color: "#ccc" },
+    },
+    gridLineColor: "#444", // subtle grid lines
+  },
+  legend: {
+    enabled: false,
+  },
+  plotOptions: {
+    column: {
+      pointPadding: 0.2,
+      borderWidth: 0,
+    },
+  },
+  series: [
+    {
+      name: "Expense",
+      type: "column",
+      data: data,
+      color: "#FBBF24", // amber color for columns to contrast against the dark background
+    },
+  ],
+  tooltip: {
+    backgroundColor: "#ffffff", // darker tooltip background
+    style: {
+      color: "#000000", // white text for tooltip
+    },
+  },
+});
