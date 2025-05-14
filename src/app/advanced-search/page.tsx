@@ -27,8 +27,6 @@ const AdvancedSearchPage = () => {
   const [selectedType, setSelectedType] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
 
-  const [openSection, setOpenSection] = useState<string | null>(null); // Manage which section is open
-
 
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
