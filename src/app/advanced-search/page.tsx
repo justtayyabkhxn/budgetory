@@ -27,6 +27,16 @@ const AdvancedSearchPage = () => {
   const [selectedType, setSelectedType] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
 
+  const [openSection, setOpenSection] = useState<string | null>(null); // Manage which section is open
+
+  const toggleSection = (section: string) => {
+    setOpenSection(openSection === section ? null : section); // Toggle specific section
+  };
+
+  const [fromDate, setFromDate] = useState<string>("");
+  const [toDate, setToDate] = useState<string>("");
+  const [sortBy, setSortBy] = useState<string>("date-desc");
+
   const handleLogout = async () => {
     await fetch("/api/logout");
     localStorage.removeItem("token");
@@ -66,6 +76,7 @@ const AdvancedSearchPage = () => {
   useEffect(() => {
     let txs = [...transactions];
 
+    // Month filter
     if (selectedMonth) {
       txs = txs.filter((tx) => {
         const txDate = new Date(tx.date);
@@ -76,14 +87,25 @@ const AdvancedSearchPage = () => {
       });
     }
 
+    // Date range filter
+    if (fromDate) {
+      txs = txs.filter((tx) => new Date(tx.date) >= new Date(fromDate));
+    }
+    if (toDate) {
+      txs = txs.filter((tx) => new Date(tx.date) <= new Date(toDate));
+    }
+
+    // Category filter
     if (selectedCategory) {
       txs = txs.filter((tx) => tx.category === selectedCategory);
     }
 
+    // Type filter
     if (selectedType) {
       txs = txs.filter((tx) => tx.type === selectedType);
     }
 
+    // Text search
     if (searchText.trim()) {
       const lowerSearch = searchText.toLowerCase();
       txs = txs.filter(
@@ -93,8 +115,38 @@ const AdvancedSearchPage = () => {
       );
     }
 
+    // Sorting
+    switch (sortBy) {
+      case "amount-asc":
+        txs.sort((a, b) => a.amount - b.amount);
+        break;
+      case "amount-desc":
+        txs.sort((a, b) => b.amount - a.amount);
+        break;
+      case "date-asc":
+        txs.sort(
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+        break;
+      case "date-desc":
+      default:
+        txs.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+        break;
+    }
+
     setFilteredTxs(txs);
-  }, [selectedMonth, selectedCategory, selectedType, searchText, transactions]);
+  }, [
+    selectedMonth,
+    selectedCategory,
+    selectedType,
+    searchText,
+    fromDate,
+    toDate,
+    sortBy,
+    transactions,
+  ]);
 
   const categories = Array.from(new Set(transactions.map((tx) => tx.category)));
 
@@ -110,7 +162,7 @@ const AdvancedSearchPage = () => {
           <Link href="/">💰MyBudgetory</Link>
         </h1>
       </section>
-      <div className="mb-10 flex items-center justify-between">
+      <div className="mb-3 flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-extrabold tracking-tight mb-5">
             Advanced Search
@@ -124,12 +176,12 @@ const AdvancedSearchPage = () => {
 
         <button
           onClick={handleLogout}
-          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors cursor-pointer"
+          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 mt-10 rounded-md text-sm font-bold transition-colors cursor-pointer"
         >
           Logout
         </button>
       </div>
-      <div className="max-w-5xl mx-auto space-y-6">
+      <div className="max-w-5xl mx-auto space-y-2">
         {/* Search Box */}
         <div>
           <label className="text-sm text-gray-300">
@@ -140,12 +192,13 @@ const AdvancedSearchPage = () => {
             placeholder="Search..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800 mb-4"
+            className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800 mb-0"
           />
         </div>
 
         {/* Filters */}
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {/* Row 1 */}
           <div>
             <label className="text-sm text-gray-300">Month</label>
             <input
@@ -170,19 +223,76 @@ const AdvancedSearchPage = () => {
               ))}
             </select>
           </div>
+
+          {/* Row 2 */}
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+            <div>
+              <label className="text-sm text-gray-300">From Date</label>
+              <input
+                type="date"
+                value={fromDate}
+                onChange={(e) => setFromDate(e.target.value)}
+                className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
+              />
+            </div>
+            <div>
+              <label className="text-sm text-gray-300">To Date</label>
+              <input
+                type="date"
+                value={toDate}
+                onChange={(e) => setToDate(e.target.value)}
+                className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
+              />
+            </div>
+
+            {/* Row 3 */}
+            <div>
+              <label className="text-sm text-gray-300">Sort By</label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
+              >
+                <option value="date-desc">Date (Newest First)</option>
+                <option value="date-asc">Date (Oldest First)</option>
+                <option value="amount-desc">Amount (High to Low)</option>
+                <option value="amount-asc">Amount (Low to High)</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Row 3 (contd.) */}
+
           <div>
             <label className="text-sm text-gray-300">Type</label>
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
               className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
-            >
+              >
               <option value="">All</option>
               <option value="income">Income</option>
               <option value="expense">Expense</option>
             </select>
           </div>
-        </div>
+
+          <div className="flex justify-end">
+            <button
+              onClick={() => {
+                  setSelectedMonth("");
+                  setFromDate("");
+                  setToDate("");
+                  setSelectedCategory("");
+                  setSelectedType("");
+                  setSearchText("");
+                  setSortBy("date-desc");
+                }}
+                className="mt-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-md transition-colors"
+                >
+              Clear Filters
+            </button>
+          </div>
+          </div>
 
         {/* Total Amount */}
         <div className="text-lg font-bold text-white/90">
