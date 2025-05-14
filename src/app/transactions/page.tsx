@@ -171,6 +171,13 @@ export default function Transactions() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-grow px-4 py-3 rounded-md bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
+                <div className="flex items-center gap-4 mb-4">
+                  <Link href="/advanced-search">
+                    <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-3 rounded-md text-sm font-bold transition-colors whitespace-nowrap mt-4 cursor-pointer">
+                      See More
+                    </button>
+                  </Link>
+                </div>
               </div>
 
               {[...txs]
