@@ -29,9 +29,6 @@ const AdvancedSearchPage = () => {
 
   const [openSection, setOpenSection] = useState<string | null>(null); // Manage which section is open
 
-  const toggleSection = (section: string) => {
-    setOpenSection(openSection === section ? null : section); // Toggle specific section
-  };
 
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
