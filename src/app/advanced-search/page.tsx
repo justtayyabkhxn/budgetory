@@ -12,9 +12,13 @@ interface Transaction {
   date: string;
   comment: string;
 }
+type User = {
+  id: string;
+  email: string;
+};
 
 const AdvancedSearchPage = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [filteredTxs, setFilteredTxs] = useState<Transaction[]>([]);
 
@@ -23,13 +27,12 @@ const AdvancedSearchPage = () => {
   const [selectedType, setSelectedType] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
 
-
   const handleLogout = async () => {
     await fetch("/api/logout");
     localStorage.removeItem("token");
     router.push("/login");
   };
-  
+
   const router = useRouter();
 
   useEffect(() => {
@@ -100,37 +103,38 @@ const AdvancedSearchPage = () => {
   }, 0);
 
   return (
-         <div className="min-h-screen bg-gradient-to-br text-white p-4 sm:p-8 max-w-5xl mx-auto">
-        {/* Header */}
-        <section className="text-center max-w-2xl mx-auto space-y-6 mb-5">
-          <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
-            <Link href="/">💰MyBudgetory</Link>
+    <div className="min-h-screen bg-gradient-to-br text-white p-4 sm:p-8 max-w-5xl mx-auto">
+      {/* Header */}
+      <section className="text-center max-w-2xl mx-auto space-y-6 mb-5">
+        <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
+          <Link href="/">💰MyBudgetory</Link>
+        </h1>
+      </section>
+      <div className="mb-10 flex items-center justify-between">
+        <div>
+          <h1 className="text-4xl font-extrabold tracking-tight mb-5">
+            Advanced Search
           </h1>
-        </section>
-        <div className="mb-10 flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-extrabold tracking-tight mb-5">
-          Advanced Search
-            </h1>
-            <a href="/transactions">
-              <span className="text-2xl font-extrabold tracking-tight text-gray-400  border-b-2">
-                Go Back
-              </span>
-            </a>
-          </div>
-
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors cursor-pointer"
-          >
-            Logout
-          </button>
+          <a href="/transactions">
+            <span className="text-2xl font-extrabold tracking-tight text-gray-400  border-b-2">
+              Go Back
+            </span>
+          </a>
         </div>
-      <div className="max-w-5xl mx-auto space-y-6">
 
+        <button
+          onClick={handleLogout}
+          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors cursor-pointer"
+        >
+          Logout
+        </button>
+      </div>
+      <div className="max-w-5xl mx-auto space-y-6">
         {/* Search Box */}
         <div>
-          <label className="text-sm text-gray-300">Search by Title/Comment</label>
+          <label className="text-sm text-gray-300">
+            Search by Title/Comment
+          </label>
           <input
             type="text"
             placeholder="Search..."
@@ -210,9 +214,7 @@ const AdvancedSearchPage = () => {
                   </div>
                   <p
                     className={`font-bold ${
-                      tx.type === "income"
-                        ? "text-green-400"
-                        : "text-red-400"
+                      tx.type === "income" ? "text-green-400" : "text-red-400"
                     }`}
                   >
                     {tx.type === "income" ? "+" : "-"} ₹ {tx.amount}
