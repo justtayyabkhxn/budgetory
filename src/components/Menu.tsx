@@ -4,10 +4,8 @@ import {
   ChartCandlestick,
   ChartNoAxesCombined,
   CircleUserRound,
-  Ellipsis,
   FileDigit,
   LogIn,
-  Menu,
   SquareChevronRight,
   TextSearch,
   Wallet,
@@ -71,7 +69,7 @@ export default function MenuButton() {
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex flex-col h-full p-6 space-y-5  mb-5">
+        <div className="flex flex-col h-full p-6 space-y-10  mb-5">
           <div className="flex justify-between items-center border-b mb-5">
             <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
               <SquareChevronRight />

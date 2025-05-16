@@ -5,7 +5,6 @@ import { AddTransactionForm } from "../../components/AddTransactionForm";
 import { TxnCard } from "../../components/TxnCard";
 import Link from "next/link";
 import Menu from "@/components/Menu";
-import { MenuIcon } from "lucide-react";
 
 interface Transaction {
   _id: string;

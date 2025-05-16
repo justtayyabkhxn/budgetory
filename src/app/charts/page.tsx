@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import router from "next/router";
 import { useEffect, useState } from "react";
 import Charts from "@/components/Charts";
 import Menu from "@/components/Menu";

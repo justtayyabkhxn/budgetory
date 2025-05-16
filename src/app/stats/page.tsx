@@ -1,7 +1,6 @@
 "use client";
 import MenuButton from "@/components/Menu";
 import Link from "next/link";
-import router from "next/router";
 import { useEffect, useState } from "react";
 
 type Txn = {
