@@ -5,6 +5,7 @@ import { AddTransactionForm } from "../../components/AddTransactionForm";
 import { TxnCard } from "../../components/TxnCard";
 import Link from "next/link";
 import Menu from "@/components/Menu";
+import { FileDigit } from "lucide-react";
 
 interface Transaction {
   _id: string;
@@ -290,17 +291,19 @@ export default function Dashboard() {
           <div className="mb-10 flex items-center justify-between">
             {/* Left side: Heading and welcome text */}
             <div className="mt-0">
-              <h1 className="text-4xl font-extrabold tracking-tight">
-                Dashboard
-              </h1>
+              <div className="flex items-center gap-2">
+                <FileDigit />
+                <h1 className="text-4xl font-extrabold tracking-tight">
+                  Dashboard
+                </h1>
+              </div>
               <p className="text-gray-400 mt-1">
                 Welcome back 👋, {user?.email || "User"}
               </p>
             </div>
 
             <div className="mb-12">
-
-            <Menu />
+              <Menu />
             </div>
 
             {menuOpen && (

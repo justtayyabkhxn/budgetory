@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Papa from "papaparse";
 import MenuButton from "@/components/Menu";
+import { BadgeIndianRupee } from "lucide-react";
 
 interface Transaction {
   _id: string;
@@ -126,9 +127,12 @@ export default function Transactions() {
         </section>
         <div>
           <div className="flex justify-between items-center mb-5">
-            <h1 className="text-4xl font-extrabold tracking-tight mb-0">
-              Transactions
-            </h1>
+            <div className="flex items-center gap-2">
+              <BadgeIndianRupee />
+              <h1 className="text-4xl font-extrabold tracking-tight mb-0">
+                Transactions
+              </h1>
+            </div>
             <MenuButton />
           </div>
         </div>

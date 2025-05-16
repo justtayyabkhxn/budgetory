@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import MenuButton from "@/components/Menu";
+import { Wallet } from "lucide-react";
 
 interface Transaction {
   _id: string;
@@ -110,9 +111,12 @@ export default function Inflow() {
         </section>
         <div>
           <div className="flex justify-between items-center mb-5">
-            <h1 className="text-4xl font-extrabold tracking-tight mb-0 text-white">
-              Inflow
-            </h1>
+            <div className="flex items-center gap-2">
+              <Wallet />
+              <h1 className="text-4xl font-extrabold tracking-tight mb-0 text-white">
+                Inflow
+              </h1>
+            </div>
             <MenuButton />
           </div>
         </div>

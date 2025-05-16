@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Charts from "@/components/Charts";
 import Menu from "@/components/Menu";
+import { ChartCandlestick } from "lucide-react";
 
 type Transaction = {
   _id: string;
@@ -196,9 +197,12 @@ const ChartsPage = () => {
 
           <div>
             <div className="flex justify-between items-center mb-5">
+              <div className="flex items-center gap-2">
+              <ChartCandlestick />
               <h1 className="text-4xl font-extrabold tracking-tight mb-0">
                 Charts
               </h1>
+              </div>
               <Menu />
             </div>
           </div>

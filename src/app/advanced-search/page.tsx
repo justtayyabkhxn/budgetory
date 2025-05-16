@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Menu from "@/components/Menu";
+import { TextSearch } from "lucide-react";
 
 interface Transaction {
   _id: string;
@@ -27,7 +28,6 @@ const AdvancedSearchPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
-
 
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
@@ -153,13 +153,16 @@ const AdvancedSearchPage = () => {
         </h1>
       </section>
       <div>
-            <div className="flex justify-between items-center mb-5">
-              <h1 className="text-4xl font-extrabold tracking-tight mb-0">
-                Advanced Search
-              </h1>
-              <Menu />
-            </div>
+        <div className="flex justify-between items-center mb-5">
+          <div className="flex items-center gap-2">
+          <TextSearch />
+          <h1 className="text-3xl font-extrabold tracking-tight mb-0">
+            Advanced Search
+          </h1>
           </div>
+          <Menu />
+        </div>
+      </div>
       <div className="max-w-5xl mx-auto space-y-2">
         {/* Search Box */}
         <div>
@@ -248,7 +251,7 @@ const AdvancedSearchPage = () => {
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
               className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
-              >
+            >
               <option value="">All</option>
               <option value="income">Income</option>
               <option value="expense">Expense</option>
@@ -258,20 +261,20 @@ const AdvancedSearchPage = () => {
           <div className="flex justify-end">
             <button
               onClick={() => {
-                  setSelectedMonth("");
-                  setFromDate("");
-                  setToDate("");
-                  setSelectedCategory("");
-                  setSelectedType("");
-                  setSearchText("");
-                  setSortBy("date-desc");
-                }}
-                className="mt-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-md transition-colors"
-                >
+                setSelectedMonth("");
+                setFromDate("");
+                setToDate("");
+                setSelectedCategory("");
+                setSelectedType("");
+                setSearchText("");
+                setSortBy("date-desc");
+              }}
+              className="mt-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-md transition-colors"
+            >
               Clear Filters
             </button>
           </div>
-          </div>
+        </div>
 
         {/* Total Amount */}
         <div className="text-lg font-bold text-white/90">

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import MenuButton from "@/components/Menu";
+import { BanknoteArrowDown } from "lucide-react";
 
 interface Transaction {
   _id: string;
@@ -109,13 +110,16 @@ export default function Expenses() {
           </h1>
         </section>
         <div>
-                <div className="flex justify-between items-center mb-5">
-                  <h1 className="text-4xl font-extrabold tracking-tight mb-0 text-white">
-                    Expenses
-                  </h1>
-                  <MenuButton />
-                </div>
-              </div>
+          <div className="flex justify-between items-center mb-5">
+            <div className="flex items-center gap-2">
+            <BanknoteArrowDown />
+            <h1 className="text-4xl font-extrabold tracking-tight mb-0 text-white">
+              Expenses
+            </h1>
+            </div>
+            <MenuButton />
+          </div>
+        </div>
         {/* Recent Transactions */}
         <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg">
           <h2 className="text-xl font-semibold mb-4">All Transactions</h2>

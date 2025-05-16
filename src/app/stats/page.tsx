@@ -1,5 +1,6 @@
 "use client";
 import MenuButton from "@/components/Menu";
+import { ChartNoAxesCombined } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -236,9 +237,12 @@ export default function StatsPage() {
       </section>
       <div>
         <div className="flex justify-between items-center mb-5">
-          <h1 className="text-4xl font-extrabold tracking-tight mb-0 text-white">
+          <div className="flex items-center gap-2  text-white">
+          <ChartNoAxesCombined />
+          <h1 className="text-4xl font-extrabold tracking-tight mb-0">
             User Statistics
           </h1>
+          </div>
           <MenuButton />
         </div>
       </div>
