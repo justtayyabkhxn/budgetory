@@ -20,6 +20,19 @@ export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState<string>("");
 
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"success" | "error" | "">("");
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+        setMessageType("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -31,7 +44,7 @@ export default function Profile() {
 
         const decoded: DecodedToken = jwtDecode(token);
         setEmail(decoded.email);
-
+        console.log(email);
         const { data } = await axios.get("/api/user/profile", {
           params: { email: decoded.email },
         });
@@ -39,7 +52,7 @@ export default function Profile() {
         setUser(data);
       } catch (err) {
         console.error(err);
-        alert("Failed to fetch profile"+err);
+        alert("Failed to fetch profile" + err);
       }
     };
 
@@ -54,23 +67,27 @@ export default function Profile() {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      alert("New passwords do not match!");
+      setMessage("New passwords do not match!");
+      setMessageType("error");
       return;
     }
 
     try {
-      await axios.post("/api/user/change-password", {
-        email,
+      const { data } = await axios.post("/api/user/update-password", {
+        email: user?.email,
         oldPassword,
         newPassword,
       });
 
-      alert("Password changed successfully!");
+      setMessage(data.message || "Password changed successfully!");
+      setMessageType("success");
+
       setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
-    } catch (err) {
-      alert("Failed to change password"+err);
+    } catch (error: any) {
+      setMessage(error.response?.data?.message || "Failed to change password.");
+      setMessageType("error");
     }
   };
 
@@ -91,24 +108,26 @@ export default function Profile() {
         {/* User Info Section */}
         <div className="space-y-5 mb-10">
           <div>
-            <label className="text-gray-600 dark:text-gray-300 text-sm font-semibold">Name</label>
+            <label className="text-gray-600 dark:text-gray-300 text-sm font-semibold">
+              Name
+            </label>
             <input
-              value={user?.name || ""}
+              value={user?.name || "User"}
               disabled
               className="w-full px-4 py-2 mt-1 rounded-xl border bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white"
             />
           </div>
 
           <div>
-            <label className="text-gray-600 dark:text-gray-300 text-sm font-semibold">Email</label>
+            <label className="text-gray-600 dark:text-gray-300 text-sm font-semibold">
+              Email
+            </label>
             <input
-              value={user?.email || ""}
+              value={user?.email || "user@gmail.com"}
               disabled
               className="w-full px-4 py-2 mt-1 rounded-xl border bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white"
             />
           </div>
-
-          
         </div>
 
         {/* Password Change Section */}
@@ -143,10 +162,19 @@ export default function Profile() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+          {message && (
+            <p
+              className={`text-sm font-medium ${
+                messageType === "success" ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {message}
+            </p>
+          )}
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300"
+            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             Update Password
           </button>

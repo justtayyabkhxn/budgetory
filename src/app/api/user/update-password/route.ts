@@ -12,6 +12,7 @@ export async function POST(request: Request) {
     }
 
     await dbConnect();
+
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
@@ -22,12 +23,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Incorrect old password' }, { status: 400 });
     }
 
-    user.password = await bcrypt.hash(newPassword, 10);
+    const hashed = await bcrypt.hash(newPassword, 10);
+    user.password = hashed;
     await user.save();
 
     return NextResponse.json({ message: 'Password updated successfully' }, { status: 200 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    console.error('Password change error:', error);
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }
