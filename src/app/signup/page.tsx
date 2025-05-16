@@ -7,7 +7,6 @@ import { Eye, EyeOff } from 'lucide-react'; // Optional: for show/hide icons
 export default function SignupPage() {
   const [form, setForm] = useState({
     name: '',
-    phone: '',
     email: '',
     password: '',
   });
@@ -65,14 +64,6 @@ export default function SignupPage() {
             type="text"
             name="name"
             placeholder="Name"
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
-          />
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Phone"
             onChange={handleChange}
             required
             className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"

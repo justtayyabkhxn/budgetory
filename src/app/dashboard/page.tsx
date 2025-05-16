@@ -283,7 +283,6 @@ export default function Dashboard() {
 
           {/* Quote of the Day */}
           <section className="text-center rounded-xl p-6 shadow-lg mb-2">
-            <h2 className="text-xl font-semibold mb-2">Quote of the Day</h2>
             <p className="text-gray-400 italic">“{quote}”</p>
           </section>
 
