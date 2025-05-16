@@ -11,6 +11,16 @@ type User = {
   phone: string;
 };
 
+interface Transaction {
+  _id: string;
+  title: string;
+  amount: number;
+  category: string;
+  type: "income" | "expense";
+  date: string;
+  comment: string;
+}
+
 type DecodedToken = {
   email: string;
   // You can add more fields if needed, like name, id, etc.
@@ -55,13 +65,44 @@ export default function Profile() {
         alert("Failed to fetch profile" + err);
       }
     };
-
+    fetchTransactions();
     fetchProfile();
   }, []);
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [txs, setTxs] = useState<Transaction[]>([]);
+
+  const fetchTransactions = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    fetch("/api/transactions", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.transactions) setTxs(data.transactions);
+      })
+      .catch(console.error);
+  };
+
+  const handleDownloadData = async () => {
+    
+      const data=txs;
+      const jsonStr = JSON.stringify(data, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "transactions.json";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+     
+  };
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -130,6 +171,12 @@ export default function Profile() {
             />
           </div>
         </div>
+        <button
+          onClick={handleDownloadData}
+          className="w-full mt-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-2 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 mb-10 cursor-pointer"
+        >
+          Download Your Data (JSON)
+        </button>
 
         {/* Password Change Section */}
         <form onSubmit={handlePasswordChange} className="space-y-5">
