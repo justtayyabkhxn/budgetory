@@ -152,20 +152,14 @@ const AdvancedSearchPage = () => {
           <Link href="/">💰MyBudgetory</Link>
         </h1>
       </section>
-      <div className="mb-3 flex items-center justify-between">
-        <div>
-          <h1 className="text-4xl font-extrabold tracking-tight mb-5">
-            Advanced Search
-          </h1>
-          <a href="/transactions">
-            <span className="text-2xl font-extrabold tracking-tight text-gray-400  border-b-2">
-              Go Back
-            </span>
-          </a>
-        </div>
-       <Menu/>
-
-      </div>
+      <div>
+            <div className="flex justify-between items-center mb-5">
+              <h1 className="text-4xl font-extrabold tracking-tight mb-0">
+                Advanced Search
+              </h1>
+              <Menu />
+            </div>
+          </div>
       <div className="max-w-5xl mx-auto space-y-2">
         {/* Search Box */}
         <div>

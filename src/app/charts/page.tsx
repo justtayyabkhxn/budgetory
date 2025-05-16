@@ -48,7 +48,6 @@ const ChartsPage = () => {
     data: number[];
   }>({ categories: [], data: [] });
 
-
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -195,20 +194,14 @@ const ChartsPage = () => {
           </h1>
         </section>
 
-        <div className="mb-10 flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-extrabold tracking-tight mb-5">
-              Expenses
-            </h1>
-            <Link href="/dashboard">
-              <span className="text-2xl font-extrabold tracking-tight text-gray-400 border-b-2">
-                Go Back
-              </span>
-            </Link>
+            <div className="flex justify-between items-center mb-5">
+              <h1 className="text-4xl font-extrabold tracking-tight mb-0">
+                Charts
+              </h1>
+              <Menu />
+            </div>
           </div>
-
-          <Menu/>
-        </div>
 
         {/* Charts */}
         <div className="grid grid-cols-1 gap-8">

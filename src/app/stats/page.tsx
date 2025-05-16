@@ -144,19 +144,16 @@ export default function StatsPage() {
       ? largestExpenseTxn.title
       : "N/A";
 
-      
-      const largestIncome = Math.max(
-          ...txs
-          .filter((tx) => tx.type === "income" && isCurrentMonth(tx.date))
-          .map((tx) => tx.amount)
-        );
-        const largestIncomeTxn = txs
-          .filter((tx) => tx.type === "income" && isCurrentMonth(tx.date))
-          .reduce((max, tx) => (tx.amount > max.amount ? tx : max), txs[0]);
-        const largestIncomeNameVar = largestIncome
-          ? largestIncomeTxn.title
-          : "N/A";
-        
+    const largestIncome = Math.max(
+      ...txs
+        .filter((tx) => tx.type === "income" && isCurrentMonth(tx.date))
+        .map((tx) => tx.amount)
+    );
+    const largestIncomeTxn = txs
+      .filter((tx) => tx.type === "income" && isCurrentMonth(tx.date))
+      .reduce((max, tx) => (tx.amount > max.amount ? tx : max), txs[0]);
+    const largestIncomeNameVar = largestIncome ? largestIncomeTxn.title : "N/A";
+
     const categoryFrequency = txs
       .filter((tx) => isCurrentMonth(tx.date))
       .reduce((acc, tx) => {
@@ -237,18 +234,13 @@ export default function StatsPage() {
           <Link href="/">💰MyBudgetory</Link>
         </h1>
       </section>
-      <div className="mb-10 flex items-center justify-between">
-        <div>
-          <h1 className="text-4xl text-white font-extrabold tracking-tight mb-5">
+      <div>
+        <div className="flex justify-between items-center mb-5">
+          <h1 className="text-4xl font-extrabold tracking-tight mb-0 text-white">
             User Statistics
           </h1>
-          <a href="/dashboard">
-            <span className="text-2xl font-extrabold tracking-tight text-gray-400  border-b-2">
-              Go Back
-            </span>
-          </a>
+          <MenuButton />
         </div>
-        <MenuButton/>
       </div>
       {loading ? (
         <p className="text-gray-400 animate-pulse">Loading stats...</p>
@@ -309,7 +301,7 @@ export default function StatsPage() {
           <StatCard
             title="🔝 Top 3 Most Spent Days"
             value={top3Days.map((day, index) => (
-              <p key={index}>💠{" "}{day}</p>
+              <p key={index}>💠 {day}</p>
             ))}
           />
           <StatCard

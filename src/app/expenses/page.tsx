@@ -108,20 +108,14 @@ export default function Expenses() {
             <Link href="/">💰MyBudgetory</Link>
           </h1>
         </section>
-        <div className="mb-10 flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-extrabold tracking-tight mb-5">
-              Expenses
-            </h1>
-            <a href="/dashboard">
-              <span className="text-2xl font-extrabold tracking-tight text-gray-400  border-b-2">
-                Go Back
-              </span>
-            </a>
-          </div>
-
-          <MenuButton/>
-        </div>
+        <div>
+                <div className="flex justify-between items-center mb-5">
+                  <h1 className="text-4xl font-extrabold tracking-tight mb-0 text-white">
+                    Expenses
+                  </h1>
+                  <MenuButton />
+                </div>
+              </div>
         {/* Recent Transactions */}
         <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg">
           <h2 className="text-xl font-semibold mb-4">All Transactions</h2>

@@ -113,9 +113,8 @@ const financialQuotes = [
   "To be rich, you must know how to control your spending habits. – Unknown",
   "The best investment you can make is in yourself. – Warren Buffett",
   "The greatest glory in living lies not in never falling, but in rising every time we fall. – Nelson Mandela",
-  "Financial freedom is not about how much you make, it’s about how much you keep. – Unknown"
+  "Financial freedom is not about how much you make, it’s about how much you keep. – Unknown",
 ];
-
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
@@ -129,24 +128,25 @@ export default function Dashboard() {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
- useEffect(() => {
-  function preventTouchMove(e: TouchEvent) {
-    e.preventDefault();
-  }
-  if (menuOpen) {
-    document.body.style.overflow = 'hidden';
-    document.addEventListener('touchmove', preventTouchMove, { passive: false });
-  } else {
-    document.body.style.overflow = 'auto';
-    document.removeEventListener('touchmove', preventTouchMove);
-  }
-  return () => {
-    document.body.style.overflow = 'auto';
-    document.removeEventListener('touchmove', preventTouchMove);
-  };
-}, [menuOpen]);
+  useEffect(() => {
+    function preventTouchMove(e: TouchEvent) {
+      e.preventDefault();
+    }
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+      document.addEventListener("touchmove", preventTouchMove, {
+        passive: false,
+      });
+    } else {
+      document.body.style.overflow = "auto";
+      document.removeEventListener("touchmove", preventTouchMove);
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+      document.removeEventListener("touchmove", preventTouchMove);
+    };
+  }, [menuOpen]);
 
-  
   const router = useRouter();
 
   // Fetch random quote of the day
@@ -272,147 +272,152 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-8">
       <div className={menuOpen ? "overflow-hidden h-screen" : ""}>
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <section className="text-center max-w-2xl mx-auto space-y-6 mb-5">
-          <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
-            <Link href="/">💰MyBudgetory</Link>
-          </h1>
-        </section>
-
-        {/* Quote of the Day */}
-        <section className="text-center rounded-xl p-6 shadow-lg mb-6">
-          <h2 className="text-xl font-semibold mb-4">Quote of the Day</h2>
-          <p className="text-gray-400 italic">“{quote}”</p>
-        </section>
-
-        {/* Dashboard and Transactions */}
-        <div className="mb-10 flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-extrabold tracking-tight">
-              Dashboard
+        <div className="max-w-5xl mx-auto">
+          {/* Header */}
+          <section className="text-center max-w-2xl mx-auto space-y-6 mb-2">
+            <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
+              <Link href="/">💰MyBudgetory</Link>
             </h1>
-            <p className="text-gray-400 mt-1">
-              Welcome back 👋, {user?.email || "User"}
-            </p>
-          </div>
-          
-          {menuOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={() => setMenuOpen(false)}
-        />
-      )}
+          </section>
 
-      {/* Menu */}
-      <Menu />
-        </div>
-        <div className="text-2xl font-extrabold tracking-tight mb-5">
-          Today :{" "}
-          <span className={`text-gray-300 ${loading ? "animate-pulse" : ""}`}>
-            {loading ? "Loading..." : `₹ ${today}.00`}
-          </span>
-        </div>    
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-          <Link href="/inflow" className="cursor-pointer">
-            <TxnCard
-              title={`Total Inflow (${new Date().toLocaleString("default", {
-                month: "long",
-              })})`}
-              amount={
-                loading ? "Loading..." : `₹ ${inflow.toLocaleString()}.00`
-              }
-              color="text-green-400"
-            />
-          </Link>
+          {/* Quote of the Day */}
+          <section className="text-center rounded-xl p-6 shadow-lg mb-2">
+            <h2 className="text-xl font-semibold mb-2">Quote of the Day</h2>
+            <p className="text-gray-400 italic">“{quote}”</p>
+          </section>
 
-          <Link href="/expenses">
-            <TxnCard
-              title={`Total Expenses (${new Date().toLocaleString("default", {
-                month: "long",
-              })})`}
-              amount={
-                loading ? "Loading..." : `₹ ${expense.toLocaleString()}.00`
-              }
-              color="text-red-500"
-            />
-          </Link>
-              
-          <TxnCard
-            title={`Net (${new Date().toLocaleString("default", {
-              month: "long",
-            })})`}
-            amount={loading ? "Loading..." : `₹ ${net.toLocaleString()}.00`}
-            color="text-gray-300"
-          />
-        </div>
-
-        {/* Add Transaction Form (kept above recent list) */}
-        <AddTransactionForm onAdd={fetchTransactions} />
-
-        {/* Recent Transactions */}
-        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg">
-          <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
-
-          {loading ? (
-            <p className="text-gray-400 animate-pulse">
-              Loading transactions...
-            </p>
-          ) : txs.length === 0 ? (
-            <p className="text-gray-400">No transactions yet.</p>
-          ) : (
-            <ul className="space-y-3">
-              {[...txs].slice(0, 10).map((tx) => (
-                <li
-                  key={tx._id}
-                  className="flex justify-between items-center p-3 bg-white/5 rounded-md"
-                >
-                  <div>
-                    <p className="font-medium">{tx.title}</p>
-                    <p className="text-sm text-gray-400">
-                      {new Date(tx.date).toLocaleDateString()} • {tx.category}
-                    </p>
-                    <p className="text-sm text-gray-400">{tx.comment}</p>
-                  </div>
-                  <p
-                    className={`font-bold ${
-                      tx.type === "income" ? "text-green-400" : "text-red-400"
-                    }`}
-                  >
-                    {tx.type === "income" ? "+ " : "- "}₹ {tx.amount}
-                    <button
-                      onClick={() => handleDelete(tx._id)}
-                      className="text-sm text-red-500 hover:text-red-700 ml-4 cursor-pointer"
-                    >
-                      Delete
-                    </button>
-                  </p>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {!loading && (
-            <div className="font-bold text-blue-400 mt-1 text-right">
-              <Link href="/transactions">See All Transactions</Link>
+          {/* Dashboard and Transactions */}
+          <div className="mb-10 flex items-center justify-between">
+            {/* Left side: Heading and welcome text */}
+            <div className="mt-0">
+              <h1 className="text-4xl font-extrabold tracking-tight">
+                Dashboard
+              </h1>
+              <p className="text-gray-400 mt-1">
+                Welcome back 👋, {user?.email || "User"}
+              </p>
             </div>
-          )}
+
+            <div className="mb-12">
+
+            <Menu />
+            </div>
+
+            {menuOpen && (
+              <div
+                className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                onClick={() => setMenuOpen(false)}
+              />
+            )}
+
+            {/* Menu */}
+          </div>
+          <div className="text-2xl font-extrabold tracking-tight mb-5">
+            Today :{" "}
+            <span className={`text-gray-300 ${loading ? "animate-pulse" : ""}`}>
+              {loading ? "Loading..." : `₹ ${today}.00`}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            <Link href="/inflow" className="cursor-pointer">
+              <TxnCard
+                title={`Total Inflow (${new Date().toLocaleString("default", {
+                  month: "long",
+                })})`}
+                amount={
+                  loading ? "Loading..." : `₹ ${inflow.toLocaleString()}.00`
+                }
+                color="text-green-400"
+              />
+            </Link>
+
+            <Link href="/expenses">
+              <TxnCard
+                title={`Total Expenses (${new Date().toLocaleString("default", {
+                  month: "long",
+                })})`}
+                amount={
+                  loading ? "Loading..." : `₹ ${expense.toLocaleString()}.00`
+                }
+                color="text-red-500"
+              />
+            </Link>
+
+            <TxnCard
+              title={`Net (${new Date().toLocaleString("default", {
+                month: "long",
+              })})`}
+              amount={loading ? "Loading..." : `₹ ${net.toLocaleString()}.00`}
+              color="text-gray-300"
+            />
+          </div>
+
+          {/* Add Transaction Form (kept above recent list) */}
+          <AddTransactionForm onAdd={fetchTransactions} />
+
+          {/* Recent Transactions */}
+          <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
+
+            {loading ? (
+              <p className="text-gray-400 animate-pulse">
+                Loading transactions...
+              </p>
+            ) : txs.length === 0 ? (
+              <p className="text-gray-400">No transactions yet.</p>
+            ) : (
+              <ul className="space-y-3">
+                {[...txs].slice(0, 10).map((tx) => (
+                  <li
+                    key={tx._id}
+                    className="flex justify-between items-center p-3 bg-white/5 rounded-md"
+                  >
+                    <div>
+                      <p className="font-medium">{tx.title}</p>
+                      <p className="text-sm text-gray-400">
+                        {new Date(tx.date).toLocaleDateString()} • {tx.category}
+                      </p>
+                      <p className="text-sm text-gray-400">{tx.comment}</p>
+                    </div>
+                    <p
+                      className={`font-bold ${
+                        tx.type === "income" ? "text-green-400" : "text-red-400"
+                      }`}
+                    >
+                      {tx.type === "income" ? "+ " : "- "}₹ {tx.amount}
+                      <button
+                        onClick={() => handleDelete(tx._id)}
+                        className="text-sm text-red-500 hover:text-red-700 ml-4 cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {!loading && (
+              <div className="font-bold text-blue-400 mt-1 text-right">
+                <Link href="/transactions">See All Transactions</Link>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="flex flex-row justify-evenly mt-6">
-        <Link
-          href="/charts"
-          className="px-5 py-3 text-shadow-lg/10  bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 transition text-lg font-bold"
-        >
-          View Charts
-        </Link>
-        <Link
-          href="/stats"
-          className="px-5 py-3 text-shadow-lg/10  bg-green-600 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-500 transition text-lg font-bold"
-        >
-          View Stats
-        </Link>
-      </div>
+        <div className="flex flex-row justify-evenly mt-6">
+          <Link
+            href="/charts"
+            className="px-5 py-3 text-shadow-lg/10  bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 transition text-lg font-bold"
+          >
+            View Charts
+          </Link>
+          <Link
+            href="/stats"
+            className="px-5 py-3 text-shadow-lg/10  bg-green-600 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-500 transition text-lg font-bold"
+          >
+            View Stats
+          </Link>
+        </div>
       </div>
     </div>
   );

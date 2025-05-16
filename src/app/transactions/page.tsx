@@ -124,23 +124,17 @@ export default function Transactions() {
             <Link href="/">💰MyBudgetory</Link>
           </h1>
         </section>
-        <div className="mb-10 flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-extrabold tracking-tight mb-5">
-              All Transactions
+        <div>
+          <div className="flex justify-between items-center mb-5">
+            <h1 className="text-4xl font-extrabold tracking-tight mb-0">
+              Transactions
             </h1>
-            <a href="/dashboard">
-              <span className="text-2xl font-extrabold tracking-tight text-gray-400  border-b-2">
-                Go Back
-              </span>
-            </a>
+            <MenuButton />
           </div>
-
-         <MenuButton/>
         </div>
         {/* Recent Transactions */}
         <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg ">
-          <div className="flex items-center justify-between gap-4 mb-4">
+          <div className="flex items-center justify-between gap-5 mb-4">
             <h2 className="text-xl font-semibold">All Transactions</h2>
             <button
               onClick={handleExportCSV}
