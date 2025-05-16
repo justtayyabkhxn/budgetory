@@ -39,7 +39,7 @@ export default function Profile() {
         setUser(data);
       } catch (err) {
         console.error(err);
-        alert("Failed to fetch profile");
+        alert("Failed to fetch profile"+err);
       }
     };
 
@@ -70,7 +70,7 @@ export default function Profile() {
       setNewPassword("");
       setConfirmPassword("");
     } catch (err) {
-      alert("Failed to change password");
+      alert("Failed to change password"+err);
     }
   };
 
