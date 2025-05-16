@@ -2,7 +2,7 @@
 import MenuButton from "@/components/Menu";
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 
 type User = {
@@ -85,7 +85,8 @@ export default function Profile() {
       setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
-    } catch (error: any) {
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
       setMessage(error.response?.data?.message || "Failed to change password.");
       setMessageType("error");
     }
