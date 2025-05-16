@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import MenuButton from "@/components/Menu";
 
 interface Transaction {
   _id: string;
@@ -54,11 +55,6 @@ export default function Inflow() {
       .catch(console.error);
   }, [user]);
 
-  const handleLogout = async () => {
-    await fetch("/api/logout");
-    localStorage.removeItem("token");
-    router.push("/login");
-  };
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -124,12 +120,7 @@ export default function Inflow() {
             </a>
           </div>
 
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors cursor-pointer"
-          >
-            Logout
-          </button>
+          <MenuButton/>
         </div>
         {/* Recent Transactions */}
         <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg">

@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { AddTransactionForm } from "../../components/AddTransactionForm";
 import { TxnCard } from "../../components/TxnCard";
 import Link from "next/link";
+import Menu from "@/components/Menu";
+import { MenuIcon } from "lucide-react";
 
 interface Transaction {
   _id: string;
@@ -125,6 +127,26 @@ export default function Dashboard() {
   const [today, setToday] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [quote, setQuote] = useState<string>("");
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+ useEffect(() => {
+  function preventTouchMove(e: TouchEvent) {
+    e.preventDefault();
+  }
+  if (menuOpen) {
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('touchmove', preventTouchMove, { passive: false });
+  } else {
+    document.body.style.overflow = 'auto';
+    document.removeEventListener('touchmove', preventTouchMove);
+  }
+  return () => {
+    document.body.style.overflow = 'auto';
+    document.removeEventListener('touchmove', preventTouchMove);
+  };
+}, [menuOpen]);
+
   
   const router = useRouter();
 
@@ -200,12 +222,6 @@ export default function Dashboard() {
       .catch(console.error);
   }, [user]);
 
-  const handleLogout = async () => {
-    await fetch("/api/logout");
-    localStorage.removeItem("token");
-    router.push("/login");
-  };
-
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -256,6 +272,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-8">
+      <div className={menuOpen ? "overflow-hidden h-screen" : ""}>
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <section className="text-center max-w-2xl mx-auto space-y-6 mb-5">
@@ -280,20 +297,23 @@ export default function Dashboard() {
               Welcome back 👋, {user?.email || "User"}
             </p>
           </div>
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors cursor-pointer"
-          >
-            Logout
-          </button>
+          
+          {menuOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
+
+      {/* Menu */}
+      <Menu />
         </div>
         <div className="text-2xl font-extrabold tracking-tight mb-5">
           Today :{" "}
           <span className={`text-gray-300 ${loading ? "animate-pulse" : ""}`}>
             {loading ? "Loading..." : `₹ ${today}.00`}
           </span>
-        </div>
-
+        </div>    
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           <Link href="/inflow" className="cursor-pointer">
             <TxnCard
@@ -318,7 +338,7 @@ export default function Dashboard() {
               color="text-red-500"
             />
           </Link>
-
+              
           <TxnCard
             title={`Net (${new Date().toLocaleString("default", {
               month: "long",
@@ -393,6 +413,7 @@ export default function Dashboard() {
         >
           View Stats
         </Link>
+      </div>
       </div>
     </div>
   );

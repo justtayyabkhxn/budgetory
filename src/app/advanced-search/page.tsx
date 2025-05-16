@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Menu from "@/components/Menu";
 
 interface Transaction {
   _id: string;
@@ -31,12 +32,6 @@ const AdvancedSearchPage = () => {
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("date-desc");
-
-  const handleLogout = async () => {
-    await fetch("/api/logout");
-    localStorage.removeItem("token");
-    router.push("/login");
-  };
 
   const router = useRouter();
 
@@ -168,13 +163,8 @@ const AdvancedSearchPage = () => {
             </span>
           </a>
         </div>
+       <Menu/>
 
-        <button
-          onClick={handleLogout}
-          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 mt-10 rounded-md text-sm font-bold transition-colors cursor-pointer"
-        >
-          Logout
-        </button>
       </div>
       <div className="max-w-5xl mx-auto space-y-2">
         {/* Search Box */}

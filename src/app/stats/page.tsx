@@ -1,4 +1,5 @@
 "use client";
+import MenuButton from "@/components/Menu";
 import Link from "next/link";
 import router from "next/router";
 import { useEffect, useState } from "react";
@@ -229,12 +230,6 @@ export default function StatsPage() {
         getTopAndLeastCategoryForCurrentMonth()[1],
       ];
 
-  const handleLogout = async () => {
-    await fetch("/api/logout");
-    localStorage.removeItem("token");
-    router.push("/login");
-  };
-
   return (
     <div className="max-w-4xl mx-auto px-5 py-6">
       {/* Header */}
@@ -254,12 +249,7 @@ export default function StatsPage() {
             </span>
           </a>
         </div>
-        <button
-          onClick={handleLogout}
-          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors cursor-pointer"
-        >
-          Logout
-        </button>
+        <MenuButton/>
       </div>
       {loading ? (
         <p className="text-gray-400 animate-pulse">Loading stats...</p>

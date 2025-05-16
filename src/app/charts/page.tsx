@@ -4,6 +4,7 @@ import Link from "next/link";
 import router from "next/router";
 import { useEffect, useState } from "react";
 import Charts from "@/components/Charts";
+import Menu from "@/components/Menu";
 
 type Transaction = {
   _id: string;
@@ -48,11 +49,6 @@ const ChartsPage = () => {
     data: number[];
   }>({ categories: [], data: [] });
 
-  const handleLogout = async () => {
-    await fetch("/api/logout");
-    localStorage.removeItem("token");
-    router.push("/login");
-  };
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -212,12 +208,7 @@ const ChartsPage = () => {
             </Link>
           </div>
 
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors cursor-pointer"
-          >
-            Logout
-          </button>
+          <Menu/>
         </div>
 
         {/* Charts */}
