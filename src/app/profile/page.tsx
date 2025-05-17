@@ -23,7 +23,6 @@ interface Transaction {
 
 type DecodedToken = {
   email: string;
-  // You can add more fields if needed, like name, id, etc.
 };
 
 export default function Profile() {
@@ -32,6 +31,86 @@ export default function Profile() {
 
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error" | "">("");
+
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [txs, setTxs] = useState<Transaction[]>([]);
+
+  const [importFile, setImportFile] = useState<File | null>(null);
+  const [importMessage, setImportMessage] = useState("");
+  const [importMessageType, setImportMessageType] = useState<
+    "success" | "error" | ""
+  >("");
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImportFile(e.target.files[0]);
+    }
+  };
+
+  const handleImport = async () => {
+  if (!importFile) {
+    setImportMessage("Please select a JSON file to import.");
+    setImportMessageType("error");
+    return;
+  }
+
+  try {
+    const text = await importFile.text();
+    const importedTxs: Omit<Transaction, "_id">[] = JSON.parse(text);
+
+    // Filter out invalid txs (optional)
+    const validTxs = importedTxs.filter(
+      (tx) =>
+        tx.title &&
+        typeof tx.amount === 'number' &&
+        tx.category &&
+        tx.type &&
+        tx.date
+    );
+
+    if (validTxs.length === 0) {
+      setImportMessage("No valid transactions found in the file.");
+      setImportMessageType("error");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You must be logged in to import transactions.");
+      return;
+    }
+
+    // Send all valid transactions in one POST request
+    const response = await axios.post(
+      "/api/transactions/import",
+      validTxs,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    if (response.status === 201) {
+      setImportMessage(
+        `Successfully imported ${validTxs.length} transactions.`
+      );
+      setImportMessageType("success");
+      setImportFile(null);
+      fetchTransactions(); // Refresh list after import
+    } else {
+      setImportMessage("Failed to import transactions.");
+      setImportMessageType("error");
+    }
+  } catch (error) {
+    console.error(error);
+    setImportMessage(
+      "Failed to import transactions. Please check the file format."
+    );
+    setImportMessageType("error");
+  }
+};
+
 
   useEffect(() => {
     if (message) {
@@ -46,7 +125,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("token"); // ⬅️ Assuming JWT is stored as 'token'
+        const token = localStorage.getItem("token");
         if (!token) {
           alert("No token found. Please login.");
           return;
@@ -54,7 +133,7 @@ export default function Profile() {
 
         const decoded: DecodedToken = jwtDecode(token);
         setEmail(decoded.email);
-        console.log(email);
+
         const { data } = await axios.get("/api/user/profile", {
           params: { email: decoded.email },
         });
@@ -65,14 +144,10 @@ export default function Profile() {
         alert("Failed to fetch profile" + err);
       }
     };
+
     fetchTransactions();
     fetchProfile();
   }, []);
-
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [txs, setTxs] = useState<Transaction[]>([]);
 
   const fetchTransactions = () => {
     const token = localStorage.getItem("token");
@@ -87,21 +162,18 @@ export default function Profile() {
       })
       .catch(console.error);
   };
+  const handleDownloadData = () => {
+    const data = txs;
+    const jsonStr = JSON.stringify(data, null, 2);
+    const blob = new Blob([jsonStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
 
-  const handleDownloadData = async () => {
-    
-      const data=txs;
-      const jsonStr = JSON.stringify(data, null, 2);
-      const blob = new Blob([jsonStr], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "transactions.json";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-     
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "transactions.json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handlePasswordChange = async (e: React.FormEvent) => {
@@ -134,20 +206,20 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white dark:from-gray-900 dark:to-gray-950 py-5 px-4 ">
-      <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-2xl rounded-3xl p-4 md:p-10 mt-15">
-        <div className="flex justify-end mb-0">
+    <div className="min-h-screen bg-gradient-to-br from-[#F0F4FF] to-[#F8FAFF] dark:from-[#1a1c2c] dark:to-[#0d0f1f] py-5 px-4">
+      <div className="max-w-2xl mx-auto bg-white dark:bg-[#14162b] shadow-xl rounded-3xl p-4 md:p-10 mt-12">
+        <div className="flex justify-end mb-4">
           <MenuButton />
         </div>
         <div className="flex items-center justify-center mb-4">
           <FaUserCircle className="text-6xl text-indigo-600 dark:text-indigo-400" />
         </div>
 
-        <h1 className="text-4xl font-extrabold tracking-tight text-center  bg-clip-text bg-gradient-to-r text-white mb-8">
+        <h1 className="text-4xl font-extrabold tracking-tight text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-500 mb-8">
           Your Profile
         </h1>
 
-        {/* User Info Section */}
+        {/* User Info */}
         <div className="space-y-5 mb-10">
           <div>
             <label className="text-gray-600 dark:text-gray-300 text-sm font-semibold">
@@ -171,14 +243,42 @@ export default function Profile() {
             />
           </div>
         </div>
+
+        {/* Download Button */}
         <button
           onClick={handleDownloadData}
-          className="w-full mt-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-2 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 mb-10 cursor-pointer"
+          className="w-full mt-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-2 rounded-xl  shadow-md hover:shadow-lg transition-all duration-300 mb-10 cursor-pointer"
         >
           Download Your Data (JSON)
         </button>
 
-        {/* Password Change Section */}
+        <div className="mb-6 text-white text-center">
+          <input
+            type="file"
+            accept=".json,application/json"
+            onChange={handleFileChange}
+            className="mb-2"
+          />
+          <button
+            onClick={handleImport}
+            className="w-full mt-2 bg-gradient-to-r from-green-600 to-blue-600 text-white py-2 px-4 rounded-xl shadow hover:shadow-lg transition"
+          >
+            Import Transactions (JSON file)
+          </button>
+          {importMessage && (
+            <p
+              className={`mt-2 text-sm font-medium ${
+                importMessageType === "success"
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
+            >
+              {importMessage}
+            </p>
+          )}
+        </div>
+
+        {/* Password Change Form */}
         <form onSubmit={handlePasswordChange} className="space-y-5">
           <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-200 border-b pb-2">
             Change Password
@@ -210,6 +310,7 @@ export default function Profile() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+
           {message && (
             <p
               className={`text-sm font-medium ${
@@ -222,7 +323,7 @@ export default function Profile() {
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             Update Password
           </button>
