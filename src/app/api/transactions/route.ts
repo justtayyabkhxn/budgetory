@@ -86,3 +86,37 @@ export async function GET(req: Request) {
     );
   }
 }
+
+
+// DELETE /api/transactions
+
+export async function DELETE(req: Request) {
+  const auth = req.headers.get('authorization') || '';
+  const userId = getUserId(auth);
+  if (!userId) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  await connectDB();
+
+  try {
+    await Transaction.deleteMany({ userId });
+    return new Response(
+      JSON.stringify({ message: 'All transactions deleted successfully' }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    );
+  } catch (err: unknown) {
+    const errorMessage =
+      err instanceof Error ? err.message : 'Failed to delete transactions';
+    return new Response(
+      JSON.stringify({ error: errorMessage }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+}
+
+
+
