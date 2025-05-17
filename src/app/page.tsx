@@ -51,7 +51,7 @@ export default function LandingPage() {
       {/* Features Section */}
       <section className="mt-20 max-w-5xl mx-auto text-center">
         <h2 className="text-3xl font-bold text-transparent bg-gradient-to-r from-fuchsia-600 to-indigo-600 bg-clip-text mb-10">
-          Why You'll Love MyBudgetory
+          Why You&apos;ll Love MyBudgetory
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
           {[
