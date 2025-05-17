@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Menu from "@/components/Menu";
-import { TextSearch } from "lucide-react";
 
 interface Transaction {
   _id: string;
@@ -17,6 +16,29 @@ interface Transaction {
 type User = {
   id: string;
   email: string;
+};
+
+import {
+  Utensils,
+  Shirt,
+  Briefcase,
+  HeartPulse,
+  ReceiptText,
+  Clapperboard,
+  Plane,
+  BanknoteArrowUp,
+  TextSearch,
+} from "lucide-react";
+
+const categoryIcons = {
+  Food: Utensils,
+  Outing: Briefcase,
+  Clothes: Shirt,
+  Medical: HeartPulse,
+  Bills: ReceiptText,
+  Entertainment: Clapperboard,
+  Travel: Plane,
+  Others: BanknoteArrowUp,
 };
 
 const AdvancedSearchPage = () => {
@@ -155,10 +177,10 @@ const AdvancedSearchPage = () => {
       <div>
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-2">
-          <TextSearch />
-          <h1 className="text-3xl font-extrabold tracking-tight mb-0">
-            Advanced Search
-          </h1>
+            <TextSearch />
+            <h1 className="text-3xl font-extrabold tracking-tight mb-0">
+              Advanced Search
+            </h1>
           </div>
           <Menu />
         </div>
@@ -292,27 +314,37 @@ const AdvancedSearchPage = () => {
             <p className="text-gray-400">No matching transactions.</p>
           ) : (
             <ul className="space-y-4">
-              {filteredTxs.map((tx) => (
-                <li
-                  key={tx._id}
-                  className="p-3 bg-white/5 rounded-md flex justify-between items-center"
-                >
-                  <div>
-                    <p className="font-semibold">{tx.title}</p>
-                    <p className="text-sm text-gray-400">
-                      {new Date(tx.date).toLocaleDateString()} • {tx.category}
-                    </p>
-                    <p className="text-sm text-gray-400">{tx.comment}</p>
-                  </div>
-                  <p
-                    className={`font-bold ${
-                      tx.type === "income" ? "text-green-400" : "text-red-400"
-                    }`}
+              {filteredTxs.map((tx) => {
+                const Icon =
+                  categoryIcons[tx.category as keyof typeof categoryIcons] ||
+                  BanknoteArrowUp;
+
+                return (
+                  <li
+                    key={tx._id}
+                    className="p-4 bg-white/5 rounded-md flex items-center gap-4"
                   >
-                    {tx.type === "income" ? "+" : "-"} ₹ {tx.amount}
-                  </p>
-                </li>
-              ))}
+                    <div className="bg-white/10 p-2 rounded-full">
+                      <Icon className="w-6 h-6 text-indigo-400" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-white font-semibold">{tx.title}</h3>
+                      <p className="text-sm text-gray-400">{tx.comment}</p>
+                      <p className="text-sm text-gray-500">
+                        {new Date(tx.date).toLocaleDateString()} • {tx.category}{" "}
+                        • {tx.type}
+                      </p>
+                    </div>
+                    <div
+                      className={`font-bold ${
+                        tx.type === "income" ? "text-green-400" : "text-red-400"
+                      }`}
+                    >
+                      ₹ {tx.amount}
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>

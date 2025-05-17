@@ -1,4 +1,25 @@
 import { useState } from "react";
+import {
+  Utensils,
+  Shirt,
+  Briefcase,
+  HeartPulse,
+  ReceiptText,
+  Clapperboard,
+  Plane,
+  BanknoteArrowUp,
+} from "lucide-react";
+
+const categoryIcons = {
+  Food: Utensils,
+  Outing: Briefcase,
+  Clothes: Shirt,
+  Medical: HeartPulse,
+  Bills: ReceiptText,
+  Entertainment: Clapperboard,
+  Travel: Plane,
+  Others: BanknoteArrowUp,
+};
 
 export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
   const [form, setForm] = useState({
@@ -105,19 +126,27 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           required
           className="p-2 rounded bg-black border border-gray-700 text-white"
         />
-        <select
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          required
-          className="p-2 rounded bg-black border border-gray-700 text-white"
-        >
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
+        <div className="flex items-center gap-2">
+          {(() => {
+            const Icon = categoryIcons[form.category] || BanknoteArrowUp;
+            return <Icon className="w-5 h-5 text-gray-400" />;
+          })()}
+
+          <select
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            required
+            className="p-2 rounded bg-black border border-gray-700 text-white flex-1"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <select
           name="type"
           value={form.type}
@@ -136,7 +165,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           required
           className="p-2 rounded bg-black border border-gray-700 text-white w-87 sm:w-full md:w-80 lg:w-94 xl:w-120"
         />
-        
+
         <input
           name="comment"
           placeholder="Comment"
@@ -162,15 +191,24 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
             Most recent transaction
           </h3>
           <ul className="space-y-2 text-sm text-gray-300">
-            {[...txs].slice(0, 1).map((tx, index) => (
-              <li key={index} className="border-b border-gray-600 pb-1">
-                <strong>{tx.title}</strong> - ₹{tx.amount} ({tx.type}) on{" "}
-                {new Date(tx.date).toLocaleDateString()}
-                {tx.comment && (
-                  <p className="text-gray-400 italic mt-1">{tx.comment}</p>
-                )}
-              </li>
-            ))}
+            {[...txs].slice(0, 1).map((tx, index) => {
+              const Icon = categoryIcons[tx.category] || BanknoteArrowUp;
+              return (
+                <li
+                  key={index}
+                  className="border-b border-gray-600 pb-1 flex items-start gap-2"
+                >
+                  <Icon className="w-5 h-5 text-gray-400 mt-1" />
+                  <div>
+                    <strong>{tx.title}</strong> - ₹{tx.amount} ({tx.type}) on{" "}
+                    {new Date(tx.date).toLocaleDateString()}
+                    {tx.comment && (
+                      <p className="text-gray-400 italic mt-1">{tx.comment}</p>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

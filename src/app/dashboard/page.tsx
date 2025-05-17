@@ -5,7 +5,28 @@ import { AddTransactionForm } from "../../components/AddTransactionForm";
 import { TxnCard } from "../../components/TxnCard";
 import Link from "next/link";
 import Menu from "@/components/Menu";
-import { FileDigit } from "lucide-react";
+import {
+  Utensils,
+  Shirt,
+  Briefcase,
+  HeartPulse,
+  ReceiptText,
+  Clapperboard,
+  Plane,
+  BanknoteArrowUp,
+  FileDigit,
+} from "lucide-react";
+
+const categoryIcons = {
+  Food: Utensils,
+  Outing: Briefcase,
+  Clothes: Shirt,
+  Medical: HeartPulse,
+  Bills: ReceiptText,
+  Entertainment: Clapperboard,
+  Travel: Plane,
+  Others: BanknoteArrowUp,
+};
 
 interface Transaction {
   _id: string;
@@ -369,33 +390,48 @@ export default function Dashboard() {
               <p className="text-gray-400">No transactions yet.</p>
             ) : (
               <ul className="space-y-3">
-                {[...txs].slice(0, 10).map((tx) => (
-                  <li
-                    key={tx._id}
-                    className="flex justify-between items-center p-3 bg-white/5 rounded-md"
-                  >
-                    <div>
-                      <p className="font-medium">{tx.title}</p>
-                      <p className="text-sm text-gray-400">
-                        {new Date(tx.date).toLocaleDateString()} • {tx.category}
-                      </p>
-                      <p className="text-sm text-gray-400">{tx.comment}</p>
-                    </div>
-                    <p
-                      className={`font-bold ${
-                        tx.type === "income" ? "text-green-400" : "text-red-400"
-                      }`}
+                {[...txs].slice(0, 10).map((tx) => {
+                  const Icon = categoryIcons[tx.category] || BanknoteArrowUp;
+
+                  return (
+                    <li
+                      key={tx._id}
+                      className="flex justify-between items-center p-3 bg-white/5 rounded-md"
                     >
-                      {tx.type === "income" ? "+ " : "- "}₹ {tx.amount}
-                      <button
-                        onClick={() => handleDelete(tx._id)}
-                        className="text-sm text-red-500 hover:text-red-700 ml-4 cursor-pointer"
-                      >
-                        Delete
-                      </button>
-                    </p>
-                  </li>
-                ))}
+                      <div className="flex items-center gap-3 ">
+                        <div className="bg-white/10 p-2 rounded-full">
+
+                        <Icon className="w-5 h-5 text-indigo-400" />
+                        </div>
+                        <div>
+                          <p className="font-medium">{tx.title}</p>
+                          <p className="text-sm text-gray-400">
+                            {new Date(tx.date).toLocaleDateString()} •{" "}
+                            {tx.category}
+                          </p>
+                          <p className="text-sm text-gray-400">{tx.comment}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p
+                          className={`font-bold ${
+                            tx.type === "income"
+                              ? "text-green-400"
+                              : "text-red-400"
+                          }`}
+                        >
+                          {tx.type === "income" ? "+ " : "- "}₹ {tx.amount}
+                        </p>
+                        <button
+                          onClick={() => handleDelete(tx._id)}
+                          className="text-sm text-red-500 hover:text-red-700 ml-4 cursor-pointer"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             )}
 

@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Papa from "papaparse";
 import MenuButton from "@/components/Menu";
-import { BadgeIndianRupee } from "lucide-react";
 
 interface Transaction {
   _id: string;
@@ -19,6 +18,29 @@ interface Transaction {
 type User = {
   id: string;
   email: string;
+};
+
+import {
+  Utensils,
+  Shirt,
+  Briefcase,
+  HeartPulse,
+  ReceiptText,
+  Clapperboard,
+  Plane,
+  BanknoteArrowUp,
+  BadgeIndianRupee,
+} from "lucide-react";
+
+const categoryIcons = {
+  Food: Utensils,
+  Outing: Briefcase,
+  Clothes: Shirt,
+  Medical: HeartPulse,
+  Bills: ReceiptText,
+  Entertainment: Clapperboard,
+  Travel: Plane,
+  Others: BanknoteArrowUp,
 };
 
 export default function Transactions() {
@@ -169,41 +191,48 @@ export default function Transactions() {
                 </div>
               </div>
 
-              {[...txs]
-                .filter(
-                  (tx) =>
-                    tx.title
-                      .toLowerCase()
-                      .includes(searchQuery.toLowerCase()) ||
-                    tx.comment.toLowerCase().includes(searchQuery.toLowerCase())
-                )
-                .map((tx) => (
+              {[...txs].map((tx) => {
+                const Icon = categoryIcons[tx.category] || BanknoteArrowUp;
+
+                return (
                   <li
                     key={tx._id}
                     className="flex justify-between items-center p-3 bg-white/5 rounded-md"
                   >
-                    <div>
-                      <p className="font-medium">{tx.title}</p>
-                      <p className="text-sm text-gray-400">
-                        {new Date(tx.date).toLocaleDateString()} • {tx.category}
-                      </p>
-                      <p className="text-sm text-gray-400">{tx.comment}</p>
+                    <div className="flex items-center gap-3">
+                       <div className="bg-white/10 p-2 rounded-full">
+
+                        <Icon className="w-5 h-5 text-indigo-400" />
+                        </div>
+                      <div>
+                        <p className="font-medium">{tx.title}</p>
+                        <p className="text-sm text-gray-400">
+                          {new Date(tx.date).toLocaleDateString()} •{" "}
+                          {tx.category}
+                        </p>
+                        <p className="text-sm text-gray-400">{tx.comment}</p>
+                      </div>
                     </div>
-                    <p
-                      className={`font-bold ${
-                        tx.type === "income" ? "text-green-400" : "text-red-400"
-                      }`}
-                    >
-                      {tx.type === "income" ? "+ " : "- "}₹ {tx.amount}
+                    <div className="text-right">
+                      <p
+                        className={`font-bold ${
+                          tx.type === "income"
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}
+                      >
+                        {tx.type === "income" ? "+ " : "- "}₹ {tx.amount}
+                      </p>
                       <button
                         onClick={() => handleDelete(tx._id)}
                         className="text-sm text-red-500 hover:text-red-700 ml-4 cursor-pointer"
                       >
                         Delete
                       </button>
-                    </p>
+                    </div>
                   </li>
-                ))}
+                );
+              })}
             </ul>
           )}
         </div>
