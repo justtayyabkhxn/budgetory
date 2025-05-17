@@ -27,7 +27,6 @@ type DecodedToken = {
 
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
-  const [email, setEmail] = useState<string>("");
 
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error" | "">("");
@@ -132,7 +131,6 @@ export default function Profile() {
         }
 
         const decoded: DecodedToken = jwtDecode(token);
-        setEmail(decoded.email);
 
         const { data } = await axios.get("/api/user/profile", {
           params: { email: decoded.email },

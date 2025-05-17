@@ -79,8 +79,9 @@ export async function POST(req: Request) {
       { status: 201, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error) {
+    console.log(error)
     return new Response(
-      JSON.stringify({ error: 'Failed to import transactions' }),
+      JSON.stringify({ error: 'Failed to import transactions'}),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }

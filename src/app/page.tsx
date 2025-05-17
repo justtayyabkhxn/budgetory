@@ -9,7 +9,6 @@ import {
   Cloud,
   CalendarCheck,
   Wallet,
-  TrendingUp,
   ShieldCheck,
   Smartphone,
 } from "lucide-react";
@@ -31,7 +30,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="text-center max-w-3xl mx-auto space-y-6 mt-10">
         <h1 className="text-4xl font-extrabold tracking-tight">
-          Take <span className="text-green-500 bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Control!</span>
+          Take <span className="text-green-500 bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text ">Control!</span>
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-300">
           MyBudgetory helps you track your expenses, analyze spending habits, and stay financially organized — all in one place.
