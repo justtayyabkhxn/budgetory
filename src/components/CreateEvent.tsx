@@ -43,37 +43,45 @@ export default function CreateEvent() {
     setParticipants(newParticipants);
   }
 
-  async function submitEvent() {
-    setError(null);
-    if (!eventData.name) {
-      setError("Event name is required.");
-      return;
-    }
-
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("User not authenticated.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const res = await axios.post("/api/create-event", eventData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      setCreatedEventId(res.data.event._id);
-      setStep(2);
-    } catch (err: any) {
-      setError(
-        "Failed to create event. " + (err?.response?.data?.error || err.message)
-      );
-    } finally {
-      setLoading(false);
-    }
+ async function submitEvent() {
+  setError(null);
+  if (!eventData.name) {
+    setError("Event name is required.");
+    return;
   }
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    setError("User not authenticated.");
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const res = await axios.post("/api/create-event", eventData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    setCreatedEventId(res.data.event._id);
+    setStep(2);
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      setError(
+        "Failed to create event. " +
+          (err.response?.data?.error || err.message)
+      );
+    } else if (err instanceof Error) {
+      setError("Failed to create event. " + err.message);
+    } else {
+      setError("Failed to create event due to an unknown error.");
+    }
+  } finally {
+    setLoading(false);
+  }
+}
+
 
   async function submitParticipants() {
     setError(null);
@@ -170,7 +178,6 @@ export default function CreateEvent() {
           </div>
 
           {error && <p className="text-red-500 font-medium">{error}</p>}
-
           <button
             onClick={submitEvent}
             disabled={loading}

@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     try {
       decoded = jwt.verify(token, JWT_SECRET);
     } catch (err) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 403 });
+      return NextResponse.json({ error: 'Invalid token'+err }, { status: 403 });
     }
 
     const userId = decoded.id || decoded.sub;
