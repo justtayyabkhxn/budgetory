@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 export default function Header() {
   return (
     <div className="flex flex-col items-center text-center space-y-2">

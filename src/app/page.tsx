@@ -163,14 +163,14 @@ export default function LandingPage() {
         <Image
           src={Piggy}
           alt="Money Management"
-          className="mx-auto w-full max-w-sm drop-shadow-lg"
+          className="mx-auto h-64 w-64 drop-shadow-l"
           priority
           quality={90}
         />
       </section>
 
       {/* Why MyBudgetory */}
-      <section className="mt-16 max-w-4xl mx-auto text-center">
+      <section className="mt-5 max-w-4xl mx-auto text-center">
       <hr className="mb-5 text-green-300"></hr>
         <h2 className="text-3xl mb-4 text-green-300 font-extrabold tracking-tight">
           Why Choose Me?
@@ -229,7 +229,7 @@ export default function LandingPage() {
         <div className="flex flex-row gap-4 justify-center">
           <Link
             href="/daily-tracker"
-            className="bg-white dark:bg-gray-800 px-3 py-4 rounded-xl shadow hover:shadow-lg transition text-center font-semibold text-green-700 dark:text-green- cursor-pointer"
+            className="bg-white dark:bg-gray-800 px-5 py-4 rounded-xl shadow hover:shadow-lg transition text-center font-semibold text-green-700 dark:text-green-300 cursor-pointer"
           >
             Start Daily Tracking
           </Link>
