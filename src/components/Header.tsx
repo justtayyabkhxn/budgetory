@@ -4,7 +4,7 @@ export default function Header() {
   return (
     <div className="flex flex-col items-center text-center space-y-2">
       <Link href="/">
-        <span className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
+        <span className="text-4xl md:text-5xl text-indigo-300 dark:text-indigo-400 font-extrabold tracking-tight">
         💰 MyBudgetory
         </span>
       </Link>
