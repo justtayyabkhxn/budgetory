@@ -1,41 +1,40 @@
-// pages/api/transaction.ts
-import type { NextApiRequest, NextApiResponse } from 'next';
+// src/app/api/transaction/route.ts
+
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Transaction from '@/models/TransactionEvent';
 import Event from '@/models/Event';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
   await dbConnect();
 
-  if (req.method === 'POST') {
-    try {
-      const { eventId, type, category, amount, paidBy, sharedWith, notes } = req.body;
+  try {
+    const body = await req.json();
+    const { eventId, type, category, amount, paidBy, sharedWith, notes } = body;
 
-      if (!eventId || !type || !amount || !paidBy || !sharedWith) {
-        return res.status(400).json({ error: 'Missing required fields' });
-      }
-
-      // Validate event exists
-      const event = await Event.findById(eventId);
-      if (!event) return res.status(404).json({ error: 'Event not found' });
-
-      const transaction = new Transaction({
-        eventId,
-        type,
-        category,
-        amount,
-        paidBy,
-        sharedWith,
-        notes,
-      });
-
-      await transaction.save();
-
-      return res.status(201).json({ transaction });
-    } catch (error) {
-      return res.status(500).json({ error: 'Server error'+error });
+    if (!eventId || !type || !amount || !paidBy || !sharedWith) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
-  } else {
-    return res.status(405).json({ error: 'Method not allowed' });
+
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return NextResponse.json({ error: 'Event not found' }, { status: 404 });
+    }
+
+    const transaction = new Transaction({
+      eventId,
+      type,
+      category,
+      amount,
+      paidBy,
+      sharedWith,
+      notes,
+    });
+
+    await transaction.save();
+
+    return NextResponse.json({ transaction }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Server error: ' + error }, { status: 500 });
   }
 }
