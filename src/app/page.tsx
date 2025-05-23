@@ -12,6 +12,28 @@ import {
   ShieldCheck,
   Smile,
 } from "lucide-react";
+import { JSX } from "react";
+
+type Feature = {
+  icon: JSX.Element;
+  title: string;
+  desc: string;
+};
+
+type Mode = {
+  href: string;
+  icon: JSX.Element;
+  title: string;
+  bg: string;
+  color: string;
+  desc: string;
+};
+
+type Testimonial = {
+  text: string;
+  author: string;
+};
+
 
 // Feature Cards
 const features = [
@@ -68,7 +90,7 @@ const testimonials = [
   },
 ];
 
-const FeatureCard = ({ icon, title, desc }: any) => (
+const FeatureCard = ({ icon, title, desc }: Feature) => (
   <article className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow hover:shadow-lg transition">
     {icon}
     <h3 className=" text-xl mb-2 text-indigo font-extrabold tracking-tight">
@@ -78,7 +100,8 @@ const FeatureCard = ({ icon, title, desc }: any) => (
   </article>
 );
 
-const ModeCard = ({ href, icon, title, bg, color, desc }: any) => (
+
+const ModeCard = ({ href, icon, title, bg, color, desc }: Mode) => (
   <Link
     href={href}
     className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow hover:shadow-2xl hover:scale-[1.03] transition duration-300 cursor-pointer text-center block"
@@ -89,13 +112,15 @@ const ModeCard = ({ href, icon, title, bg, color, desc }: any) => (
   </Link>
 );
 
-const TestimonialCard = ({ text, author }: any) => (
+
+const TestimonialCard = ({ text, author }: Testimonial) => (
   <blockquote className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow text-center">
     <Smile className="h-6 w-6 text-yellow-500 mb-2 mx-auto" />
     <p className="italic text-sm text-gray-600 dark:text-gray-300">{text}</p>
     <footer className="mt-2 font-bold">– {author}</footer>
   </blockquote>
 );
+
 
 export default function LandingPage() {
   return (
