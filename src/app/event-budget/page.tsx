@@ -2,8 +2,6 @@
 import Header from "@/components/Header";
 import Image from "next/image";
 import EventHero from "../../../public/event-hero.png";
-import BudgetIcon from "../../../public/event-hero.png";
-
 import {
   CalendarDays,
   DollarSign,

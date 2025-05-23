@@ -19,6 +19,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ participant }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error'+error }, { status: 500 });
   }
 }

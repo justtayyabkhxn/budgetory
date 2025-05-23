@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       return res.status(201).json({ transaction });
     } catch (error) {
-      return res.status(500).json({ error: 'Server error' });
+      return res.status(500).json({ error: 'Server error'+error });
     }
   } else {
     return res.status(405).json({ error: 'Method not allowed' });

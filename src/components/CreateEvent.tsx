@@ -51,7 +51,7 @@ export default function CreateEvent() {
       setCreatedEventId(res.data.event._id);
       setStep(2);
     } catch (err) {
-      setError('Failed to create event.');
+      setError('Failed to create event.'+err);
     } finally {
       setLoading(false);
     }
@@ -77,7 +77,7 @@ export default function CreateEvent() {
       setParticipants(['']);
       setCreatedEventId(null);
     } catch (err) {
-      setError('Failed to add participants.');
+      setError('Failed to add participants.'+err);
     } finally {
       setLoading(false);
     }
