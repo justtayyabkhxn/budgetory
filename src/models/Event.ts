@@ -7,6 +7,8 @@ const EventSchema = new mongoose.Schema({
   description: { type: String },
   date: { type: Date, default: Date.now },
   participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Participant' }],
+  status:{type:String, enum:['Complete','Incomplete'],default: 'Incomplete'},
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Added field
 });
 
 export default mongoose.models.Event || mongoose.model('Event', EventSchema);
