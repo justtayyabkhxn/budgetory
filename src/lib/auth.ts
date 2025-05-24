@@ -8,6 +8,7 @@ export function verifyToken(token: string): JwtPayload | null {
     if (typeof decoded === "string") return null; // token was a string, not an object
     return decoded as JwtPayload;
   } catch (error) {
+    console.log(error)
     return null;
   }
 }
