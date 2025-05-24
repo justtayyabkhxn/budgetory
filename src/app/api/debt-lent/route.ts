@@ -86,17 +86,32 @@ export async function DELETE(req: Request) {
     });
   }
 
+  const { id } = await req.json();
+  if (!id) {
+    return new Response(JSON.stringify({ error: 'Missing id' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   await connectDB();
 
   try {
-    await DebtLent.deleteMany({ userId });
-    return new Response(
-      JSON.stringify({ message: 'All debt/lent entries deleted successfully' }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
+    const deleted = await DebtLent.findOneAndDelete({ _id: id, userId });
+    if (!deleted) {
+      return new Response(JSON.stringify({ error: 'Entry not found or unauthorized' }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    return new Response(JSON.stringify(deleted), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (err: unknown) {
     const errorMessage =
-      err instanceof Error ? err.message : 'Failed to delete entries';
+      err instanceof Error ? err.message : 'Failed to delete entry';
 
     return new Response(JSON.stringify({ error: errorMessage }), {
       status: 500,
@@ -104,3 +119,4 @@ export async function DELETE(req: Request) {
     });
   }
 }
+

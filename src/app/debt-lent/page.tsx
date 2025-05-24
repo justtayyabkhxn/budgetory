@@ -67,31 +67,36 @@ export default function DebtLentPage() {
   }, [user]);
 
   const handleClear = async (id: string) => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+  const token = localStorage.getItem("token");
+  if (!token) return;
 
-    const confirm = window.confirm("Mark this entry as cleared?");
-    if (!confirm) return;
+  const confirmClear = window.confirm("Mark this entry as cleared?");
+  if (!confirmClear) return;
 
-    try {
-      const res = await fetch(`/api/debt-lent/${id}/clear`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await res.json();
-      if (data._id) {
-        setEntries((prev) =>
-          prev.map((e) => (e._id === id ? { ...e, status: "cleared" } : e))
-        );
-      } else {
-        alert("Failed to update status.");
-      }
-    } catch (error) {
-      console.error("Update error:", error);
+  try {
+    const res = await fetch(`/api/debt-lent/clear`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    const data = await res.json();
+
+    if (data._id) {
+      setEntries((prev) =>
+        prev.map((e) => (e._id === id ? { ...e, status: "cleared" } : e))
+      );
+    } else {
+      alert("Failed to update status.");
     }
-  };
+  } catch (error) {
+    console.error("Update error:", error);
+  }
+};
+
 
   const handleDebtLentAdd = () => {
     // e.g., refresh the list or show a toast
@@ -99,27 +104,34 @@ export default function DebtLentPage() {
   };
 
   const handleDelete = async (id: string) => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+  const token = localStorage.getItem("token");
+  if (!token) return;
 
-    const confirm = window.confirm("Delete this entry?");
-    if (!confirm) return;
+  const confirmDelete = window.confirm("Delete this entry?");
+  if (!confirmDelete) return;
 
-    try {
-      const res = await fetch(`/api/debt-lent/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      if (data._id) {
-        setEntries((prev) => prev.filter((e) => e._id !== id));
-      } else {
-        alert("Failed to delete.");
-      }
-    } catch (error) {
-      console.error("Delete error:", error);
+  try {
+    const res = await fetch(`/api/debt-lent`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    const data = await res.json();
+
+    if (data._id) {
+      setEntries((prev) => prev.filter((e) => e._id !== id));
+    } else {
+      alert("Failed to delete.");
     }
-  };
+  } catch (error) {
+    console.error("Delete error:", error);
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-8">
