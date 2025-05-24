@@ -1,11 +1,10 @@
-import { NextResponse } from 'next/server';
 import connectDB from '@/lib/dbConnect';
 import DebtLent from '@/models/DebtLent';
 
 export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
-) {
+): Promise<Response> {
   try {
     await connectDB();
 
@@ -16,11 +15,20 @@ export async function PATCH(
     );
 
     if (!updated) {
-      return NextResponse.json({ error: 'Entry not found' }, { status: 404 });
+      return new Response(JSON.stringify({ error: 'Entry not found' }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
-    return NextResponse.json(updated);
-  } catch (error) {
-    return NextResponse.json({ error: 'Server error'+error }, { status: 500 });
+    return new Response(JSON.stringify(updated), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: 'Server error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
