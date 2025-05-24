@@ -37,6 +37,7 @@ export default function EventDashboard() {
   const [complete, setComplete] = useState<number>(0);
   const [quote, setQuote] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
 
   const router = useRouter();
 
@@ -77,12 +78,8 @@ export default function EventDashboard() {
 
         if (events) {
           setEvents(events);
-          setComplete(
-            events.filter((e: Event) => e.status === "Complete").length
-          );
-          setIncomplete(
-            events.filter((e: Event) => e.status === "Incomplete").length
-          );
+          setComplete(events.filter((e: Event) => e.status === "Complete").length);
+          setIncomplete(events.filter((e: Event) => e.status === "Incomplete").length);
         }
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -92,7 +89,12 @@ export default function EventDashboard() {
     };
 
     fetchEvents();
-  }, [user]);
+  }, [user, refreshTrigger]);
+
+  const refreshEvents = () => {
+    setLoading(true);
+    setRefreshTrigger((prev) => !prev);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-8">
@@ -180,9 +182,10 @@ export default function EventDashboard() {
             </ul>
           )}
         </div>
+
         {/* Create Event Section */}
-        <section >
-          <CreateEvent />
+        <section>
+          <CreateEvent onEventCreated={refreshEvents} />
         </section>
       </div>
     </div>

@@ -51,7 +51,7 @@ export default function LandingPage() {
                 .getElementById("final-cta")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="px-6 py-3 font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:brightness-110 transition text-lg"
+            className="px-6 py-3 font-bold bg-gradient-to-r cursor-pointer from-indigo-600 to-purple-600 text-white rounded-lg hover:brightness-110 transition text-lg"
           >
             Start Managing
           </button>

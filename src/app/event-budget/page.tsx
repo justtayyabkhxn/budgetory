@@ -49,7 +49,7 @@ export default function EventBudgetingLandingPage() {
                 .getElementById("bottom")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="px-6 py-3 font-bold bg-gradient-to-r from-orange-500 to-yellow-500 text-orange-900 rounded-lg hover:brightness-110 transition text-lg"
+            className="px-6 py-3 font-bold bg-gradient-to-r cursor-pointer from-orange-500 to-yellow-500 text-orange-900 rounded-lg hover:brightness-110 transition text-lg"
           >
             Start Planning
           </button>
