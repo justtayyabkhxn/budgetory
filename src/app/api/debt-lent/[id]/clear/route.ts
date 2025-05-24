@@ -3,15 +3,12 @@ import type { NextRequest } from 'next/server';
 import connectDB from '@/lib/dbConnect';
 import DebtLent from '@/models/DebtLent';
 
-// Define the expected context type
-interface RouteContext {
-  params: {
-    id: string;
-  };
-}
-
-export async function PATCH(req: NextRequest, context: RouteContext) {
-  const id = context.params.id;
+// ✅ Use the correct type from Next.js
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const id = params.id;
 
   if (!id) {
     return NextResponse.json({ error: 'ID is required' }, { status: 400 });
