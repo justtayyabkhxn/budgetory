@@ -3,16 +3,12 @@ import type { NextRequest } from 'next/server';
 import connectDB from '@/lib/dbConnect';
 import DebtLent from '@/models/DebtLent';
 
-// ✅ Use the correct type from Next.js
+// ✅ Correct parameter destructuring and typing
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  const id = params.id;
-
-  if (!id) {
-    return NextResponse.json({ error: 'ID is required' }, { status: 400 });
-  }
+  const { id } = context.params;
 
   try {
     await connectDB();
