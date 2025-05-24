@@ -2,7 +2,13 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/dbConnect';
 import DebtLent from '@/models/DebtLent';
 
-export async function PATCH(req: Request, context: any) {
+type Context = {
+  params: {
+    id: string;
+  };
+};
+
+export async function PATCH(req: Request, context: Context) {
   const { id } = context.params;
 
   try {
@@ -20,6 +26,6 @@ export async function PATCH(req: Request, context: any) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error'+error }, { status: 500 });
   }
 }
