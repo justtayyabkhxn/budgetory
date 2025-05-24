@@ -26,7 +26,7 @@ export async function PATCH(
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err) {
-    return new Response(JSON.stringify({ error: 'Server error' }), {
+    return new Response(JSON.stringify({ error: 'Server error'+err }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
