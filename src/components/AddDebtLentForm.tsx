@@ -19,7 +19,6 @@ export function AddDebtLentForm({ onAdd }: { onAdd: () => void }) {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [recentEntry, setRecentEntry] = useState<any | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -49,7 +48,6 @@ export function AddDebtLentForm({ onAdd }: { onAdd: () => void }) {
 
       if (res.ok) {
         setSuccess("Entry added!");
-        setRecentEntry(data.entry); // assuming your backend sends back the added entry
         setForm({
           person: "",
           amount: "",
@@ -62,7 +60,7 @@ export function AddDebtLentForm({ onAdd }: { onAdd: () => void }) {
         setError(data.error || "Something went wrong.");
       }
     } catch (err) {
-      setError("Network error. Please try again.");
+      setError("Network error. Please try again."+err);
     }
   };
 
@@ -148,24 +146,7 @@ export function AddDebtLentForm({ onAdd }: { onAdd: () => void }) {
       {error && <p className="text-red-400 mt-2">{error}</p>}
       {success && <p className="text-green-400 mt-2">{success}</p>}
 
-      {recentEntry && (
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold mb-2">Most Recent Entry</h3>
-          <div className="border-b border-gray-600 pb-1 flex items-start gap-2 text-sm text-gray-300">
-            <HandCoins className="w-5 h-5 text-gray-400 mt-1" />
-            <div>
-              <strong>{recentEntry.person}</strong> - ₹{recentEntry.amount} (
-              {recentEntry.type}) on{" "}
-              {new Date(recentEntry.date).toLocaleDateString()}
-              {recentEntry.comment && (
-                <p className="text-gray-400 italic mt-1">
-                  {recentEntry.comment}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 }
