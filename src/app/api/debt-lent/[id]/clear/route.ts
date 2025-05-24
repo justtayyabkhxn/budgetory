@@ -1,13 +1,8 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
 import connectDB from '@/lib/dbConnect';
 import DebtLent from '@/models/DebtLent';
 
-// ✅ Correct parameter destructuring and typing
-export async function PATCH(
-  req: NextRequest,
-  context: { params: { id: string } }
-) {
+export async function PATCH(req: Request, context: any) {
   const { id } = context.params;
 
   try {
@@ -24,7 +19,7 @@ export async function PATCH(
     }
 
     return NextResponse.json(updated);
-  } catch {
-    return NextResponse.json({ error: 'Failed to update entry' }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
