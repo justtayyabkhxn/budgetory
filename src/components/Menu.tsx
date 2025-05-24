@@ -9,6 +9,7 @@ import {
   SquareChevronRight,
   TextSearch,
   Wallet,
+  WalletMinimal,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -88,6 +89,14 @@ export default function MenuButton() {
           >
             <FileDigit />
             Dashboard
+          </Link>
+          <Link
+            href="/debt-lent"
+            className={`${linkClasses("/debt-lent")} flex items-center gap-2`}
+          >
+            <WalletMinimal />
+            
+            Debt Tracker
           </Link>
 
           <Link
