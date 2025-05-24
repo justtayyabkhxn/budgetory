@@ -2,20 +2,15 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/dbConnect';
 import DebtLent from '@/models/DebtLent';
 
-type Context = {
-  params: {
-    id: string;
-  };
-};
-
-export async function PATCH(req: Request, context: Context) {
-  const { id } = context.params;
-
+export async function PATCH(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
     await connectDB();
 
     const updated = await DebtLent.findByIdAndUpdate(
-      id,
+      params.id,
       { status: 'cleared' },
       { new: true }
     );
