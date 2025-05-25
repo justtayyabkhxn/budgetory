@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Utensils,
   Shirt,
@@ -43,6 +43,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const [txs, setTxs] = useState<Transaction[]>([]);
 
   const categories = [
@@ -59,16 +60,36 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // Prevent category change if type is income
+    if (form.type === "income" && name === "category") return;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
+  // Auto-set category to "Other" when type is income
+  useEffect(() => {
+    if (form.type === "income") {
+      setForm((prev) => ({ ...prev, category: "Other" }));
+    }
+  }, [form.type]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setLoading(true);
 
     const token = localStorage.getItem("token");
-    if (!token) return setError("You must be logged in");
+    if (!token) {
+      setError("You must be logged in");
+      setLoading(false);
+      return;
+    }
 
     const res = await fetch("/api/transactions", {
       method: "POST",
@@ -90,7 +111,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
         comment: "",
       });
       onAdd();
-      // refresh list
+
       const updated = await fetch("/api/transactions", {
         headers: { Authorization: `Bearer ${token}` },
       }).then((r) => r.json());
@@ -99,6 +120,8 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
       const data = await res.json();
       setError(data.error || "Something went wrong");
     }
+
+    setLoading(false);
   };
 
   return (
@@ -137,7 +160,10 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
             value={form.category}
             onChange={handleChange}
             required
-            className="p-2 rounded bg-black border border-gray-700 text-white flex-1"
+            disabled={form.type === "income"} // Disable if income
+            className={`p-2 rounded bg-black border border-gray-700 text-white flex-1 ${
+              form.type === "income" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
             {categories.map((cat) => (
               <option key={cat} value={cat}>
@@ -171,20 +197,23 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           placeholder="Comment"
           value={form.comment}
           onChange={handleChange}
-          className=" p-2 rounded bg-black border border-gray-700 text-white resize-none"
+          className="p-2 rounded bg-black border border-gray-700 text-white resize-none"
         />
 
         <button
           type="submit"
-          className="sm:col-span-2 mt-2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded cursor-pointer font-bold"
+          disabled={loading}
+          className={`sm:col-span-2 mt-2 ${
+            loading ? "bg-gray-600" : "bg-green-600 hover:bg-green-700"
+          } text-white py-2 px-4 rounded cursor-pointer font-bold`}
         >
-          Add Transaction
+          {loading ? "Adding Transaction..." : "Add Transaction"}
         </button>
       </form>
+
       {error && <p className="text-red-400 mt-2">{error}</p>}
       {success && <p className="text-green-400 mt-2">{success}</p>}
 
-      {/* Optional: Preview recent transactions */}
       {txs.length > 0 && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-2">
