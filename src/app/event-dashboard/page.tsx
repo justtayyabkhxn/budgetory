@@ -16,12 +16,12 @@ export default function EventDashboard() {
         <section className="flex items-center justify-center mt-5 text-amber-600">
           <div className="flex items-center gap-2">
             <h1 className="text-4xl font-extrabold tracking-tight text-center">
-              "Under Developement"
+              &quot;Under Developement&quot;
             </h1>
           </div>
         </section>
           <h2 className="text-2xl font-extrabold tracking-tight mt-5 text-center text-blue-500 ">
-            <a href="/" className="border-2 p-1 rounded-md">Go Home</a>
+            <Link href="/" className="border-2 p-1 rounded-md">Go Home</Link>
           </h2>
       </div>
     </div>
