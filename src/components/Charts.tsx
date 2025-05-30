@@ -82,7 +82,7 @@ const Charts: React.FC<Props> = ({
           <span className=" border-b-4">Cash vs UPI (This Month)</span>
         </h2>
         <p className="text-gray-400 mb-4">
-          This donut chart shows how your current month's transactions are split
+          This donut chart shows how your current month&apos;s transactions are split
           between Cash and UPI.
         </p>
         <div className="bg-[#111]/10 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
