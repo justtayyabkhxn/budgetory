@@ -36,6 +36,7 @@ interface Transaction {
   type: "income" | "expense";
   date: string;
   comment: string;
+  paymentMode:"Cash" | "UPI"
 }
 
 type User = {
@@ -405,10 +406,12 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <p className="font-medium">{tx.title}</p>
+                          
                           <p className="text-sm text-gray-400">
                             {new Date(tx.date).toLocaleDateString()} •{" "}
-                            {tx.category}
+                            {tx.category} •{" "} {tx.paymentMode}
                           </p>
+                          
                           <p className="text-sm text-gray-400">{tx.comment}</p>
                         </div>
                       </div>

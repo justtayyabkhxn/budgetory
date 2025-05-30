@@ -29,6 +29,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
     type: "income",
     date: "",
     comment: "",
+    paymentMode: "Cash", // 👈 new field
   });
 
   interface Transaction {
@@ -39,6 +40,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
     type: "income" | "expense";
     date: string;
     comment: string;
+    paymentMode: string; // 👈 added
   }
 
   const [error, setError] = useState("");
@@ -109,6 +111,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
         type: "income",
         date: "",
         comment: "",
+        paymentMode: "Cash",
       });
       onAdd();
 
@@ -149,6 +152,27 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           required
           className="p-2 rounded bg-black border border-gray-700 text-white"
         />
+        <select
+          name="type"
+          value={form.type}
+          onChange={handleChange}
+          className="p-2 rounded bg-black border border-gray-700 text-white"
+        >
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+
+        <select
+          name="paymentMode"
+          value={form.paymentMode}
+          onChange={handleChange}
+          required
+          className="p-2 rounded bg-black border border-gray-700 text-white"
+        >
+          <option value="Cash">Cash</option>
+          <option value="UPI">UPI</option>
+        </select>
+
         <div className="flex items-center gap-2">
           {(() => {
             const Icon = categoryIcons[form.category] || BanknoteArrowUp;
@@ -173,15 +197,6 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           </select>
         </div>
 
-        <select
-          name="type"
-          value={form.type}
-          onChange={handleChange}
-          className="p-2 rounded bg-black border border-gray-700 text-white"
-        >
-          <option value="income">Income</option>
-          <option value="expense">Expense</option>
-        </select>
         <input
           type="date"
           name="date"
@@ -229,7 +244,8 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
                 >
                   <Icon className="w-5 h-5 text-gray-400 mt-1" />
                   <div>
-                    <strong>{tx.title}</strong> - ₹{tx.amount} ({tx.type}) on{" "}
+                    <strong>{tx.title}</strong> - ₹{tx.amount} ({tx.type},{" "}
+                    {tx.paymentMode}) on{" "}
                     {new Date(tx.date).toLocaleDateString()}
                     {tx.comment && (
                       <p className="text-gray-400 italic mt-1">{tx.comment}</p>

@@ -1,14 +1,14 @@
 // app/api/transactions/route.ts
-import jwt from 'jsonwebtoken';
-import connectDB from '@/lib/dbConnect';
-import Transaction from '@/models/Transaction';
+import jwt from "jsonwebtoken";
+import connectDB from "@/lib/dbConnect";
+import Transaction from "@/models/Transaction";
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secret';
+const JWT_SECRET = process.env.JWT_SECRET || "secret";
 
 // Helper: extract userId from “Authorization: Bearer <token>”
 function getUserId(authHeader?: string): string | null {
-  if (!authHeader?.startsWith('Bearer ')) return null;
-  const token = authHeader.split(' ')[1];
+  if (!authHeader?.startsWith("Bearer ")) return null;
+  const token = authHeader.split(" ")[1];
   try {
     const payload = jwt.verify(token, JWT_SECRET) as { id: string };
     return payload.id;
@@ -18,16 +18,17 @@ function getUserId(authHeader?: string): string | null {
 }
 
 export async function POST(req: Request) {
-  const auth = req.headers.get('authorization') || '';
+  const auth = req.headers.get("authorization") || "";
   const userId = getUserId(auth);
   if (!userId) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 
-  const { title, amount, category, type, date,comment } = await req.json();
+  const { title, amount, category, type, date, comment, paymentMode } =
+    await req.json();
   await connectDB();
 
   try {
@@ -38,65 +39,58 @@ export async function POST(req: Request) {
       category,
       type,
       date: new Date(date),
-      comment
+      comment,
+      paymentMode, // include only if exists
     });
     return new Response(JSON.stringify({ transaction: tx }), {
       status: 201,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   } catch (err: unknown) {
     const errorMessage =
-      err instanceof Error ? err.message : 'Failed to add transaction';
-  
-    return new Response(
-      JSON.stringify({ error: errorMessage }),
-      {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+      err instanceof Error ? err.message : "Failed to add transaction";
+
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
-  
 }
 
 export async function GET(req: Request) {
-  const auth = req.headers.get('authorization') || '';
+  const auth = req.headers.get("authorization") || "";
   const userId = getUserId(auth);
   if (!userId) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 
   await connectDB();
 
   try {
-    const transactions = await Transaction.find({ userId })
-      .sort({ date: -1 })
-      
+    const transactions = await Transaction.find({ userId }).sort({ date: -1 });
     return new Response(JSON.stringify({ transactions }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   } catch {
     return new Response(
-      JSON.stringify({ error: 'Failed to fetch transactions' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      JSON.stringify({ error: "Failed to fetch transactions" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }
 
-
 // DELETE /api/transactions
-
 export async function DELETE(req: Request) {
-  const auth = req.headers.get('authorization') || '';
+  const auth = req.headers.get("authorization") || "";
   const userId = getUserId(auth);
   if (!userId) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 
@@ -105,18 +99,15 @@ export async function DELETE(req: Request) {
   try {
     await Transaction.deleteMany({ userId });
     return new Response(
-      JSON.stringify({ message: 'All transactions deleted successfully' }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
+      JSON.stringify({ message: "All transactions deleted successfully" }),
+      { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (err: unknown) {
     const errorMessage =
-      err instanceof Error ? err.message : 'Failed to delete transactions';
-    return new Response(
-      JSON.stringify({ error: errorMessage }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+      err instanceof Error ? err.message : "Failed to delete transactions";
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
-
-
-
