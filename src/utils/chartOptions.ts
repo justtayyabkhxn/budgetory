@@ -35,6 +35,42 @@ export const getDonutOptions = (
   ],
 });
 
+export const getPaymentModeOptions = (
+  cashAmount: number,
+  upiAmount: number
+): Highcharts.Options => ({
+  chart: {
+    type: "pie",
+    backgroundColor: "transparent",
+    style: {
+      color: "#9CA3AF",
+    },
+  },
+  title: {
+    text: "Payment Mode Distribution (This Month)",
+    style: { color: "#9CA3AF" },
+  },
+  plotOptions: {
+    pie: {
+      innerSize: "60%",
+      dataLabels: {
+        format: "<b>{point.name}</b>: ₹{point.y}",
+        style: { color: "#9CA3AF" },
+      },
+    },
+  },
+  series: [
+    {
+      type: "pie",
+      data: [
+        { name: "Cash", y: cashAmount, color: "#F59E0B" },
+        { name: "UPI", y: upiAmount, color: "#10B981" },
+      ],
+    },
+  ],
+});
+
+
 export const getBarChartOptions = (dailyBarData: {
   categories: string[];
   inflow: number[];

@@ -13,11 +13,14 @@ type Transaction = {
   date: string;
   category: string;
   type: "income" | "expense";
+  paymentMode:"Cash" | "UPI";
 };
 
 const ChartsPage = () => {
   const [inflow, setInflow] = useState(0);
   const [expense, setExpense] = useState(0);
+  const [cashAmount, setCashAmount] = useState(0);
+  const [upiAmount, setUpiAmount] = useState(0);
 
   const [dailyBarData, setDailyBarData] = useState<{
     categories: string[];
@@ -73,6 +76,18 @@ const ChartsPage = () => {
             txDate.getFullYear() === currentYear
           );
         });
+
+        // ✅ Cash and UPI calculation
+        const cashAmt = monthlyTxs
+          .filter((tx) => tx.paymentMode === "Cash")
+          .reduce((sum, tx) => sum + Number(tx.amount), 0);
+
+        const upiAmt = monthlyTxs
+          .filter((tx) => tx.paymentMode === "UPI")
+          .reduce((sum, tx) => sum + Number(tx.amount), 0);
+
+        setCashAmount(cashAmt);
+        setUpiAmount(upiAmt);
 
         const inflowAmt = monthlyTxs
           .filter((tx) => tx.type === "income")
@@ -195,17 +210,17 @@ const ChartsPage = () => {
           </h1>
         </section>
 
-          <div>
-            <div className="flex justify-between items-center mb-5">
-              <div className="flex items-center gap-2">
+        <div>
+          <div className="flex justify-between items-center mb-5">
+            <div className="flex items-center gap-2">
               <ChartCandlestick />
               <h1 className="text-4xl font-extrabold tracking-tight mb-0">
                 Charts
               </h1>
-              </div>
-              <Menu />
             </div>
+            <Menu />
           </div>
+        </div>
 
         {/* Charts */}
         <div className="grid grid-cols-1 gap-8">
@@ -217,6 +232,8 @@ const ChartsPage = () => {
               monthlyBarData={monthlyBarData}
               categoryWiseMonthlyData={categoryWiseMonthlyData} // 👈 Pass to Charts
               categoryWiseYearlyData={yearlyCategoryExpenseData} // 👈 Pass to Charts
+              cashAmount={cashAmount}
+              upiAmount={upiAmount}
             />
           </div>
         </div>

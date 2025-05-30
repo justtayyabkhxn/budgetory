@@ -48,7 +48,7 @@ export async function POST(req: Request) {
 
   try {
     for (const tx of transactions) {
-      const { title, amount, category, type, date, comment } = tx;
+      const { title, amount, category, type, date, comment, paymentMode } = tx;
 
       // Basic validation
       if (
@@ -70,7 +70,9 @@ export async function POST(req: Request) {
         type,
         date: new Date(date),
         comment: comment || '',
+        paymentMode: paymentMode || 'Cash', // default to 'cash' if not provided
       });
+
       importedCount++;
     }
 
@@ -79,9 +81,9 @@ export async function POST(req: Request) {
       { status: 201, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error) {
-    console.log(error)
+    console.error(error);
     return new Response(
-      JSON.stringify({ error: 'Failed to import transactions'}),
+      JSON.stringify({ error: 'Failed to import transactions' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }

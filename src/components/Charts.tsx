@@ -7,30 +7,19 @@ import {
   getMonthlyBarChartOptions,
   getCategoryWiseMonthlyOptions,
   getCategoryWiseMonthlyOptionsDonut,
-  getCategoryWiseYearlyOptions, // ✅ NEW IMPORT
+  getCategoryWiseYearlyOptions,
+  getPaymentModeOptions,
 } from "@/utils/chartOptions";
 
 interface Props {
   inflow: number;
   expense: number;
-  dailyBarData: {
-    categories: string[];
-    inflow: number[];
-    expense: number[];
-  };
-  monthlyBarData: {
-    categories: string[];
-    inflow: number[];
-    expense: number[];
-  };
-  categoryWiseMonthlyData: {
-    categories: string[];
-    data: number[];
-  };
-  categoryWiseYearlyData: {
-    categories: string[];
-    data: number[];
-  };
+  dailyBarData: { categories: string[]; inflow: number[]; expense: number[] };
+  monthlyBarData: { categories: string[]; inflow: number[]; expense: number[] };
+  categoryWiseMonthlyData: { categories: string[]; data: number[] };
+  categoryWiseYearlyData: { categories: string[]; data: number[] };
+  cashAmount: number; // 🆕
+  upiAmount: number; // 🆕
 }
 
 const Charts: React.FC<Props> = ({
@@ -40,6 +29,8 @@ const Charts: React.FC<Props> = ({
   monthlyBarData,
   categoryWiseMonthlyData,
   categoryWiseYearlyData,
+  cashAmount,
+  upiAmount
 }) => {
   const donutOptions = getDonutOptions(inflow, expense);
   const barChartOptions = getBarChartOptions(dailyBarData);
@@ -54,6 +45,7 @@ const Charts: React.FC<Props> = ({
   const categoryWiseYearlyOptions = getCategoryWiseYearlyOptions(
     categoryWiseYearlyData
   );
+  const paymentModeOptions = getPaymentModeOptions(cashAmount, upiAmount);
 
   return (
     <div className="grid grid-cols-1 gap-8 mt-2">
@@ -84,6 +76,23 @@ const Charts: React.FC<Props> = ({
           <HighchartsReact highcharts={Highcharts} options={barChartOptions} />
         </div>
       </div>
+
+      <div>
+        <h2 className="text-2xl text-indigo-400 font-extrabold tracking-tight mb-2">
+          <span className=" border-b-4">Cash vs UPI (This Month)</span>
+        </h2>
+        <p className="text-gray-400 mb-4">
+          This donut chart shows how your current month's transactions are split
+          between Cash and UPI.
+        </p>
+        <div className="bg-[#111]/10 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={paymentModeOptions}
+          />
+        </div>
+      </div>
+
 
       {/* Monthly Bar Chart Section */}
       <div>
@@ -137,9 +146,9 @@ const Charts: React.FC<Props> = ({
 
       {/* Category-Wise Yearly Expenses Section */}
       <div className="mt-10">
-          <span className="text-2xl mb-2 text-indigo-400 border-b-4 font-extrabold tracking-tight">
-            Category-Wise Yearly Expenses
-          </span>
+        <span className="text-2xl mb-2 text-indigo-400 border-b-4 font-extrabold tracking-tight">
+          Category-Wise Yearly Expenses
+        </span>
         <p className="text-gray-400 mb-4 mt-3">
           This bar chart highlights your total expenses in each category for the
           current year.
