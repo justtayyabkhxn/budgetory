@@ -5,6 +5,7 @@ import Link from "next/link";
 import MenuButton from "@/components/Menu";
 import { WalletMinimal } from "lucide-react";
 import { AddDebtLentForm } from "@/components/AddDebtLentForm";
+import { motion } from "framer-motion";
 
 interface Entry {
   _id: string;
@@ -136,11 +137,24 @@ export default function DebtLentPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-8">
       <div className="max-w-5xl mx-auto">
-        <section className="text-center max-w-2xl mx-auto space-y-6 mb-5">
-          <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
-            <Link href="/">💰MyBudgetory</Link>
-          </h1>
-        </section>
+      <section className="text-center max-w-2xl mx-auto space-y-6 mb-2">
+            <motion.div
+              className="flex flex-col items-center text-center space-y-2"
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
+              <Link href="/">
+                <motion.span
+                  whileHover={{ scale: 1.1, rotate: 1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-700"
+                >
+                  MyBudgetory
+                </motion.span>
+              </Link>
+            </motion.div>
+          </section>
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-2">
             <WalletMinimal />

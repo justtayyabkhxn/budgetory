@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react'; // Optional: for show/hide icons
+import Header from '@/components/Header';
 
 export default function SignupPage() {
   const [form, setForm] = useState({
@@ -47,15 +48,9 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-gray-900 via-black to-gray-800 text-white px-4">
-      <Link href="/" className="mb-10 text-center hover:opacity-80 transition">
-        <div className="inline-flex items-center space-x-1">
-          <span className="text-4xl">💰</span>
-          <span className="text-4xl text-indigo-400 font-extrabold tracking-tight">MyBudgetory</span>
-        </div>
-        <p className="mt-2 text-lg text-gray-300 font-bold">💳 Your Budget.📜 Your Story.</p>
-      </Link>
+      <Header/>
 
-      <div className="text-center w-full max-w-md bg-[#111111]/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-gray-700">
+      <div className="mt-5 text-center w-full max-w-md bg-[#111111]/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-gray-700">
         <h1 className="text-3xl font-bold inline-block">Let&apos;s Register You.</h1>
         <p className="mt-3 text-gray-300">Register to start your journey!</p>
 

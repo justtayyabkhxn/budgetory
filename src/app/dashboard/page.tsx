@@ -16,6 +16,7 @@ import {
   BanknoteArrowUp,
   FileDigit,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const categoryIcons = {
   Food: Utensils,
@@ -36,7 +37,7 @@ interface Transaction {
   type: "income" | "expense";
   date: string;
   comment: string;
-  paymentMode:"Cash" | "UPI"
+  paymentMode: "Cash" | "UPI";
 }
 
 type User = {
@@ -298,9 +299,22 @@ export default function Dashboard() {
         <div className="max-w-5xl mx-auto">
           {/* Header */}
           <section className="text-center max-w-2xl mx-auto space-y-6 mb-2">
-            <h1 className="text-4xl md:text-5xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight">
-              <Link href="/">💰MyBudgetory</Link>
-            </h1>
+            <motion.div
+              className="flex flex-col items-center text-center space-y-2"
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
+              <Link href="/">
+                <motion.span
+                  whileHover={{ scale: 1.1, rotate: 1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-700"
+                >
+                  MyBudgetory
+                </motion.span>
+              </Link>
+            </motion.div>
           </section>
 
           {/* Quote of the Day */}
@@ -401,17 +415,16 @@ export default function Dashboard() {
                     >
                       <div className="flex items-center gap-3 ">
                         <div className="bg-white/10 p-2 rounded-full">
-
-                        <Icon className="w-5 h-5 text-indigo-400" />
+                          <Icon className="w-5 h-5 text-indigo-400" />
                         </div>
                         <div>
                           <p className="font-medium">{tx.title}</p>
-                          
+
                           <p className="text-sm text-gray-400">
                             {new Date(tx.date).toLocaleDateString()} •{" "}
-                            {tx.category} •{" "} {tx.paymentMode}
+                            {tx.category} • {tx.paymentMode}
                           </p>
-                          
+
                           <p className="text-sm text-gray-400">{tx.comment}</p>
                         </div>
                       </div>
