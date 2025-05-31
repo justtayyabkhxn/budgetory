@@ -253,7 +253,6 @@ export default function Dashboard() {
       "Are you sure you want to delete this transaction?"
     );
     if (!confirm) return;
-
     try {
       const res = await fetch(`/api/transactions/${id}`, {
         method: "DELETE",
@@ -323,7 +322,7 @@ export default function Dashboard() {
           </section>
 
           {/* Dashboard and Transactions */}
-          <div className="mb-10 flex items-center justify-between">
+          <div className="mb-5 flex items-center justify-between">
             {/* Left side: Heading and welcome text */}
             <div className="mt-0">
               <div className="flex items-center gap-2">
@@ -356,12 +355,10 @@ export default function Dashboard() {
               {loading ? "Loading..." : `₹ ${today}.00`}
             </span>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <div className="grid grid-cols-3 gap-2 overflow-x-auto mb-10">
             <Link href="/inflow" className="cursor-pointer">
               <TxnCard
-                title={`Total Inflow (${new Date().toLocaleString("default", {
-                  month: "long",
-                })})`}
+                title={`Total Inflow `}
                 amount={
                   loading ? "Loading..." : `₹ ${inflow.toLocaleString()}.00`
                 }
@@ -369,11 +366,9 @@ export default function Dashboard() {
               />
             </Link>
 
-            <Link href="/expenses">
+            <Link href="/expenses" className="cursor-pointer">
               <TxnCard
-                title={`Total Expenses (${new Date().toLocaleString("default", {
-                  month: "long",
-                })})`}
+                title={`Total Expenses`}
                 amount={
                   loading ? "Loading..." : `₹ ${expense.toLocaleString()}.00`
                 }
@@ -381,13 +376,15 @@ export default function Dashboard() {
               />
             </Link>
 
-            <TxnCard
-              title={`Net (${new Date().toLocaleString("default", {
-                month: "long",
-              })})`}
-              amount={loading ? "Loading..." : `₹ ${net.toLocaleString()}.00`}
-              color="text-gray-300"
-            />
+            <div>
+              <TxnCard
+                title={`Net (${new Date().toLocaleString("default", {
+                  month: "long",
+                })})`}
+                amount={loading ? "Loading..." : `₹ ${net.toLocaleString()}.00`}
+                color="text-gray-300"
+              />
+            </div>
           </div>
 
           {/* Add Transaction Form (kept above recent list) */}
@@ -405,7 +402,7 @@ export default function Dashboard() {
               <p className="text-gray-400">No transactions yet.</p>
             ) : (
               <ul className="space-y-3">
-                {[...txs].slice(0, 10).map((tx) => {
+                {[...txs].slice(0, 5).map((tx) => {
                   const Icon = categoryIcons[tx.category] || BanknoteArrowUp;
 
                   return (
