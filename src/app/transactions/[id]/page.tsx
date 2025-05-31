@@ -62,7 +62,7 @@ export default function TransactionDetailsClient() {
         });
 
         setTransaction(res.data.transaction); // Make sure to access the correct field
-      } catch (err: any) {
+      } catch (err: unknown) {
         setError("Failed to fetch transaction.");
         console.error(err);
       } finally {
