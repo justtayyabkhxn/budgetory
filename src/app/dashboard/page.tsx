@@ -406,43 +406,50 @@ export default function Dashboard() {
                   const Icon = categoryIcons[tx.category] || BanknoteArrowUp;
 
                   return (
-                    <li
+                    <Link
+                      href={`/transactions/${tx._id}`}
                       key={tx._id}
-                      className="flex justify-between items-center p-3 bg-white/5 rounded-md"
+                      className="block"
                     >
-                      <div className="flex items-center gap-3 ">
-                        <div className="bg-white/10 p-2 rounded-full">
-                          <Icon className="w-5 h-5 text-indigo-400" />
+                      <li className="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10 transition-all duration-200 cursor-pointer">
+                        <div className="flex items-center gap-3">
+                          <div className="bg-white/10 p-2 rounded-full">
+                            <Icon className="w-5 h-5 text-indigo-400" />
+                          </div>
+                          <div>
+                            <p className="font-medium">{tx.title}</p>
+                            <p className="text-sm text-gray-400">
+                              {new Date(tx.date).toLocaleDateString()} •{" "}
+                              {tx.category} • {tx.paymentMode}
+                            </p>
+                            <p className="text-sm text-gray-400">
+                              {tx.comment}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium">{tx.title}</p>
-
-                          <p className="text-sm text-gray-400">
-                            {new Date(tx.date).toLocaleDateString()} •{" "}
-                            {tx.category} • {tx.paymentMode}
+                        <div className="text-right">
+                          <p
+                            className={`font-bold ${
+                              tx.type === "income"
+                                ? "text-green-400"
+                                : "text-red-400"
+                            }`}
+                          >
+                            {tx.type === "income" ? "+ " : "- "}₹ {tx.amount}
                           </p>
-
-                          <p className="text-sm text-gray-400">{tx.comment}</p>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation(); // prevent link navigation
+                              e.preventDefault(); // prevent default link behavior
+                              handleDelete(tx._id);
+                            }}
+                            className="text-sm text-red-500 hover:text-red-700 ml-4 cursor-pointer"
+                          >
+                            Delete
+                          </button>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <p
-                          className={`font-bold ${
-                            tx.type === "income"
-                              ? "text-green-400"
-                              : "text-red-400"
-                          }`}
-                        >
-                          {tx.type === "income" ? "+ " : "- "}₹ {tx.amount}
-                        </p>
-                        <button
-                          onClick={() => handleDelete(tx._id)}
-                          className="text-sm text-red-500 hover:text-red-700 ml-4 cursor-pointer"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </li>
+                      </li>
+                    </Link>
                   );
                 })}
               </ul>

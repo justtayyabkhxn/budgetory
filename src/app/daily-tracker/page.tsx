@@ -31,7 +31,7 @@ export default function LandingPage() {
       <section className="text-center max-w-3xl mx-auto space-y-6 mt-10">
         <h1 className="text-5xl font-extrabold tracking-tight">
           Track Budget Efficiently! With{" "}
-          <span className="text-green-500 bg-gradient-to-r from-green-400 to-green-500 bg-clip-text ">
+          <span className="text-green-300 bg-gradient-to-r from-green-300 to-green-300 bg-clip-text ">
             MyBudgetory
           </span>
         </h1>
@@ -61,7 +61,7 @@ export default function LandingPage() {
       {/* Features Section */}
       <section className="mt-20 max-w-5xl mx-auto text-center">
         
-        <h2 className="text-3xl font-bold text-transparent bg-gradient-to-r from-fuchsia-600 to-indigo-600 bg-clip-text mb-10">
+        <h2 className="text-3xl text-transparent font-extrabold tracking-tight bg-gradient-to-r from-fuchsia-600 to-indigo-600 bg-clip-text mb-10">
           Why You&apos;ll Love MyBudgetory
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
@@ -130,7 +130,7 @@ export default function LandingPage() {
 
       {/* How It Works Section */}
       <section className="mt-20 max-w-4xl mx-auto text-center space-y-10">
-        <h2 className="text-3xl font-extrabold text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text">
+        <h2 className="text-3xl font-extrabold tracking-tight text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text">
           How It Works?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
@@ -168,7 +168,7 @@ export default function LandingPage() {
 
       {/* Testimonials */}
       <section className="mt-20 max-w-4xl mx-auto text-center space-y-10">
-        <h2 className="text-3xl font-extrabold text-transparent bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text">
+        <h2 className="text-3xl font-extrabold tracking-tight text-transparent bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text">
           What Users Say?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -201,7 +201,7 @@ export default function LandingPage() {
 
       {/* Unique Selling Points */}
       <section className="mt-24 max-w-5xl mx-auto text-center space-y-8">
-        <h2 className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 tracking-tight">
+        <h2 className="text-3xl font-extrabold tracking-tight text-transparent bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text">
           Why Choose MyBudgetory?
         </h2>
         <p className="text-gray-600 dark:text-gray-300 text-lg">
@@ -239,8 +239,8 @@ export default function LandingPage() {
 
       {/* FAQ Section */}
       <section className="mt-20 max-w-3xl mx-auto">
-        <h2 className="text-3xl text-indigo-600 dark:text-indigo-400 font-extrabold tracking-tight text-center mb-5">
-          Frequently Asked Questions
+        <h2 className="text-3xl font-extrabold tracking-tight text-transparent bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text mb-5 text-center">
+          FAQs
         </h2>
         <div className="space-y-4">
           {[

@@ -41,3 +41,35 @@ export async function DELETE(req: NextRequest) {
     );
   }
 }
+
+
+export async function GET(req: NextRequest) {
+  const user = await getUserFromToken(req);
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  await dbConnect();
+
+  const id = req.nextUrl.pathname.split("/").pop();
+
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json({ error: "Invalid transaction ID" }, { status: 400 });
+  }
+
+  try {
+    const transaction = await Transaction.findOne({ _id: id, userId: user._id });
+
+    if (!transaction) {
+      return NextResponse.json({ error: "Transaction not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true, transaction }, { status: 200 });
+  } catch (err) {
+    console.error("GET /transactions/:id error:", err);
+    return NextResponse.json(
+      { error: "Server error", detail: `${err}` },
+      { status: 500 }
+    );
+  }
+}
