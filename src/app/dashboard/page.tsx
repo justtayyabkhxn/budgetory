@@ -203,11 +203,17 @@ export default function Dashboard() {
       .reduce((sum, tx) => sum + tx.amount, 0);
 
     const todaySum = txs
-      .filter((tx) => {
-        const txDate = new Date(tx.date);
-        return tx.type === "expense" && txDate.getDate() === now.getDate();
-      })
-      .reduce((sum, tx) => sum + tx.amount, 0);
+  .filter((tx) => {
+    const txDate = new Date(tx.date);
+    return (
+      tx.type === "expense" &&
+      txDate.getDate() === now.getDate() &&
+      txDate.getMonth() === now.getMonth() &&
+      txDate.getFullYear() === now.getFullYear()
+    );
+  })
+  .reduce((sum, tx) => sum + tx.amount, 0);
+
 
     setToday(todaySum);
     setInflow(inflowSum);
