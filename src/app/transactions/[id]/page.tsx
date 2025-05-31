@@ -52,8 +52,6 @@ export default function TransactionDetailsClient() {
   );
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  ("use client");
-
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
 
