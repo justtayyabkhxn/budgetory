@@ -11,6 +11,8 @@ import {
   CalendarCheck,
   ShieldCheck,
   Smile,
+  Github,
+  Play,
 } from "lucide-react";
 import { JSX } from "react";
 
@@ -33,7 +35,6 @@ type Testimonial = {
   text: string;
   author: string;
 };
-
 
 // Feature Cards
 const features = [
@@ -100,7 +101,6 @@ const FeatureCard = ({ icon, title, desc }: Feature) => (
   </article>
 );
 
-
 const ModeCard = ({ href, icon, title, bg, color, desc }: Mode) => (
   <Link
     href={href}
@@ -112,7 +112,6 @@ const ModeCard = ({ href, icon, title, bg, color, desc }: Mode) => (
   </Link>
 );
 
-
 const TestimonialCard = ({ text, author }: Testimonial) => (
   <blockquote className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow text-center">
     <Smile className="h-6 w-6 text-yellow-500 mb-2 mx-auto" />
@@ -120,7 +119,6 @@ const TestimonialCard = ({ text, author }: Testimonial) => (
     <footer className="mt-2 font-bold">– {author}</footer>
   </blockquote>
 );
-
 
 export default function LandingPage() {
   return (
@@ -147,16 +145,19 @@ export default function LandingPage() {
                 .getElementById("bottom")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="bg-white dark:bg-gray-800 px-5 py-4 rounded-xl shadow hover:shadow-lg transition text-center font-semibold text-green-700 dark:text-green-300 cursor-pointer"
+            className="bg-white dark:bg-gray-800 px-4 py-3 rounded-xl shadow hover:shadow-lg transition text-center font-semibold text-green-700 dark:text-green-300 cursor-pointer flex items-center gap-2"
           >
+            <Play size={18} />
             Get Started
           </button>
+
           <a
             href="https://github.com/justtayyabkhxn/mybudgetory"
             target="_blank"
+            rel="noopener noreferrer"
           >
-            <button className="bg-white dark:bg-green-300 px-3 py-4 rounded-xl shadow hover:shadow-lg transition text-center font-semibold text-green-700 dark:text-green-900 cursor-pointer">
-              Read Docs
+            <button className="bg-white dark:bg-green-300 px-4 py-3 rounded-xl shadow hover:shadow-lg transition text-center font-semibold text-green-700 dark:text-green-900 cursor-pointer flex items-center gap-2">
+              <Github size={18} /> Read Docs
             </button>
           </a>
         </div>
@@ -171,7 +172,7 @@ export default function LandingPage() {
 
       {/* Why MyBudgetory */}
       <section className="mt-5 max-w-4xl mx-auto text-center">
-      <hr className="mb-5 text-green-300"></hr>
+        <hr className="mb-5 text-green-300"></hr>
         <h2 className="text-3xl mb-4 text-green-300 font-extrabold tracking-tight">
           Why Choose Me?
         </h2>
@@ -203,7 +204,7 @@ export default function LandingPage() {
 
       {/* Testimonials */}
       <section className="mt-10 max-w-5xl mx-auto text-center">
-      <hr className="mt-15 mb-10 text-green-300"></hr>
+        <hr className="mt-15 mb-10 text-green-300"></hr>
         <h2 className="text-3xl mb-6  text-green-300 font-extrabold tracking-tight">
           Loved by Users Like You
         </h2>
@@ -219,7 +220,7 @@ export default function LandingPage() {
         className="mt-10 text-center max-w-4xl mx-auto text-green-300 font-extrabold tracking-tight"
         id="bottom"
       >
-      <hr className="mb-5 mt-15 text-green-300"></hr>
+        <hr className="mb-5 mt-15 text-green-300"></hr>
         <h2 className="text-2xl font-bold mb-2">
           Start managing your money smarter — today!
         </h2>

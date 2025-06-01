@@ -1,6 +1,7 @@
-'use client';
+"use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { CreditCard, ScrollText } from "lucide-react";
 
 export default function Header() {
   return (
@@ -21,12 +22,15 @@ export default function Header() {
       </Link>
 
       <motion.p
-        className="text-lg text-gray-500 dark:text-gray-300 font-bold mt-2"
+        className="text-lg text-gray-500 dark:text-gray-300 font-bold mt-2 flex items-center gap-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        💳 Your Budget. 📜 Your Story.
+        <CreditCard />
+        Your Budget.
+        <ScrollText />
+        Your Story.
       </motion.p>
     </motion.div>
   );
