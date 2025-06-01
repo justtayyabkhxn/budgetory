@@ -15,6 +15,8 @@ import {
   Plane,
   BanknoteArrowUp,
   FileDigit,
+  RefreshCcwDot,
+  CalendarClock,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
@@ -78,7 +80,6 @@ export default function Dashboard() {
   }, [menuOpen]);
 
   const router = useRouter();
-
 
   useEffect(() => {
     const now = new Date();
@@ -249,11 +250,13 @@ export default function Dashboard() {
             )}
             {/* Menu */}
           </div>
-          <div className="text-2xl font-extrabold tracking-tight mb-4">
+
+          <div className="flex items-center gap-2 text-2xl font-extrabold tracking-tight mb-4">
+            <CalendarClock />
             Today :{" "}
             <span className={`text-gray-300 ${loading ? "animate-pulse" : ""}`}>
               {loading ? "Loading..." : `₹ ${today}.00`}
-            </span>
+            </span>{" "}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 overflow-x-auto mb-10">
             <Link href="/inflow" className="cursor-pointer">
@@ -292,8 +295,11 @@ export default function Dashboard() {
           <AddTransactionForm onAdd={fetchTransactions} />
 
           {/* Recent Transactions */}
-          <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg">
-            <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
+          <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg ">
+            <div className="flex items-center gap-2 mb-4">
+              <RefreshCcwDot />
+              <h2 className="text-xl font-semibold ">Recent Transactions</h2>
+            </div>
 
             {loading ? (
               <p className="text-gray-400 animate-pulse">

@@ -9,7 +9,10 @@ import {
   Clapperboard,
   Plane,
   BanknoteArrowUp,
-  SkipBack,
+  Pencil,
+  CircleArrowLeft,
+  CookingPot,
+  ArrowRightLeft,
 } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -45,13 +48,17 @@ export default function TransactionDetailsClient() {
   const router = useRouter();
 
   const [transaction, setTransaction] = useState<Transaction | null>(null);
-  const [status, setStatus] = useState<"loading" | "error" | "success">("loading");
+  const [status, setStatus] = useState<"loading" | "error" | "success">(
+    "loading"
+  );
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
     if (!token) return;
-    const confirm = window.confirm("Are you sure you want to delete this transaction?");
+    const confirm = window.confirm(
+      "Are you sure you want to delete this transaction?"
+    );
     if (!confirm) return;
 
     try {
@@ -103,7 +110,9 @@ export default function TransactionDetailsClient() {
 
   const isLoading = status === "loading";
   const isError = status === "error";
-const Icon = categoryIcons[transaction?.category as keyof typeof categoryIcons] || BanknoteArrowUp;
+  const Icon =
+    categoryIcons[transaction?.category as keyof typeof categoryIcons] ||
+    BanknoteArrowUp;
 
   const renderHeader = () => (
     <section className="text-center max-w-2xl mx-auto space-y-6 mb-4 mt-5">
@@ -135,7 +144,9 @@ const Icon = categoryIcons[transaction?.category as keyof typeof categoryIcons] 
             isLoading ? "text-gray-400" : "text-red-500"
           }`}
         >
-          {isLoading ? "Loading Transaction..." : errorMessage || "Transaction not found."}
+          {isLoading
+            ? "Loading Transaction..."
+            : errorMessage || "Transaction not found."}
         </p>
       </div>
     );
@@ -148,30 +159,33 @@ const Icon = categoryIcons[transaction?.category as keyof typeof categoryIcons] 
       <div className="flex justify-center gap-40 items-center mt-4 px-4 md:px-10">
         <Link
           href="/dashboard"
-          className="flex items-center gap-2 text-xl text-white font-semibold hover:underline"
+          className="flex items-center gap-2 text-xl text-white font-bold hover:underline"
         >
-          <SkipBack />
+          <CircleArrowLeft />
           <span>Go Back</span>
         </Link>
         <Menu />
       </div>
 
-      <div
-        className="max-w-sm mx-auto mt-8 p-6 rounded-3xl bg-white/5 backdrop-blur-md border border-gray-700 shadow-xl space-y-6 transition-all"
-      >
-        <h1 className="text-3xl font-extrabold text-center text-white tracking-tight">
-          Transaction Details
-        </h1>
+      <div className="max-w-sm mx-auto mt-8 p-6 rounded-3xl bg-white/5 backdrop-blur-md border border-gray-700 shadow-xl space-y-6 transition-all">
+        <div className="flex items-center gap-2  text-white">
+          <ArrowRightLeft />
+          <h1 className="text-3xl font-extrabold text-center text-white tracking-tight">
+            Transaction Details
+          </h1>
+        </div>
 
         <div className="flex items-center gap-4">
           <div className="p-3 rounded-full bg-indigo-500/10">
             <Icon className="w-7 h-7 text-indigo-400" />
           </div>
           <div>
-            <p className="text-xl font-medium text-white">{transaction.title}</p>
+            <p className="text-xl font-medium text-white">
+              {transaction.title}
+            </p>
             <p className="text-sm text-gray-400">
-              {new Date(transaction.date).toLocaleDateString()} • {transaction.category} •{" "}
-              {transaction.paymentMode}
+              {new Date(transaction.date).toLocaleDateString()} •{" "}
+              {transaction.category} • {transaction.paymentMode}
             </p>
           </div>
         </div>
@@ -181,7 +195,9 @@ const Icon = categoryIcons[transaction?.category as keyof typeof categoryIcons] 
             <span className="text-white font-semibold">Amount:</span>{" "}
             <span
               className={`font-bold ${
-                transaction.type === "income" ? "text-green-400" : "text-red-400"
+                transaction.type === "income"
+                  ? "text-green-400"
+                  : "text-red-400"
               }`}
             >
               {transaction.type === "income" ? "+ ₹" : "- ₹"}
@@ -212,18 +228,24 @@ const Icon = categoryIcons[transaction?.category as keyof typeof categoryIcons] 
               e.preventDefault();
               handleDelete(transaction._id);
             }}
-            className="border-2 border-red-500 text-red-400 font-bold cursor-pointer px-4 py-2 rounded-xl hover:text-red-500 hover:border-red-600 transition"
+            className="border-2 border-red-500 text-red-500 font-bold cursor-pointer px-4 py-2 rounded-xl hover:text-red-500 hover:border-red-600 transition"
           >
-            Delete
+            <div className="flex items-center gap-2">
+              <span>Delete</span>
+              <CookingPot size={16} />
+            </div>
           </button>
           <button
             onClick={(e) => {
               e.preventDefault();
-              // TODO: Implement Edit
+              alert("Transactions Not editable yet");
             }}
             className="border-2 border-green-500 cursor-pointer text-green-400 font-bold px-4 py-2 rounded-xl hover:text-green-600 hover:border-green-600 transition"
           >
-            Edit
+            <div className="flex items-center gap-2">
+              <span>Edit</span>
+              <Pencil size={15} />
+            </div>
           </button>
         </div>
       </div>

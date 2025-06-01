@@ -8,6 +8,7 @@ import {
   Clapperboard,
   Plane,
   BanknoteArrowUp,
+  Plus,
 } from "lucide-react";
 
 const categoryIcons = {
@@ -129,7 +130,10 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
 
   return (
     <div className="mb-10 bg-[#111]/80 border border-gray-700 rounded-xl p-6 shadow-lg">
-      <h2 className="text-xl font-bold mb-4">Add New Transaction</h2>
+      <div className="flex items-center gap-2 mb-4">
+             <Plus />
+      <h2 className="text-xl font-bold ">Add New Transaction</h2>
+            </div>
       <form
         onSubmit={handleSubmit}
         className="grid grid-cols-1 sm:grid-cols-2 gap-4"
@@ -222,7 +226,10 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
             loading ? "bg-gray-600" : "bg-green-600 hover:bg-green-700"
           } text-white py-2 px-4 rounded cursor-pointer font-bold`}
         >
-          {loading ? "Adding Transaction..." : "Add Transaction"}
+          <div className="flex items-center justify-center gap-2">
+            <Plus size={18} />
+            <span>{loading ? "Adding Transaction..." : "Add Transaction"}</span>
+          </div>
         </button>
       </form>
 
