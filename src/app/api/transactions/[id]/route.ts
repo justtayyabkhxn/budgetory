@@ -73,3 +73,51 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+// PATCH /api/transactions/:id
+export async function PATCH(req: NextRequest) {
+  const user = await getUserFromToken(req);
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  await dbConnect();
+
+  const id = req.nextUrl.pathname.split("/").pop();
+
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return NextResponse.json(
+      { error: "Invalid transaction ID" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const body = await req.json();
+    const { title, amount, category, type, date } = body;
+
+    const updated = await Transaction.findOneAndUpdate(
+      { _id: id, userId: user._id },
+      { title, amount, category, type, date },
+      { new: true }
+    );
+
+    if (!updated) {
+      return NextResponse.json(
+        { error: "Transaction not found or not authorized" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Transaction updated", transaction: updated },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.error("PATCH /transactions/:id error:", err);
+    return NextResponse.json(
+      { error: "Server error", detail: `${err}` },
+      { status: 500 }
+    );
+  }
+}

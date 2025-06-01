@@ -15,7 +15,7 @@ import {
   ArrowRightLeft,
 } from "lucide-react";
 import { useRouter, useParams } from "next/navigation";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -47,11 +47,44 @@ export default function TransactionDetailsClient() {
   const { id } = useParams();
   const router = useRouter();
 
+  const [editingTxn, setEditingTxn] = useState<Transaction | null>(null);
   const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [status, setStatus] = useState<"loading" | "error" | "success">(
     "loading"
   );
   const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const handleEdit = (txn: Transaction) => {
+    setEditingTxn({ ...txn });
+  };
+
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!editingTxn) return;
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const response = await axios.patch(
+        `/api/transactions/${editingTxn._id}`,
+        editingTxn,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        setTransaction(response.data.transaction); // update the UI with new data
+        setEditingTxn(null);
+      } else {
+        alert("Failed to update transaction");
+      }
+    } catch (err) {
+      console.error("Update error:", err);
+      alert("Error updating transaction");
+    }
+  };
 
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
@@ -140,8 +173,8 @@ export default function TransactionDetailsClient() {
       <div className="max-w-5xl mx-auto px-4">
         {renderHeader()}
         <p
-          className={`text-center text-3xl font-extrabold mt-10 ${
-            isLoading ? "text-gray-400" : "text-red-500"
+          className={`text-center text-xl font-extrabold mt-10 ${
+            isLoading ? "text-gray-700" : "text-red-500"
           }`}
         >
           {isLoading
@@ -167,7 +200,7 @@ export default function TransactionDetailsClient() {
         <Menu />
       </div>
 
-      <div className="max-w-sm mx-auto mt-8 p-6 rounded-3xl bg-white/5 backdrop-blur-md border border-gray-700 shadow-xl space-y-6 transition-all">
+      <div className="max-w-sm mx-auto mt-8 p-6 rounded-3xl bg-white/5 backdrop-blur-md border border-gray-900 shadow-xl space-y-6 transition-all">
         <div className="flex items-center gap-2  text-white">
           <ArrowRightLeft />
           <h1 className="text-3xl font-extrabold text-center text-white tracking-tight">
@@ -236,10 +269,7 @@ export default function TransactionDetailsClient() {
             </div>
           </button>
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              alert("Transactions Not editable yet");
-            }}
+            onClick={() => handleEdit(transaction)}
             className="border-2 border-green-500 cursor-pointer text-green-400 font-bold px-4 py-2 rounded-xl hover:text-green-600 hover:border-green-600 transition"
           >
             <div className="flex items-center gap-2">
@@ -248,6 +278,64 @@ export default function TransactionDetailsClient() {
             </div>
           </button>
         </div>
+
+        <AnimatePresence>
+          {editingTxn && (
+            <motion.form
+              key="edit-form"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              onSubmit={handleUpdate}
+              className="bg-[#111]/90 border border-gray-900 p-4 rounded-xl space-y-4"
+            >
+              <h3 className="text-lg font-bold text-yellow-500">
+                Edit Transaction
+              </h3>
+
+              <input
+                type="text"
+                value={editingTxn.title}
+                onChange={(e) =>
+                  setEditingTxn({ ...editingTxn, title: e.target.value })
+                }
+                placeholder="Title"
+                className="w-full p-2 bg-gray-900 border border-gray-800 rounded text-white"
+              />
+
+              <input
+                type="number"
+                value={editingTxn.amount}
+                onChange={(e) =>
+                  setEditingTxn({
+                    ...editingTxn,
+                    amount: parseFloat(e.target.value),
+                  })
+                }
+                placeholder="Amount"
+                className="w-full p-2 bg-gray-900 border border-gray-800 rounded text-white"
+              />
+
+              <div className="flex gap-3">
+                <button
+                  type="submit"
+                  className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-4 py-2 rounded text-sm"
+                >
+                  Update
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setEditingTxn(null)}
+                  className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm font-bold"
+                >
+                  Cancel
+                </button>
+              </div>
+            </motion.form>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
