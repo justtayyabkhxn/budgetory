@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import {
   BadgeIndianRupee,
   BanknoteArrowDown,
@@ -6,10 +7,12 @@ import {
   CircleUserRound,
   FileDigit,
   LogIn,
+  Menu,
   SquareChevronRight,
   TextSearch,
   Wallet,
   WalletMinimal,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -51,9 +54,22 @@ export default function MenuButton() {
 
       <button
         onClick={toggleMenu}
-        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors cursor-pointer"
+        className="group relative inline-flex items-center justify-center gap-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-2 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none"
       >
-        {menuOpen ? "Close Menu" : "Menu"}
+        <motion.span
+          initial={{ rotate: 0 }}
+          animate={{ rotate: menuOpen ? 90 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {menuOpen ? <X size={18} /> : <Menu size={18} />}
+        </motion.span>
+
+        <span className="tracking-wide">
+          {menuOpen ? "Menu" : "Menu"}
+        </span>
+
+        {/* Glowing ring effect on hover */}
+        <span className="absolute inset-0 rounded-xl ring-1 ring-white/10 group-hover:ring-white/20 transition duration-300" />
       </button>
 
       {/* Overlay (optional, for dimming background) */}
@@ -95,7 +111,6 @@ export default function MenuButton() {
             className={`${linkClasses("/debt-lent")} flex items-center gap-2`}
           >
             <WalletMinimal />
-            
             Debt Tracker
           </Link>
 
@@ -121,7 +136,7 @@ export default function MenuButton() {
           >
             <Wallet /> Income
           </Link>
-          
+
           <Link
             href="/charts"
             className={`${linkClasses("/charts")} flex items-center gap-2 `}
@@ -147,9 +162,7 @@ export default function MenuButton() {
           </Link>
           <Link
             href="/profile"
-            className={`${linkClasses(
-              "/profile"
-            )} flex items-center gap-2 `}
+            className={`${linkClasses("/profile")} flex items-center gap-2 `}
           >
             <CircleUserRound />
             Profile
