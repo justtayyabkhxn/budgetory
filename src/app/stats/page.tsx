@@ -334,7 +334,7 @@ export default function StatsPage() {
 
 function StatCard({ title, value }: { title: string; value: React.ReactNode }) {
   return (
-    <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 p-5 rounded-xl shadow-md">
+    <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 p-5 rounded-xl shadow-md">
       <h3 className="text-lg font-semibold mb-2">{title}</h3>
       <div className="text-xl font-bold text-blue-300">{value}</div>
     </div>

@@ -6,6 +6,7 @@ import Charts from "@/components/Charts";
 import Menu from "@/components/Menu";
 import { ChartCandlestick } from "lucide-react";
 import { motion } from "framer-motion";
+import Footer from "@/components/Footer";
 
 type Transaction = {
   _id: string;
@@ -238,7 +239,7 @@ const ChartsPage = () => {
 
         {/* Charts */}
         <div className="grid grid-cols-1 gap-8">
-          <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-6 space-y-4">
+          <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 rounded-xl shadow-lg p-6 space-y-4">
             <Charts
               inflow={inflow}
               expense={expense}
@@ -252,6 +253,7 @@ const ChartsPage = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </main>
   );
 };

@@ -257,7 +257,7 @@ export default function Profile() {
             <input
               value={user?.name || "User"}
               disabled
-              className="w-full px-4 py-2 mt-1 rounded-xl border bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white"
+              className="w-full px-4 py-2 mt-1 rounded-xl  dark:bg-gray-800 text-gray-800 dark:text-white"
             />
           </div>
 
@@ -268,7 +268,7 @@ export default function Profile() {
             <input
               value={user?.email || "user@gmail.com"}
               disabled
-              className="w-full px-4 py-2 mt-1 rounded-xl border bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white"
+              className="w-full px-4 py-2 mt-1 rounded-xl  dark:bg-gray-800 text-gray-800 dark:text-white"
             />
           </div>
         </div>
@@ -364,7 +364,7 @@ export default function Profile() {
           <input
             type="password"
             placeholder="Current Password"
-            className="w-full px-4 py-2 rounded-xl border bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+            className="w-full px-4 py-2 rounded-xl  dark:bg-gray-800 text-gray-800 dark:text-white"
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
             required
@@ -373,7 +373,7 @@ export default function Profile() {
           <input
             type="password"
             placeholder="New Password"
-            className="w-full px-4 py-2 rounded-xl border bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+            className="w-full px-4 py-2 rounded-xl  dark:bg-gray-800 text-gray-800 dark:text-white"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
@@ -382,7 +382,7 @@ export default function Profile() {
           <input
             type="password"
             placeholder="Confirm New Password"
-            className="w-full px-4 py-2 rounded-xl border bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+            className="w-full px-4 py-2 rounded-xl  dark:bg-gray-800 text-gray-800 dark:text-white"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -400,7 +400,7 @@ export default function Profile() {
 
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer font-semibold"
           >
             Update Password
           </button>

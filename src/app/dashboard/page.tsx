@@ -295,7 +295,7 @@ export default function Dashboard() {
           <AddTransactionForm onAdd={fetchTransactions} />
 
           {/* Recent Transactions */}
-          <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg ">
+          <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 rounded-xl p-6 shadow-lg ">
             <div className="flex items-center gap-2 mb-4">
               <RefreshCcwDot />
               <h2 className="text-xl font-semibold ">Recent Transactions</h2>
@@ -308,7 +308,7 @@ export default function Dashboard() {
             ) : txs.length === 0 ? (
               <p className="text-gray-400">No transactions yet.</p>
             ) : (
-              <ul className="space-y-3">
+              <ul className="space-y-3 border-gray-900">
                 {[...txs].slice(0, 5).map((tx) => {
                   const Icon = categoryIcons[tx.category] || BanknoteArrowUp;
 
@@ -318,7 +318,7 @@ export default function Dashboard() {
                       key={tx._id}
                       className="block"
                     >
-                      <li className="flex justify-between items-center p-4 bg-white/2 hover:bg-white/10 backdrop-blur-md border border-white/10 rounded-xl transition-all duration-300 cursor-pointer shadow-md">
+                      <li className="flex justify-between items-center p-4 bg-white/2 hover:bg-white/10 backdrop-blur-md border  rounded-xl transition-all duration-300 cursor-pointer shadow-md border-gray-900">
                         <div className="flex items-center gap-3">
                           <div className="bg-white/10 p-2 rounded-full">
                             <Icon className="w-5 h-5 text-indigo-400" />

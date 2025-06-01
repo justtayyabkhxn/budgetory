@@ -58,7 +58,7 @@ const Charts: React.FC<Props> = ({
           This donut chart gives a quick visual overview of how your monthly
           budget is distributed between income and expenses.
         </p>
-        <div className="bg-[#111]/10 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+        <div className="bg-[#111]/10 backdrop-blur-sm border border-gray-900 rounded-xl shadow-lg p-3">
           <HighchartsReact highcharts={Highcharts} options={donutOptions} />
         </div>
       </div>
@@ -72,7 +72,7 @@ const Charts: React.FC<Props> = ({
           This bar chart shows your daily income and spending throughout the
           current month to help you track financial trends.
         </p>
-        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 rounded-xl shadow-lg p-3">
           <HighchartsReact highcharts={Highcharts} options={barChartOptions} />
         </div>
       </div>
@@ -85,7 +85,7 @@ const Charts: React.FC<Props> = ({
           This donut chart shows how your current month&apos;s transactions are split
           between Cash and UPI.
         </p>
-        <div className="bg-[#111]/10 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+        <div className="bg-[#111]/10 backdrop-blur-sm border border-gray-900 rounded-xl shadow-lg p-3">
           <HighchartsReact
             highcharts={Highcharts}
             options={paymentModeOptions}
@@ -103,7 +103,7 @@ const Charts: React.FC<Props> = ({
           This chart visualizes your inflow and expenses for each month, helping
           you compare financial performance over time.
         </p>
-        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 rounded-xl shadow-lg p-3">
           <HighchartsReact
             highcharts={Highcharts}
             options={monthlyBarChartOptions}
@@ -120,7 +120,7 @@ const Charts: React.FC<Props> = ({
           This chart shows how your monthly expenses are divided across
           different categories.
         </p>
-        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 rounded-xl shadow-lg p-3">
           <HighchartsReact
             highcharts={Highcharts}
             options={categoryWiseOptions}
@@ -136,7 +136,7 @@ const Charts: React.FC<Props> = ({
           This donut chart provides a proportional view of your expenses per
           category.
         </p>
-        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 rounded-xl shadow-lg p-3">
           <HighchartsReact
             highcharts={Highcharts}
             options={categoryWiseDonutOptions}
@@ -153,13 +153,14 @@ const Charts: React.FC<Props> = ({
           This bar chart highlights your total expenses in each category for the
           current year.
         </p>
-        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg p-3">
+        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 rounded-xl shadow-lg p-3">
           <HighchartsReact
             highcharts={Highcharts}
             options={categoryWiseYearlyOptions}
           />
         </div>
       </div>
+      
     </div>
   );
 };

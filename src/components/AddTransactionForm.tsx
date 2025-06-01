@@ -9,6 +9,7 @@ import {
   Plane,
   BanknoteArrowUp,
   Plus,
+  Calendar,
 } from "lucide-react";
 
 const categoryIcons = {
@@ -129,11 +130,11 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
   };
 
   return (
-    <div className="mb-10 bg-[#111]/80 border border-gray-700 rounded-xl p-6 shadow-lg">
+    <div className="mb-10 bg-[#111]/80 border border-gray-900 rounded-xl p-6 shadow-lg">
       <div className="flex items-center gap-2 mb-4">
-             <Plus />
-      <h2 className="text-xl font-bold ">Add New Transaction</h2>
-            </div>
+        <Plus />
+        <h2 className="text-xl font-bold ">Add New Transaction</h2>
+      </div>
       <form
         onSubmit={handleSubmit}
         className="grid grid-cols-1 sm:grid-cols-2 gap-4"
@@ -145,7 +146,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           value={form.title}
           onChange={handleChange}
           required
-          className="p-2 rounded bg-black border border-gray-700 text-white"
+          className="p-2 rounded bg-black border border-gray-900 text-white"
         />
         <input
           type="number"
@@ -154,13 +155,13 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           value={form.amount}
           onChange={handleChange}
           required
-          className="p-2 rounded bg-black border border-gray-700 text-white"
+          className="p-2 rounded bg-black border border-gray-900 text-white"
         />
         <select
           name="type"
           value={form.type}
           onChange={handleChange}
-          className="p-2 rounded bg-black border border-gray-700 text-white"
+          className="p-2 rounded bg-black border border-gray-900 text-white"
         >
           <option value="income">Income</option>
           <option value="expense">Expense</option>
@@ -171,7 +172,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           value={form.paymentMode}
           onChange={handleChange}
           required
-          className="p-2 rounded bg-black border border-gray-700 text-white"
+          className="p-2 rounded bg-black border border-gray-900 text-white"
         >
           <option value="Cash">Cash</option>
           <option value="UPI">UPI</option>
@@ -189,7 +190,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
             onChange={handleChange}
             required
             disabled={form.type === "income"} // Disable if income
-            className={`p-2 rounded bg-black border border-gray-700 text-white flex-1 ${
+            className={`p-2 rounded bg-black border border-gray-900 text-white flex-1 ${
               form.type === "income" ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -201,22 +202,25 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           </select>
         </div>
 
-        <input
-          type="date"
-          name="date"
-          placeholder="Date"
-          value={form.date}
-          onChange={handleChange}
-          required
-          className="p-2 rounded bg-black border border-gray-700 text-white w-87 sm:w-full md:w-80 lg:w-94 xl:w-120"
-        />
+        <div className="relative w-full md:w-80 lg:w-94 xl:w-120">
+          <input
+            type="date"
+            name="date"
+            placeholder="Date"
+            value={form.date}
+            onChange={handleChange}
+            required
+            className="p-2 pl-10 rounded bg-black border border-gray-900 text-white w-full"
+          />
+          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white w-5 h-5 pointer-events-none" />
+        </div>
 
         <input
           name="comment"
           placeholder="Comment"
           value={form.comment}
           onChange={handleChange}
-          className="p-2 rounded bg-black border border-gray-700 text-white resize-none"
+          className="p-2 rounded bg-black border border-gray-900 text-white resize-none"
         />
 
         <button

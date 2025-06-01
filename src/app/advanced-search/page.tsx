@@ -171,23 +171,23 @@ const AdvancedSearchPage = () => {
     <div className="min-h-screen bg-gradient-to-br text-white p-4 sm:p-8 max-w-5xl mx-auto">
       {/* Header */}
       <section className="text-center max-w-2xl mx-auto space-y-6 mb-2">
-            <motion.div
-              className="flex flex-col items-center text-center space-y-2"
-              initial={{ opacity: 0, y: -30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
+        <motion.div
+          className="flex flex-col items-center text-center space-y-2"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        >
+          <Link href="/">
+            <motion.span
+              whileHover={{ scale: 1.1, rotate: 1 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-700"
             >
-              <Link href="/">
-                <motion.span
-                  whileHover={{ scale: 1.1, rotate: 1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-700"
-                >
-                  MyBudgetory
-                </motion.span>
-              </Link>
-            </motion.div>
-          </section>
+              MyBudgetory
+            </motion.span>
+          </Link>
+        </motion.div>
+      </section>
       <div>
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-2">
@@ -323,40 +323,46 @@ const AdvancedSearchPage = () => {
         </div>
 
         {/* Filtered Results */}
-        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-4 shadow-lg">
+
+        <div className="bg-black/20 backdrop-blur-sm border border-gray-900 rounded-xl p-5 shadow-lg">
           {filteredTxs.length === 0 ? (
             <p className="text-gray-400">No matching transactions.</p>
           ) : (
-            <ul className="space-y-4">
+            <ul className="space-y-3">
               {filteredTxs.map((tx) => {
                 const Icon =
                   categoryIcons[tx.category as keyof typeof categoryIcons] ||
                   BanknoteArrowUp;
 
                 return (
-                  <li
+                  <Link
+                    href={`/transactions/${tx._id}`}
                     key={tx._id}
-                    className="p-4 bg-white/5 rounded-md flex items-center gap-4"
+                    className="block"
                   >
-                    <div className="bg-white/10 p-2 rounded-full">
-                      <Icon className="w-6 h-6 text-indigo-400" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-white font-semibold">{tx.title}</h3>
-                      <p className="text-sm text-gray-400">{tx.comment}</p>
-                      <p className="text-sm text-gray-500">
-                        {new Date(tx.date).toLocaleDateString()} • {tx.category}{" "}
-                        • {tx.type}
-                      </p>
-                    </div>
-                    <div
-                      className={`font-bold ${
-                        tx.type === "income" ? "text-green-400" : "text-red-400"
-                      }`}
-                    >
-                      ₹ {tx.amount}
-                    </div>
-                  </li>
+                    <li className="p-3 bg-white/4 hover:bg-white/10 rounded-lg flex items-center gap-5 transition-all duration-300 cursor-pointer">
+                      <div className="bg-white/6 p-2 rounded-full">
+                        <Icon className="w-6 h-6 text-indigo-400" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-white font-semibold">{tx.title}</h3>
+                        <p className="text-sm text-gray-400">{tx.comment}</p>
+                        <p className="text-sm text-gray-500">
+                          {new Date(tx.date).toLocaleDateString()} •{" "}
+                          {tx.category} • {tx.type}
+                        </p>
+                      </div>
+                      <div
+                        className={`font-bold ${
+                          tx.type === "income"
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}
+                      >
+                        ₹ {tx.amount}
+                      </div>
+                    </li>
+                  </Link>
                 );
               })}
             </ul>

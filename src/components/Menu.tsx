@@ -30,7 +30,7 @@ export default function MenuButton() {
 
   const linkClasses = (path) =>
     `text-left cursor-pointer hover:underline ${
-      pathname === path ? "text-orange-500 font-semibold" : ""
+      pathname === path ? "text-green-400 font-semibold" : ""
     }`;
 
   const handleLogout = async () => {

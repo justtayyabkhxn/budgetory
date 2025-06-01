@@ -135,7 +135,7 @@ export default function Inflow() {
           </div>
         </div>
         {/* Recent Transactions */}
-        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg">
+        <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 rounded-xl p-6 shadow-lg">
           <h2 className="text-xl font-semibold mb-4">All Transactions</h2>
 
           {txs.length === 0 ? (
