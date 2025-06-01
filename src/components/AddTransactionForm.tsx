@@ -129,7 +129,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
 
   return (
     <div className="mb-10 bg-[#111]/80 border border-gray-700 rounded-xl p-6 shadow-lg">
-      <h2 className="text-xl font-semibold mb-4">Add New Transaction</h2>
+      <h2 className="text-xl font-bold mb-4">Add New Transaction</h2>
       <form
         onSubmit={handleSubmit}
         className="grid grid-cols-1 sm:grid-cols-2 gap-4"
