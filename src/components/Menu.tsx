@@ -8,7 +8,6 @@ import {
   FileDigit,
   LogIn,
   Menu,
-  SquareChevronRight,
   TextSearch,
   Wallet,
   WalletMinimal,
@@ -87,16 +86,13 @@ export default function MenuButton() {
         }`}
       >
         <div className="flex flex-col h-full p-6 space-y-10  mb-5">
-          <div className="flex justify-between items-center border-b mb-5">
-            <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
-              <SquareChevronRight />
-              Menu
-            </h2>
+          <div className="flex justify-start mb-5">
+            
             <button
               onClick={toggleMenu}
-              className="text-md text-gray-500 hover:text-gray-300 cursor-pointer font-extrabold"
+              className="text-md text-white cursor-pointer font-extrabold"
             >
-              X
+              <Menu/>
             </button>
           </div>
           <Link

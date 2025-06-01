@@ -176,8 +176,8 @@ export default function Transactions() {
         {/* Recent Transactions */}
         <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg ">
           <div className="flex items-center justify-between gap-5 mb-4">
-            <div className="flex items-center gap-2 text-3xl font-semibold">
-              <ArrowDownWideNarrow size={30} /> <span>All Transactions</span>
+            <div className="flex items-center gap-0 text-xl font-semibold">
+              <ArrowDownWideNarrow size={25} /> <span>All Transactions</span>
             </div>
             <button
               onClick={handleExportCSV}

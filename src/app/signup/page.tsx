@@ -2,15 +2,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Eye, EyeOff } from 'lucide-react'; // Optional: for show/hide icons
+import { Eye, EyeOff, UserPlus } from 'lucide-react';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export default function SignupPage() {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -47,29 +44,32 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-gray-900 via-black to-gray-800 text-white px-4">
-      <Header/>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white px-4">
+      <Header />
 
-      <div className="mt-5 text-center w-full max-w-md bg-[#111111]/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-gray-700">
-        <h1 className="text-3xl font-bold inline-block">Let&apos;s Register You.</h1>
-        <p className="mt-3 text-gray-300">Register to start your journey!</p>
+      <div className="mt-5 w-full max-w-md bg-black/10 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-gray-900">
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <UserPlus className="text-green-500" size={28} />
+          <h1 className="text-3xl font-bold">Let's Get You In</h1>
+        </div>
+        <p className="text-center text-gray-400">Create your account to get started</p>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-5">
           <input
             type="text"
             name="name"
-            placeholder="Name"
+            placeholder="Full Name"
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
+            className="w-full px-4 py-2 bg-transparent border border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
           />
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="Email Address"
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
+            className="w-full px-4 py-2 bg-transparent border border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400"
           />
 
           <div className="relative">
@@ -79,15 +79,15 @@ export default function SignupPage() {
               placeholder="Password"
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-800 rounded focus:outline-none focus:ring-1 focus:ring-blue-400"
+              className="w-full px-4 py-2 bg-transparent border border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 pr-10"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-3 text-gray-400 hover:text-white focus:outline-none"
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 hover:text-white"
               tabIndex={-1}
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
 
@@ -96,21 +96,24 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full ${
-              loading ? 'bg-gray-600' : 'bg-green-600 hover:bg-green-700'
-            } transition-colors py-2 rounded font-semibold text-white cursor-pointer`}
+            className={`w-full py-2 rounded-lg font-semibold transition-all duration-300 ${
+              loading
+                ? 'bg-gray-600 cursor-not-allowed'
+                : 'bg-green-600 hover:bg-green-700'
+            }`}
           >
             {loading ? 'Signing up...' : 'Sign Up'}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-gray-400 text-sm font-bold">
+        <p className="mt-6 text-center text-gray-400 text-sm font-semibold">
           Already have an account?{' '}
           <Link href="/login" className="text-blue-500 hover:underline">
             Login
           </Link>
         </p>
       </div>
+      <Footer/>
     </div>
   );
 }
