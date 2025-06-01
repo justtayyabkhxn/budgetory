@@ -50,7 +50,7 @@ export default function SignupPage() {
       <div className="mt-5 w-full max-w-md bg-black/10 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-gray-900">
         <div className="flex items-center justify-center gap-2 mb-2">
           <UserPlus className="text-green-500" size={28} />
-          <h1 className="text-3xl font-bold">Let's Get You In</h1>
+          <h1 className="text-3xl font-bold">Let&apos;s Get You In</h1>
         </div>
         <p className="text-center text-gray-400">Create your account to get started</p>
 
