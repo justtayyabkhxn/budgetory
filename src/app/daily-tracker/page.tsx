@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   Smartphone,
 } from "lucide-react";
+import Footer from "@/components/Footer";
 
 const iconColors = [
   "bg-pink-100 dark:bg-pink-500/10",
@@ -284,16 +285,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="text-center mt-20 text-sm text-gray-500 font-semibold">
-        © 2025 💰MyBudgetory. Built with ❤️ by{" "}
-        <a
-          href="https://justtayyabkhan.vercel.app"
-          target="_blank"
-          className="text-orange-400 hover:underline"
-        >
-          Tayyab Khan
-        </a>
-      </footer>
+      <Footer/>
     </main>
   );
 }

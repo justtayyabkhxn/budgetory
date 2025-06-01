@@ -17,6 +17,7 @@ import {
   FileDigit,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import Footer from "@/components/Footer";
 
 const categoryIcons = {
   Food: Utensils,
@@ -203,17 +204,16 @@ export default function Dashboard() {
       .reduce((sum, tx) => sum + tx.amount, 0);
 
     const todaySum = txs
-  .filter((tx) => {
-    const txDate = new Date(tx.date);
-    return (
-      tx.type === "expense" &&
-      txDate.getDate() === now.getDate() &&
-      txDate.getMonth() === now.getMonth() &&
-      txDate.getFullYear() === now.getFullYear()
-    );
-  })
-  .reduce((sum, tx) => sum + tx.amount, 0);
-
+      .filter((tx) => {
+        const txDate = new Date(tx.date);
+        return (
+          tx.type === "expense" &&
+          txDate.getDate() === now.getDate() &&
+          txDate.getMonth() === now.getMonth() &&
+          txDate.getFullYear() === now.getFullYear()
+        );
+      })
+      .reduce((sum, tx) => sum + tx.amount, 0);
 
     setToday(todaySum);
     setInflow(inflowSum);
@@ -323,12 +323,12 @@ export default function Dashboard() {
           </section>
 
           {/* Quote of the Day */}
-          <section className="text-center rounded-xl p-6 shadow-lg mb-2">
+          {/* <section className="text-center rounded-xl p-6 shadow-lg mb-2">
             <p className="text-gray-400 italic">“{quote}”</p>
-          </section>
+          </section> */}
 
           {/* Dashboard and Transactions */}
-          <div className="mb-5 flex items-center justify-between">
+          <div className="mb-5 mt-4 flex items-center justify-between">
             {/* Left side: Heading and welcome text */}
             <div className="mt-0">
               <div className="flex items-center gap-2">
@@ -355,7 +355,7 @@ export default function Dashboard() {
 
             {/* Menu */}
           </div>
-          <div className="text-2xl font-extrabold tracking-tight mb-5">
+          <div className="text-2xl font-extrabold tracking-tight mb-2">
             Today :{" "}
             <span className={`text-gray-300 ${loading ? "animate-pulse" : ""}`}>
               {loading ? "Loading..." : `₹ ${today}.00`}
@@ -417,13 +417,13 @@ export default function Dashboard() {
                       key={tx._id}
                       className="block"
                     >
-                      <li className="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10 transition-all duration-200 cursor-pointer">
+                      <li className="flex justify-between items-center p-4 bg-white/2 hover:bg-white/10 backdrop-blur-md border border-white/10 rounded-xl transition-all duration-300 cursor-pointer shadow-md">
                         <div className="flex items-center gap-3">
                           <div className="bg-white/10 p-2 rounded-full">
                             <Icon className="w-5 h-5 text-indigo-400" />
                           </div>
                           <div>
-                            <p className="font-medium">{tx.title}</p>
+                            <p className=" font-bold">{tx.title}</p>
                             <p className="text-sm text-gray-400">
                               {new Date(tx.date).toLocaleDateString()} •{" "}
                               {tx.category} • {tx.paymentMode}
@@ -468,7 +468,7 @@ export default function Dashboard() {
             )}
           </div>
         </div>
-        <div className="flex flex-row justify-evenly mt-6">
+        {/* <div className="flex flex-row justify-evenly mt-6">
           <Link
             href="/charts"
             className="px-5 py-3 text-shadow-lg/10  bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-500 transition text-lg font-bold"
@@ -481,8 +481,9 @@ export default function Dashboard() {
           >
             View Stats
           </Link>
-        </div>
+        </div> */}
       </div>
+      <Footer/>
     </div>
   );
 }
