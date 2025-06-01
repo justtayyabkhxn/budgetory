@@ -1,40 +1,48 @@
-# 💰 Budgetory – Your Smart Budget Tracker
+# 💰 MyBudgetory – Your Smart Budget Tracker
 
-**Budgetory** is a modern web application that helps users efficiently track their income and expenses. Built using **Next.js** and **MongoDB**, it offers powerful analytics and visual insights like category-based breakdowns, most spending/inflow days, and monthly summaries. Budgetory empowers users to take control of their finances with clarity and ease.
+**MyBudgetory** is a sleek and intuitive budget tracking web application that empowers users to manage income and expenses with ease. Built using **Next.js** and **MongoDB**, it provides intelligent insights through visual dashboards, allowing users to make informed financial decisions.
 
 ## 🚀 Features
 
-* 🔐 **User Authentication** – Sign up/login to manage your personal data securely.
-* 🧾 **Daily Entry System** – Add expenses and inflows with category and note fields.
-* 📊 **Stats Dashboard** –
+* 🔐 **User Authentication** – Secure signup/login to manage your financial records.
+* 🧾 **Daily Entry System** – Add and view categorized expenses and inflows with notes.
+* 📊 **Stats Dashboard**
 
-  * Most spending day
-  * Most inflow day
-  * Average spending (monthly)
-  * Highest inflow and spending months
-  * Top and least spent categories
-* 📅 **Filter by Timeframe** – Weekly, monthly, and yearly views.
-* 📈 **Charts & Visual Insights** – Interactive pie and bar charts for quick analysis.
-* 💡 **Smart Suggestions** (Upcoming) – Alerts on overspending or irregular inflow patterns.
+  * 💸 Most spending day
+  * 💰 Most inflow day
+  * 📆 Average monthly spending
+  * 🏆 Highest inflow & spending months
+  * 🧩 Top & least spent categories
+* 📅 **Timeframe Filters** – Toggle views by week, month, or year.
+* 📈 **Interactive Charts** – Bar and pie charts for visual breakdowns.
+* 🧠 **Smart Suggestions** (Coming Soon)
+
+  * Overspending alerts
+  * Irregular inflow detection
+* 📤 **Exporting Features** (Planned)
+
+  * Download data as CSV
+* 🧑‍🤝‍🧑 **Multi-User Collaboration** (Planned)
+* 📱 **Mobile Optimized & PWA Support** (Planned)
 
 ## 🛠️ Tech Stack
 
-* **Frontend**: [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com/)
-* **Backend**: \[Next.js API Routes], \[Node.js], \[Express (optional)]
+* **Frontend**: [Next.js](https://nextjs.org/), [Tailwind CSS](https://tailwindcss.com)
+* **Backend**: \[Next.js API Routes], \[Node.js]
 * **Database**: [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-* **Authentication**: \[NextAuth.js] (or your preferred method)
+* **Authentication**: \[NextAuth.js] or custom JWT-based system
 
 ## 📦 Installation
 
 ```bash
-git clone https://github.com/yourusername/budgetory.git
+git clone https://github.com/justtayyabkhxn/mybudgetory.git
 cd budgetory
 npm install
 ```
 
-### Set up `.env.local`
+### 📄 Configure `.env.local`
 
-Create a `.env.local` file in the root directory and add your environment variables:
+Create a `.env.local` file in the root directory with the following content:
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
@@ -42,41 +50,40 @@ NEXTAUTH_SECRET=your_secret
 NEXTAUTH_URL=http://localhost:3000
 ```
 
-## 💻 Run the Development Server
+## 💻 Start Development Server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the app.
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 📁 Folder Structure
 
 ```
 /pages
-  - /api         → API routes (add transaction, get stats)
-  - /auth        → Auth-related pages
-  - index.tsx    → Dashboard home
-/components      → Reusable UI components
-/lib             → DB connection, utilities
-/styles          → Global styles
+  ├── /api          → API endpoints for auth, transactions, stats
+  ├── /auth         → Login and signup pages
+  └── index.tsx     → Main dashboard
+
+/components         → Reusable UI components
+/lib                → MongoDB connection, utility functions
+/styles             → Tailwind and global styles
 ```
 
 ## 🧠 Future Roadmap
 
-* 🔔 Notifications for budget limits
-* 📆 Recurring transactions
-* 📥 Import/export CSV
-* 🧑‍🤝‍🧑 Shared budgets (multi-user support)
-* 📱 PWA support for mobile usage
+* 🔔 Budget limit notifications
+* 📆 Recurring income/expenses
+* 📤 Import/export functionality (CSV/JSON)
+* 🧑‍🤝‍🧑 Shared budget management (households or teams)
+* 📱 PWA support for offline and mobile-first use
+* 🧠 AI-based financial tips and pattern detection
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please fork the repo and submit a pull request.
+Contributions and suggestions are welcome!
+Feel free to fork the repository and submit a pull request.
 
-## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
-
----
 
