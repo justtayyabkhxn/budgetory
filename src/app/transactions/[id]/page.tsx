@@ -320,7 +320,7 @@ export default function TransactionDetailsClient() {
               <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-4 py-2 rounded text-sm"
+                  className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold px-4 py-2 rounded text-sm cursor-pointer"
                 >
                   Update
                 </button>
@@ -328,7 +328,7 @@ export default function TransactionDetailsClient() {
                 <button
                   type="button"
                   onClick={() => setEditingTxn(null)}
-                  className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm font-bold"
+                  className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm font-bold cursor-pointer"
                 >
                   Cancel
                 </button>

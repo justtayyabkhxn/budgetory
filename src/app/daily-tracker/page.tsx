@@ -100,7 +100,7 @@ export default function LandingPage() {
           ].map((feature, i) => (
             <div
               key={i}
-              className={`bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-[1.03] duration-300`}
+              className={`bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-[1.03] duration-300`}
             >
               <div
                 className={`${
@@ -154,7 +154,7 @@ export default function LandingPage() {
           ].map((item, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow hover:shadow-md hover:bg-indigo-50 dark:hover:bg-gray-700 transition"
+              className="bg-white dark:bg-gray-900 p-5 rounded-xl shadow hover:shadow-md hover:bg-indigo-50 dark:hover:bg-gray-700 transition"
             >
               <h4 className="text-lg font-semibold text-indigo-500">
                 {item.step}
@@ -187,7 +187,7 @@ export default function LandingPage() {
           ].map((t, i) => (
             <div
               key={i}
-              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-indigo-400 dark:border-indigo-600"
+              className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg border-l-4 border-indigo-400 dark:border-indigo-600"
             >
               <p className="text-gray-700 dark:text-gray-300 italic">
                 “{t.feedback}”
@@ -260,7 +260,7 @@ export default function LandingPage() {
           ].map((item, i) => (
             <details
               key={i}
-              className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow cursor-pointer"
+              className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow cursor-pointer"
             >
               <summary className="font-semibold text-indigo-600 dark:text-indigo-400">
                 {item.q}
@@ -273,7 +273,7 @@ export default function LandingPage() {
 
       {/* Final CTA */}
       <section className="mt-20 text-center" id="final-cta">
-        <h2 className="text-3xl font-extrabold text-transparent bg-gradient-to-r from-teal-400 to-indigo-500 bg-clip-text mb-8">
+        <h2 className="text-3xl font-extrabold tracking-tight text-transparent bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-center mb-6">
           Ready to master your finances?
         </h2>
         <a

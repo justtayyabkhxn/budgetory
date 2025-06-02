@@ -15,6 +15,7 @@ import {
   Play,
 } from "lucide-react";
 import { JSX } from "react";
+import Footer from "@/components/Footer";
 
 type Feature = {
   icon: JSX.Element;
@@ -92,7 +93,7 @@ const testimonials = [
 ];
 
 const FeatureCard = ({ icon, title, desc }: Feature) => (
-  <article className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow hover:shadow-lg transition">
+  <article className="bg-white dark:bg-gray-900 p-5 rounded-2xl shadow hover:shadow-lg transition">
     {icon}
     <h3 className=" text-xl mb-2 text-indigo font-extrabold tracking-tight">
       {title}
@@ -104,7 +105,7 @@ const FeatureCard = ({ icon, title, desc }: Feature) => (
 const ModeCard = ({ href, icon, title, bg, color, desc }: Mode) => (
   <Link
     href={href}
-    className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow hover:shadow-2xl hover:scale-[1.03] transition duration-300 cursor-pointer text-center block"
+    className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow hover:shadow-2xl hover:scale-[1.03] transition duration-300 cursor-pointer text-center block"
   >
     <div className={`${bg} w-fit mx-auto p-4 rounded-full mb-4`}>{icon}</div>
     <h3 className={`text-xl font-bold mb-2 ${color}`}>{title}</h3>
@@ -113,7 +114,7 @@ const ModeCard = ({ href, icon, title, bg, color, desc }: Mode) => (
 );
 
 const TestimonialCard = ({ text, author }: Testimonial) => (
-  <blockquote className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow text-center">
+  <blockquote className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow text-center">
     <Smile className="h-6 w-6 text-yellow-500 mb-2 mx-auto" />
     <p className="italic text-sm text-gray-600 dark:text-gray-300">{text}</p>
     <footer className="mt-2 font-bold">– {author}</footer>
@@ -145,7 +146,7 @@ export default function LandingPage() {
                 .getElementById("bottom")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="bg-white dark:bg-gray-800 px-4 py-3 rounded-xl shadow hover:shadow-lg transition text-center font-semibold text-green-700 dark:text-green-300 cursor-pointer flex items-center gap-2"
+            className="bg-white dark:bg-gray-900 px-4 py-3 rounded-xl shadow hover:shadow-lg transition text-center font-semibold text-green-700 dark:text-green-300 cursor-pointer flex items-center gap-2"
           >
             <Play size={18} />
             Get Started
@@ -230,7 +231,7 @@ export default function LandingPage() {
         <div className="flex flex-row gap-4 justify-center">
           <Link
             href="/daily-tracker"
-            className="bg-white dark:bg-gray-800 px-5 py-4 rounded-xl shadow hover:shadow-lg transition text-center font-semibold text-green-700 dark:text-green-300 cursor-pointer"
+            className="bg-white dark:bg-gray-900 px-5 py-4 rounded-xl shadow hover:shadow-lg transition text-center font-semibold text-green-700 dark:text-green-300 cursor-pointer"
           >
             Start Daily Tracking
           </Link>
@@ -243,16 +244,7 @@ export default function LandingPage() {
         </div>
       </section>
       {/* Footer */}
-      <footer className="text-center mt-20 text-sm text-gray-500 font-semibold">
-        © 2025 💰MyBudgetory. Built with ❤️ by{" "}
-        <a
-          href="https://justtayyabkhan.vercel.app"
-          target="_blank"
-          className="text-orange-400 hover:underline"
-        >
-          Tayyab Khan
-        </a>
-      </footer>
+      <Footer/>
     </main>
   );
 }

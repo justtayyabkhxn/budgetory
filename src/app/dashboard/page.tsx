@@ -258,7 +258,7 @@ export default function Dashboard() {
               {loading ? "Loading..." : `₹ ${today}.00`}
             </span>{" "}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 overflow-x-auto mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 overflow-x-auto mb-4">
             <Link href="/inflow" className="cursor-pointer">
               <TxnCard
                 title={`Total Inflow (${new Date().toLocaleString("default", {

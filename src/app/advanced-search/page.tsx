@@ -28,6 +28,8 @@ import {
   Plane,
   BanknoteArrowUp,
   TextSearch,
+  ArrowUp,
+  Search,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -57,6 +59,32 @@ const AdvancedSearchPage = () => {
   const [sortBy, setSortBy] = useState<string>("date-desc");
 
   const router = useRouter();
+
+  const exportToCSV = () => {
+    if (!filteredTxs.length) return;
+
+    const headers = ["Title", "Comment", "Amount", "Date", "Category", "Type"];
+    const rows = filteredTxs.map((tx) => [
+      tx.title,
+      tx.comment,
+      tx.amount,
+      new Date(tx.date).toLocaleDateString(),
+      tx.category,
+      tx.type,
+    ]);
+
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers, ...rows].map((e) => e.join(",")).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "mybudgetory_filtered_transactions.csv");
+    document.body.appendChild(link); // Required for Firefox
+    link.click();
+    document.body.removeChild(link);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -199,58 +227,73 @@ const AdvancedSearchPage = () => {
           <Menu />
         </div>
       </div>
-      <div className="max-w-5xl mx-auto space-y-2">
-        {/* Search Box */}
-        <div>
-          <label className="text-sm text-gray-300">
-            Search by Title/Comment
-          </label>
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800 mb-0"
-          />
-        </div>
+      <div className="max-w-5xl mx-auto space-y-6">
+        {/* Section: Search & Filters */}
+        <div className="space-y-4 bg-black/20 backdrop-blur-sm border border-gray-900 rounded-xl p-4 shadow-inner">
+          <h2 className="text-white text-lg font-semibold flex items-center gap-2">
+            <Search className="w-5 h-5 text-white" />
+            Search & Filters
+          </h2>
 
-        {/* Filters */}
-        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {/* Row 1 */}
+          {/* Search Box */}
           <div>
-            <label className="text-sm text-gray-300">Month</label>
+            <label className="text-sm text-gray-300">
+              Search by Title/Comment
+            </label>
             <input
-              type="month"
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(e.target.value)}
-              className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
+              type="text"
+              placeholder="Search..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="w-full px-3 py-2 rounded-md bg-gray-900 text-white focus:outline-none focus:bg-gray-800"
             />
           </div>
-          <div>
-            <label className="text-sm text-gray-300">Category</label>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
-            >
-              <option value="">All</option>
-              {categories.map((cat, idx) => (
-                <option key={idx} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
 
-          {/* Row 2 */}
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+          {/* Filters Grid */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div>
+              <label className="text-sm text-gray-300">Month</label>
+              <input
+                type="month"
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+                className="w-full px-3 py-2 rounded-md bg-gray-900 text-white focus:outline-none focus:bg-gray-800"
+              />
+            </div>
+            <div>
+              <label className="text-sm text-gray-300">Category</label>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full px-3 py-2 rounded-md bg-gray-900 text-white focus:outline-none focus:bg-gray-800"
+              >
+                <option value="">All</option>
+                {categories.map((cat, idx) => (
+                  <option key={idx} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm text-gray-300">Type</label>
+              <select
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+                className="w-full px-3 py-2 rounded-md bg-gray-900 text-white focus:outline-none focus:bg-gray-800"
+              >
+                <option value="">All</option>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
             <div>
               <label className="text-sm text-gray-300">From Date</label>
               <input
                 type="date"
                 value={fromDate}
                 onChange={(e) => setFromDate(e.target.value)}
-                className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
+                className="w-full px-3 py-2 rounded-md bg-gray-900 text-white focus:outline-none focus:bg-gray-800"
               />
             </div>
             <div>
@@ -259,17 +302,15 @@ const AdvancedSearchPage = () => {
                 type="date"
                 value={toDate}
                 onChange={(e) => setToDate(e.target.value)}
-                className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
+                className="w-full px-3 py-2 rounded-md bg-gray-900 text-white focus:outline-none focus:bg-gray-800"
               />
             </div>
-
-            {/* Row 3 */}
             <div>
               <label className="text-sm text-gray-300">Sort By</label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
+                className="w-full px-3 py-2 rounded-md bg-gray-900 text-white focus:outline-none focus:bg-gray-800"
               >
                 <option value="date-desc">Date (Newest First)</option>
                 <option value="date-asc">Date (Oldest First)</option>
@@ -279,22 +320,14 @@ const AdvancedSearchPage = () => {
             </div>
           </div>
 
-          {/* Row 3 (contd.) */}
-
-          <div>
-            <label className="text-sm text-gray-300">Type</label>
-            <select
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full px-3 py-2 rounded-md bg-white/10 text-white focus:outline-none focus:bg-gray-800"
+          {/* Export + Clear Buttons */}
+          <div className="flex flex-col sm:flex-row justify-end gap-3 pt-2">
+            <button
+              onClick={exportToCSV}
+              className="px-4 py-2 bg-indigo-600 cursor-pointer hover:bg-indigo-500 text-white text-sm rounded-md transition-colors"
             >
-              <option value="">All</option>
-              <option value="income">Income</option>
-              <option value="expense">Expense</option>
-            </select>
-          </div>
-
-          <div className="flex justify-end">
+              Export CSV
+            </button>
             <button
               onClick={() => {
                 setSelectedMonth("");
@@ -305,7 +338,7 @@ const AdvancedSearchPage = () => {
                 setSearchText("");
                 setSortBy("date-desc");
               }}
-              className="mt-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-md transition-colors"
+              className="px-4 py-2 bg-gray-800 hover:bg-gray-700 cursor-pointer text-white text-sm rounded-md transition-colors"
             >
               Clear Filters
             </button>
@@ -369,6 +402,14 @@ const AdvancedSearchPage = () => {
           )}
         </div>
       </div>
+      {/* Scroll to Top Button */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className="fixed bottom-5 right-5 z-50 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full shadow-md backdrop-blur-sm transition-all"
+        aria-label="Scroll to top"
+      >
+        <ArrowUp className="w-6 h-6" />
+      </button>
     </div>
   );
 };
