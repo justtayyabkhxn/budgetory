@@ -1,7 +1,5 @@
 "use client";
 import MenuButton from "@/components/Menu";
-import { motion } from "framer-motion";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   TrendingDown,

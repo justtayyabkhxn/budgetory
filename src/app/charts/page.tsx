@@ -1,11 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import Charts from "@/components/Charts";
 import Menu from "@/components/Menu";
 import { ChartCandlestick } from "lucide-react";
-import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 

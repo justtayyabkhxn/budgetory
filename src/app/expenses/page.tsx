@@ -1,10 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import MenuButton from "@/components/Menu";
 import { BanknoteArrowDown } from "lucide-react";
-import { motion } from "framer-motion";
 import Header from "@/components/Header";
 
 interface Transaction {

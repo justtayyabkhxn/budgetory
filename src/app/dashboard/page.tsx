@@ -18,7 +18,6 @@ import {
   RefreshCcwDot,
   CalendarClock,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 

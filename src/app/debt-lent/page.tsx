@@ -1,11 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import MenuButton from "@/components/Menu";
 import { WalletMinimal } from "lucide-react";
 import { AddDebtLentForm } from "@/components/AddDebtLentForm";
-import { motion } from "framer-motion";
 import Header from "@/components/Header";
 
 interface Entry {
