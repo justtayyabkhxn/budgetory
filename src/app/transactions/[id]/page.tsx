@@ -237,10 +237,14 @@ export default function TransactionDetailsClient() {
               {transaction.amount}
             </span>
           </p>
-          <p>
+          {/* <p>
             <span className="text-white font-semibold">Mode:</span>{" "}
             {transaction.paymentMode}
-          </p>
+          </p> */}
+          {/* <p>
+            <span className="text-white font-semibold">Category:</span>{" "}
+            {transaction.category}
+          </p> */}
           <p>
             <span className="text-white font-semibold">Type:</span>{" "}
             {transaction.type}
@@ -249,10 +253,10 @@ export default function TransactionDetailsClient() {
             <span className="text-white font-semibold">Comment:</span>{" "}
             {transaction.comment || "No Comment"}
           </p>
-          <p>
+          {/* <p>
             <span className="text-white font-semibold">Date:</span>{" "}
             {transaction.date.split("T")[0]}
-          </p>
+          </p> */}
         </div>
 
         <div className="flex justify-around gap-4 mt-4">
