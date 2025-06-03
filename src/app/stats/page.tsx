@@ -1,9 +1,27 @@
 "use client";
 import MenuButton from "@/components/Menu";
 import { motion } from "framer-motion";
-import { ChartNoAxesCombined } from "lucide-react";
+import {
+  BadgePercent,
+  Calendar,
+  ChartNoAxesCombined,
+  CreditCard,
+  Equal,
+  ShoppingCart,
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {
+  TrendingDown,
+  TrendingUp,
+  BarChart3,
+  Wallet,
+  Banknote,
+  PieChart,
+  Hash,
+  ListOrdered,
+} from "lucide-react";
+import Footer from "@/components/Footer";
 
 type Txn = {
   _id: string;
@@ -231,31 +249,31 @@ export default function StatsPage() {
   return (
     <div className="max-w-4xl mx-auto px-5 py-6">
       {/* Header */}
-     <section className="text-center max-w-2xl mx-auto space-y-6 mb-2">
-            <motion.div
-              className="flex flex-col items-center text-center space-y-2"
-              initial={{ opacity: 0, y: -30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
+      <section className="text-center max-w-2xl mx-auto space-y-6 mb-2">
+        <motion.div
+          className="flex flex-col items-center text-center space-y-2"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        >
+          <Link href="/">
+            <motion.span
+              whileHover={{ scale: 1.1, rotate: 1 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-700"
             >
-              <Link href="/">
-                <motion.span
-                  whileHover={{ scale: 1.1, rotate: 1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-700"
-                >
-                  MyBudgetory
-                </motion.span>
-              </Link>
-            </motion.div>
-          </section>
+              MyBudgetory
+            </motion.span>
+          </Link>
+        </motion.div>
+      </section>
       <div>
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-2  text-white">
-          <ChartNoAxesCombined />
-          <h1 className="text-4xl font-extrabold tracking-tight mb-0">
-            User Statistics
-          </h1>
+            <ChartNoAxesCombined />
+            <h1 className="text-4xl font-extrabold tracking-tight mb-0">
+              User Statistics
+            </h1>
           </div>
           <MenuButton />
         </div>
@@ -263,80 +281,170 @@ export default function StatsPage() {
       {loading ? (
         <p className="text-gray-400 animate-pulse">Loading stats...</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-gray-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-gray-200">
           <StatCard
-            title="🟥 Most Spending Day"
+            title={
+              <>
+                <TrendingDown className="w-5 h-5 text-pink-400 group-hover:rotate-[-8deg] transition-transform" />
+                <span>Most Spending Day</span>
+              </>
+            }
             value={`${mostSpentDay} – ₹ ${mostSpentAmt}`}
           />
           <StatCard
-            title="🟩 Most Inflow Day"
+            title={
+              <>
+                <TrendingUp className="w-5 h-5 text-green-400 group-hover:rotate-[-8deg] transition-transform" />
+                <span>Most Inflow Day</span>
+              </>
+            }
             value={`${mostInflowDay} – ₹ ${mostInflowAmt}`}
           />
           <StatCard
-            title="📆 Max Expense Month"
+            title={
+              <>
+                <Calendar className="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform" />
+                <span>Max Expense Month</span>
+              </>
+            }
             value={`${maxSpentMonth} – ₹ ${maxSpentMonthAmt}`}
           />
           <StatCard
-            title="📈 Max Inflow Month"
+            title={
+              <>
+                <Calendar className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform" />
+                <span>Max Inflow Month</span>
+              </>
+            }
             value={`${maxInflowMonth} – ₹ ${maxInflowMonthAmt}`}
           />
           <StatCard
-            title="💰 Avg Monthly Spending"
+            title={
+              <>
+                <BarChart3 className="w-5 h-5 text-blue-300 group-hover:rotate-[6deg] transition-transform" />
+                <span>Avg Monthly Spending</span>
+              </>
+            }
             value={avgMonthlySpending()}
           />
           <StatCard
-            title="🏆 Top Spending Category (This Month)"
+            title={
+              <>
+                <Wallet className="w-5 h-5 text-purple-400 group-hover:rotate-[8deg] transition-transform" />
+                <span>Top Spending Category</span>
+              </>
+            }
             value={`${topCategory[0]} – ₹ ${topCategory[1]}`}
           />
           <StatCard
-            title="🔻 Least Spent Category (This Month)"
+            title={
+              <>
+                <BadgePercent className="w-5 h-5 text-pink-300 group-hover:rotate-[8deg] transition-transform" />
+                <span>Least Spent Category</span>
+              </>
+            }
             value={`${leastCategory[0]} – ₹ ${leastCategory[1]}`}
           />
           <StatCard
-            title="💸 Total Income This Month"
+            title={
+              <>
+                <Banknote className="w-5 h-5 text-green-300 group-hover:-translate-y-1 transition-transform" />
+                <span>Total Income This Month</span>
+              </>
+            }
             value={`₹ ${totalIncome}`}
           />
           <StatCard
-            title="💳 Total Expenses This Month"
+            title={
+              <>
+                <CreditCard className="w-5 h-5 text-rose-400 group-hover:-translate-y-1 transition-transform" />
+                <span>Total Expenses This Month</span>
+              </>
+            }
             value={`₹ ${totalExpenses}`}
           />
           <StatCard
-            title="⚖️ Net Balance (Income - Expenses)"
+            title={
+              <>
+                <Equal className="w-5 h-5 text-cyan-300 group-hover:rotate-[4deg] transition-transform" />
+                <span>Net Balance</span>
+              </>
+            }
             value={`₹ ${netBalance}`}
           />
           <StatCard
-            title="💥 Largest Single Expense Transaction"
+            title={
+              <>
+                <ShoppingCart className="w-5 h-5 text-red-400 group-hover:scale-110 transition-transform" />
+                <span>Largest Expense</span>
+              </>
+            }
             value={`₹ ${largestExpense} • ${largestExpenseName}`}
           />
           <StatCard
-            title="💰 Largest Single Income Transaction"
+            title={
+              <>
+                <Banknote className="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform" />
+                <span>Largest Income</span>
+              </>
+            }
             value={`₹ ${largestIncome} • ${largestIncomeName}`}
           />
           <StatCard
-            title="📊 Most Frequent Category"
+            title={
+              <>
+                <PieChart className="w-5 h-5 text-indigo-400 group-hover:rotate-[6deg] transition-transform" />
+                <span>Most Frequent Category</span>
+              </>
+            }
             value={mostFrequentCategory}
           />
           <StatCard
-            title="🔝 Top 3 Most Spent Days"
+            title={
+              <>
+                <ListOrdered className="w-5 h-5 text-orange-300 group-hover:scale-110 transition-transform" />
+                <span>Top 3 Most Spent Days</span>
+              </>
+            }
             value={top3Days.map((day, index) => (
               <p key={index}>💠 {day}</p>
             ))}
           />
           <StatCard
-            title="🔢 Total Transactions This Month"
+            title={
+              <>
+                <Hash className="w-5 h-5 text-blue-400 group-hover:rotate-[6deg] transition-transform" />
+                <span>Total Transactions</span>
+              </>
+            }
             value={totalTransactions.toString()}
           />
         </div>
       )}
+      <Footer/>
     </div>
   );
 }
 
-function StatCard({ title, value }: { title: string; value: React.ReactNode }) {
+function StatCard({
+  title,
+  value,
+}: {
+  title: React.ReactNode;
+  value: React.ReactNode;
+}) {
   return (
-    <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 p-5 rounded-xl shadow-md">
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <div className="text-xl font-bold text-blue-300">{value}</div>
+    <div
+      className="bg-gradient-to-br from-[#1c1c2c] via-[#111827]/70 to-[#1a1a2e]/80 
+                    border border-gray-800 rounded-2xl p-5 shadow-xl hover:shadow-2xl
+                    transition-shadow duration-300 group hover:scale-[1.02]"
+    >
+      <h3 className="text-base font-semibold text-gray-300 mb-1 flex items-center gap-2">
+        {title}
+      </h3>
+      <div className="text-xl font-extrabold text-blue-300 group-hover:text-blue-400 transition duration-200">
+        {value}
+      </div>
     </div>
   );
 }
