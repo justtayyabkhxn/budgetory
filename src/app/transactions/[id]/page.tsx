@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Menu from "@/components/Menu";
+import Header from "@/components/Header";
 
 const categoryIcons = {
   Food: Utensils,
@@ -148,24 +149,7 @@ export default function TransactionDetailsClient() {
     BanknoteArrowUp;
 
   const renderHeader = () => (
-    <section className="text-center max-w-2xl mx-auto space-y-6 mb-4 mt-5">
-      <motion.div
-        className="flex flex-col items-center"
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        <Link href="/">
-          <motion.span
-            whileHover={{ scale: 1.1, rotate: 1 }}
-            whileTap={{ scale: 0.95 }}
-            className="text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-md"
-          >
-            MyBudgetory
-          </motion.span>
-        </Link>
-      </motion.div>
-    </section>
+    <Header/>
   );
 
   if (isLoading || isError || !transaction) {

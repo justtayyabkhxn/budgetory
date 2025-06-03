@@ -32,6 +32,7 @@ import {
   Search,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import Header from "@/components/Header";
 
 const categoryIcons = {
   Food: Utensils,
@@ -198,24 +199,7 @@ const AdvancedSearchPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br text-white p-4 sm:p-8 max-w-5xl mx-auto">
       {/* Header */}
-      <section className="text-center max-w-2xl mx-auto space-y-6 mb-2">
-        <motion.div
-          className="flex flex-col items-center text-center space-y-2"
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-        >
-          <Link href="/">
-            <motion.span
-              whileHover={{ scale: 1.1, rotate: 1 }}
-              whileTap={{ scale: 0.95 }}
-              className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-700"
-            >
-              MyBudgetory
-            </motion.span>
-          </Link>
-        </motion.div>
-      </section>
+      <Header/>
       <div>
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-2">

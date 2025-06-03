@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
 const categoryIcons = {
   Food: Utensils,
@@ -204,24 +205,7 @@ export default function Dashboard() {
       <div className={menuOpen ? "overflow-hidden h-screen" : ""}>
         <div className="max-w-5xl mx-auto">
           {/* Header */}
-          <section className="text-center max-w-2xl mx-auto space-y-6 mb-2">
-            <motion.div
-              className="flex flex-col items-center text-center space-y-2"
-              initial={{ opacity: 0, y: -30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-            >
-              <Link href="/">
-                <motion.span
-                  whileHover={{ scale: 1.1, rotate: 1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-700"
-                >
-                  MyBudgetory
-                </motion.span>
-              </Link>
-            </motion.div>
-          </section>
+          <Header/>
 
           {/* Dashboard and Transactions */}
           <div className="mb-5 mt-4 flex items-center justify-between">

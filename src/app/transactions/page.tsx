@@ -33,6 +33,7 @@ import {
   ArrowDownWideNarrow,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import Header from "@/components/Header";
 
 const categoryIcons = {
   Food: Utensils,
@@ -49,6 +50,8 @@ export default function Transactions() {
   const [user, setUser] = useState<User | null>(null);
   const [txs, setTxs] = useState<Transaction[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+    const [loading, setLoading] = useState<boolean>(true);
+
 
   const router = useRouter();
 
@@ -127,6 +130,8 @@ export default function Transactions() {
   const fetchTransactions = () => {
     const token = localStorage.getItem("token");
     if (!token) return;
+
+    setLoading(true); // start loading
     fetch("/api/transactions", {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -134,7 +139,8 @@ export default function Transactions() {
       .then((data) => {
         if (data.transactions) setTxs(data.transactions);
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setLoading(false)); // stop loading
   };
   useEffect(() => {
     if (user) fetchTransactions();
@@ -144,24 +150,7 @@ export default function Transactions() {
     <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-8">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <section className="text-center max-w-2xl mx-auto space-y-6 mb-2">
-          <motion.div
-            className="flex flex-col items-center text-center space-y-2"
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          >
-            <Link href="/">
-              <motion.span
-                whileHover={{ scale: 1.1, rotate: 1 }}
-                whileTap={{ scale: 0.95 }}
-                className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent transition-all duration-700"
-              >
-                MyBudgetory
-              </motion.span>
-            </Link>
-          </motion.div>
-        </section>
+        <Header/>
         <div>
           <div className="flex justify-between items-center mb-5">
             <div className="flex items-center gap-2">
@@ -187,7 +176,11 @@ export default function Transactions() {
             </button>
           </div>
 
-          {txs.length === 0 ? (
+          {loading ? (
+              <p className="text-gray-400 animate-pulse">
+                Loading transactions...
+              </p>
+            ) : txs.length === 0 ? (
             <p className="text-gray-400">No transactions yet.</p>
           ) : (
             <ul className="space-y-3">
@@ -220,9 +213,14 @@ export default function Transactions() {
                   const Icon = categoryIcons[tx.category] || BanknoteArrowUp;
 
                   return (
+                     <Link
+                      href={`/transactions/${tx._id}`}
+                      key={tx._id}
+                      className="block"
+                    >
                     <li
                       key={tx._id}
-                      className="flex justify-between items-center p-3 bg-white/5 rounded-md"
+                      className="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10"
                     >
                       <div className="flex items-center gap-3">
                         <div className="bg-white/10 p-2 rounded-full">
@@ -255,6 +253,7 @@ export default function Transactions() {
                         </button>
                       </div>
                     </li>
+                    </Link>
                   );
                 })}
             </ul>
