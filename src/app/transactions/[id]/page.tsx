@@ -173,7 +173,7 @@ export default function TransactionDetailsClient() {
       <div className="max-w-5xl mx-auto px-4">
         {renderHeader()}
         <p
-          className={`text-center text-xl font-extrabold mt-10 ${
+          className={`text-center text-xl font-bold mt-10 ${
             isLoading ? "text-gray-700" : "text-red-500"
           }`}
         >
