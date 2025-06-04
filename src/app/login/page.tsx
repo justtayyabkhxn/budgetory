@@ -55,9 +55,9 @@ export default function LoginPage() {
       <div className="mt-5 w-full max-w-md bg-black/10 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-gray-900">
         <div className="flex items-center justify-center mb-4 gap-2">
           <LogIn className="text-indigo-500" size={28} />
-          <h1 className="text-3xl font-bold">Welcome Back</h1>
+          <h1 className="text-3xl font-extrabold tracking-tighter">Welcome Back</h1>
         </div>
-        <p className="text-center text-gray-300 mb-6">
+        <p className="text-center text-gray-300 mb-6 ">
           Log in to continue your journey!
         </p>
 
@@ -71,7 +71,7 @@ export default function LoginPage() {
               placeholder="Email"
               onChange={handleChange}
               required
-              className="w-full pl-10 pr-4 py-2 border border-gray-900 rounded-lg bg-[#1a1a1a] text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full pl-10 pr-4 py-2 border border-gray-900 rounded-lg  text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
@@ -84,7 +84,7 @@ export default function LoginPage() {
               placeholder="Password"
               onChange={handleChange}
               required
-              className="w-full pl-10 pr-10 py-2 border border-gray-900 rounded-lg bg-[#1a1a1a] text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full pl-10 pr-10 py-2 border border-gray-900 rounded-lg  text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <button
               type="button"
@@ -102,7 +102,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 transition duration-200 py-2 rounded-lg font-semibold text-white flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full bg-indigo-600 cursor-pointer hover:bg-indigo-700 transition duration-200 py-2 rounded-lg font-semibold text-white flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {loading ? 'Logging in...' : <>
               <LogIn size={18} />
