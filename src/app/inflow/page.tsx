@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import MenuButton from "@/components/Menu";
 import { Wallet } from "lucide-react";
 import Header from "@/components/Header";
+import FloatingTransactionButton from "@/components/FloatingTransactionButton";
 
 interface Transaction {
   _id: string;
@@ -165,6 +166,7 @@ export default function Inflow() {
           )}
         </div>
       </div>
+      <FloatingTransactionButton/>
     </div>
   );
 }

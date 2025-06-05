@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Menu from "@/components/Menu";
 import Header from "@/components/Header";
+import FloatingTransactionButton from "@/components/FloatingTransactionButton";
 
 const categoryIcons = {
   Food: Utensils,
@@ -324,7 +325,9 @@ export default function TransactionDetailsClient() {
             </motion.form>
           )}
         </AnimatePresence>
+        
       </div>
+      <FloatingTransactionButton/>
     </div>
   );
 }

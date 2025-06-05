@@ -33,6 +33,7 @@ import {
   ArrowDownWideNarrow,
 } from "lucide-react";
 import Header from "@/components/Header";
+import FloatingTransactionButton from "@/components/FloatingTransactionButton";
 
 const categoryIcons = {
   Food: Utensils,
@@ -259,6 +260,7 @@ export default function Transactions() {
           )}
         </div>
       </div>
+      <FloatingTransactionButton/>
     </div>
   );
 }

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import FloatingTransactionButton from "@/components/FloatingTransactionButton";
 
 type Txn = {
   _id: string;
@@ -425,6 +426,7 @@ function StatCard({
       <div className="text-xl font-extrabold text-blue-300 group-hover:text-blue-400 transition duration-200">
         {value}
       </div>
+      <FloatingTransactionButton/>
     </div>
   );
 }

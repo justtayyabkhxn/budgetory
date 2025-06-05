@@ -6,6 +6,7 @@ import Menu from "@/components/Menu";
 import { ChartCandlestick } from "lucide-react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import FloatingTransactionButton from "@/components/FloatingTransactionButton";
 
 type Transaction = {
   _id: string;
@@ -235,6 +236,7 @@ const ChartsPage = () => {
           </div>
         </div>
       </div>
+      <FloatingTransactionButton/>
       <Footer/>
     </main>
   );
