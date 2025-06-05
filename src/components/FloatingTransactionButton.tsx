@@ -5,17 +5,6 @@ import { Plus, X } from "lucide-react";
 import { AddTransactionForm } from "@/components/AddTransactionForm";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface Transaction {
-  _id: string;
-  title: string;
-  amount: number;
-  category: string;
-  type: "income" | "expense";
-  date: string;
-  comment: string;
-  paymentMode: "Cash" | "UPI";
-}
-
 export default function FloatingTransactionButton() {
   const [showModal, setShowModal] = useState(false);
 
