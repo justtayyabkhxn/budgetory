@@ -87,7 +87,7 @@ export async function GET(req: Request) {
     });
   } catch (err) {
     return new Response(
-      JSON.stringify({ error: "Failed to fetch transactions" }),
+      JSON.stringify({ error: "Failed to fetch transactions"+err }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }

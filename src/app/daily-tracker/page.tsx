@@ -16,19 +16,10 @@ import {
   Zap,
   BadgeCheck,
   VolumeOff,
-  Sparkles,
   Shield,
 } from "lucide-react";
 import Footer from "@/components/Footer";
 
-const iconColors = [
-  "bg-pink-100 dark:bg-pink-500/10",
-  "bg-yellow-100 dark:bg-yellow-500/10",
-  "bg-green-100 dark:bg-green-500/10",
-  "bg-blue-100 dark:bg-blue-500/10",
-  "bg-purple-100 dark:bg-purple-500/10",
-  "bg-red-100 dark:bg-red-500/10",
-];
 
 export default function LandingPage() {
   return (
