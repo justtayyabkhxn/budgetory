@@ -11,6 +11,13 @@ import {
   Wallet,
   ShieldCheck,
   Smartphone,
+  Lock,
+  EyeOff,
+  Zap,
+  BadgeCheck,
+  VolumeOff,
+  Sparkles,
+  Shield,
 } from "lucide-react";
 import Footer from "@/components/Footer";
 
@@ -52,67 +59,70 @@ export default function LandingPage() {
                 .getElementById("final-cta")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="px-6 py-3 font-bold bg-gradient-to-r cursor-pointer from-indigo-600 to-purple-600 text-white rounded-lg hover:brightness-110 transition text-lg"
+            className="relative inline-flex items-center justify-center px-7 py-3 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-indigo-800 to-purple-800 rounded-2xl shadow-lg hover:shadow-2xl hover:scale-[1.03] hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
           >
-            Start Managing
+            <span className="relative z-10">Start Managing</span>
+            <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-700 to-purple-700 opacity-30 blur-sm"></span>
           </button>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="mt-20 max-w-5xl mx-auto text-center">
-        
         <h2 className="text-3xl text-transparent font-extrabold tracking-tight bg-gradient-to-r from-fuchsia-600 to-indigo-600 bg-clip-text mb-10">
           Why You&apos;ll Love MyBudgetory
         </h2>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
           {[
             {
               icon: Wallet,
               title: "Track Daily Expenses",
               desc: "Log your income and expenses daily with simple category-based inputs.",
+              color: "text-green-600",
             },
             {
               icon: PieChart,
               title: "Visual Reports",
               desc: "Understand your habits with clear weekly, monthly, and yearly charts.",
+              color: "text-purple-600",
             },
             {
               icon: Cloud,
               title: "Cloud Synced",
               desc: "Secure cloud storage lets you access data across devices, any time.",
+              color: "text-blue-600",
             },
             {
               icon: CalendarCheck,
               title: "Budget Reminders",
               desc: "Set monthly spending goals and get reminders to stay on track.",
+              color: "text-pink-600",
             },
             {
               icon: ShieldCheck,
               title: "100% Private & Secure",
               desc: "Your data is encrypted, never sold, and only yours to control.",
+              color: "text-yellow-600",
             },
             {
               icon: Smartphone,
               title: "Mobile Friendly",
               desc: "Designed to work perfectly on your phone — track finances on the go!",
+              color: "text-indigo-600",
             },
           ].map((feature, i) => (
             <div
               key={i}
-              className={`bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-[1.03] duration-300`}
+              className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:scale-[1.03] duration-300"
             >
-              <div
-                className={`${
-                  iconColors[i % iconColors.length]
-                } w-fit p-3 rounded-full mb-4`}
+              <h3
+                className={`text-md font-semibold flex items-center gap-2 ${feature.color}`}
               >
-                <feature.icon className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-indigo-600 dark:text-indigo-400">
+                <feature.icon className="h-5 w-5" />
                 {feature.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 mt-2">
+              <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm">
                 {feature.desc}
               </p>
             </div>
@@ -205,34 +215,76 @@ export default function LandingPage() {
         <h2 className="text-3xl font-extrabold tracking-tight text-transparent bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text">
           Why Choose MyBudgetory?
         </h2>
-        <p className="text-gray-600 dark:text-gray-300 text-lg">
+        <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
           Unlike other budget apps, we don’t just track numbers — we help you
           build smarter habits, take control of your spending, and feel
           confident about your money.
         </p>
-        <div className="flex flex-col md:flex-row justify-center gap-6">
-          <div className="bg-gradient-to-tr from-green-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 shadow w-full md:w-1/3">
-            <h3 className="text-xl font-semibold text-green-500">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-8 text-left">
+          {/* Simplicity */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow hover:shadow-lg transition space-y-1">
+            <h3 className="text-md font-semibold text-green-500 flex items-center gap-2">
+              <BadgeCheck className="h-5 w-5" />
               Built for Simplicity
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               No clutter. No confusing graphs. Just clean budgeting.
             </p>
           </div>
-          <div className="bg-gradient-to-tr from-indigo-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 shadow w-full md:w-1/3">
-            <h3 className="text-xl font-semibold text-indigo-500">
+
+          {/* Fast and Secure */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow hover:shadow-lg transition space-y-1">
+            <h3 className="text-md font-semibold text-indigo-500 flex items-center gap-2">
+              <Zap className="h-5 w-5" />
               Fast and Secure
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               Lightning-fast performance with full data security.
             </p>
           </div>
-          <div className="bg-gradient-to-tr from-pink-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 shadow w-full md:w-1/3">
-            <h3 className="text-xl font-semibold text-pink-500">
+
+          {/* No Ads */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow hover:shadow-lg transition space-y-1">
+            <h3 className="text-md font-semibold text-pink-500 flex items-center gap-2">
+              <VolumeOff className="h-5 w-5" />
               No Ads. No Noise.
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               100% focus on your financial goals. No distractions.
+            </p>
+          </div>
+
+          {/* Encrypted Transactions */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow hover:shadow-lg transition space-y-1">
+            <h3 className="text-md font-semibold text-yellow-500 flex items-center gap-2">
+              <Lock className="h-5 w-5" />
+              Encrypted Transactions
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Every transaction is securely encrypted end-to-end.
+            </p>
+          </div>
+
+          {/* Full Privacy */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow hover:shadow-lg transition space-y-1">
+            <h3 className="text-md font-semibold text-purple-500 flex items-center gap-2">
+              <EyeOff className="h-5 w-5" />
+              Full Privacy
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Your data is private and never shared or sold.
+            </p>
+          </div>
+
+          {/* Advanced AES Encryption */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow hover:shadow-lg transition space-y-1">
+            <h3 className="text-md font-semibold text-blue-500 flex items-center gap-2">
+              <Shield className="h-5 w-5" />
+              AES-256 Encryption
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Military-grade AES-256 encryption secures all your sensitive data.
             </p>
           </div>
         </div>
@@ -278,14 +330,14 @@ export default function LandingPage() {
         </h2>
         <a
           href="/dashboard"
-          className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:brightness-110 transition text-lg font-bold"
+          className="relative inline-flex items-center justify-center px-7 py-3 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-indigo-800 to-purple-800 rounded-2xl shadow-lg hover:shadow-2xl hover:scale-[1.03] hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
         >
           Go to Dashboard
         </a>
       </section>
 
       {/* Footer */}
-      <Footer/>
+      <Footer />
     </main>
   );
 }

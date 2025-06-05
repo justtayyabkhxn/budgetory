@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import axios, { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
+import { Upload } from "lucide-react";
 
 type User = {
   name: string;
@@ -18,7 +19,7 @@ interface Transaction {
   category: string;
   type: "income" | "expense";
   date: string;
-  comment: string;
+  comment?: string;
 }
 
 type DecodedToken = {
@@ -30,6 +31,8 @@ export default function Profile() {
 
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error" | "">("");
+  const [isImporting, setIsImporting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -51,14 +54,13 @@ export default function Profile() {
     }
   };
 
-  
-
   const handleDeleteAllTransactions = async () => {
     if (deleteInput !== "delete") {
       setDeleteMessage("You must type 'delete' to confirm.");
       return;
     }
 
+    setIsDeleting(true);
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -71,16 +73,18 @@ export default function Profile() {
       });
 
       if (res.status === 200) {
-        setDeleteMessage("All transactions have been deleted.");
+        setDeleteMessage("✅ All transactions have been deleted.");
         setDeleteInput("");
         setShowDeleteConfirm(false);
         fetchTransactions();
       } else {
-        setDeleteMessage("Failed to delete transactions.");
+        setDeleteMessage("❌ Failed to delete transactions.");
       }
     } catch (err) {
       console.error(err);
-      setDeleteMessage("Error deleting transactions.");
+      setDeleteMessage("❌ Error deleting transactions.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -91,11 +95,11 @@ export default function Profile() {
       return;
     }
 
+    setIsImporting(true);
     try {
       const text = await importFile.text();
       const importedTxs: Omit<Transaction, "_id">[] = JSON.parse(text);
 
-      // Filter out invalid txs (optional)
       const validTxs = importedTxs.filter(
         (tx) =>
           tx.title &&
@@ -117,7 +121,6 @@ export default function Profile() {
         return;
       }
 
-      // Send all valid transactions in one POST request
       const response = await axios.post("/api/transactions/import", validTxs, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -128,7 +131,7 @@ export default function Profile() {
         );
         setImportMessageType("success");
         setImportFile(null);
-        fetchTransactions(); // Refresh list after import
+        fetchTransactions();
       } else {
         setImportMessage("Failed to import transactions.");
         setImportMessageType("error");
@@ -139,6 +142,8 @@ export default function Profile() {
         "Failed to import transactions. Please check the file format."
       );
       setImportMessageType("error");
+    } finally {
+      setIsImporting(false);
     }
   };
 
@@ -290,10 +295,23 @@ export default function Profile() {
           />
           <button
             onClick={handleImport}
-            className="w-full mt-2 bg-gradient-to-r cursor-pointer from-green-600 to-blue-600 text-white py-2 px-4 rounded-xl shadow hover:shadow-lg transition"
+            disabled={isImporting}
+            className={`w-full mt-4 py-2 px-4 rounded-xl shadow text-white transition-all duration-300 ${
+              isImporting
+                ? "bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed"
+                : "bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+            }`}
           >
-            Import Transactions (JSON file)
+            {isImporting ? (
+              "Importing..."
+            ) : (
+              <span className="flex items-center justify-center gap-2">
+                <Upload className="w-5 h-5" />
+                Import Transactions
+              </span>
+            )}{" "}
           </button>
+
           {importMessage && (
             <p
               className={`mt-2 text-sm font-medium ${
@@ -307,53 +325,62 @@ export default function Profile() {
           )}
         </div>
 
-       <div className="mb-10">
-  {!showDeleteConfirm ? (
-    <button
-      onClick={() => setShowDeleteConfirm(true)}
-      className="w-full mt-4 bg-gradient-to-r from-red-500 to-pink-500 cursor-pointer text-white py-2 px-4 rounded-xl shadow hover:shadow-lg transition"
-    >
-      Delete All Transactions
-    </button>
-  ) : (
-    <div className="bg-red-50 dark:bg-red-900 p-4 mt-4 rounded-xl shadow">
-      <p className="text-sm font-semibold text-red-600 dark:text-red-300 mb-2">
-        This action is irreversible. To confirm, type <strong>delete</strong> below:
-      </p>
-      <input
-        type="text"
-        value={deleteInput}
-        onChange={(e) => setDeleteInput(e.target.value)}
-        placeholder='Type "delete" to confirm'
-        className="w-full px-4 py-2 rounded-md border bg-white dark:bg-gray-800 text-gray-800 dark:text-white mb-2"
-      />
-      {deleteMessage && (
-        <p className={`text-sm mb-2 ${deleteMessage.includes('success') ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-300'}`}>
-          {deleteMessage}
-        </p>
-      )}
-      <div className="flex gap-2">
-        <button
-          onClick={handleDeleteAllTransactions}
-          className="flex-1 bg-gradient-to-r from-red-600 to-pink-600 text-white py-2 rounded-lg"
-        >
-          Confirm Delete
-        </button>
-        <button
-          onClick={() => {
-            setShowDeleteConfirm(false);
-            setDeleteInput("");
-            setDeleteMessage("");
-          }}
-          className="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 rounded-lg"
-        >
-          Cancel
-        </button>
-      </div>
-    </div>
-  )}
-</div>
+        <div className="mb-10">
+          {!showDeleteConfirm ? (
+            <button
+              onClick={() => setShowDeleteConfirm(true)}
+              className="w-full mt-4 bg-gradient-to-r from-red-500 to-pink-500 cursor-pointer text-white py-2 px-4 rounded-xl shadow hover:shadow-lg transition"
+            >
+              Delete All Transactions
+            </button>
+          ) : (
+            <div className="bg-red-50 dark:bg-red-900 p-4 mt-4 rounded-xl shadow">
+              <p className="text-sm font-semibold text-red-600 dark:text-red-300 mb-2">
+                This action is irreversible. To confirm, type{" "}
+                <strong>delete</strong> below:
+              </p>
+              <input
+                type="text"
+                value={deleteInput}
+                onChange={(e) => setDeleteInput(e.target.value)}
+                placeholder='Type "delete" to confirm'
+                className="w-full px-4 py-2 rounded-md border bg-white dark:bg-gray-800 text-gray-800 dark:text-white mb-2"
+              />
 
+              <div className="flex gap-2">
+                <button
+                  onClick={handleDeleteAllTransactions}
+                  disabled={isDeleting}
+                  className="flex-1 bg-gradient-to-r from-red-600 to-pink-600 text-white py-2 rounded-lg disabled:opacity-50"
+                >
+                  {isDeleting ? "Deleting..." : "Confirm Delete"}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowDeleteConfirm(false);
+                    setDeleteInput("");
+                    setDeleteMessage("");
+                  }}
+                  className="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 rounded-lg"
+                >
+                  Cancel
+                </button>
+              </div>
+
+              {deleteMessage && (
+                <p
+                  className={`text-sm mt-3 text-center ${
+                    deleteMessage.includes("✅")
+                      ? "text-green-600 dark:text-green-400"
+                      : "text-red-600 dark:text-red-300"
+                  }`}
+                >
+                  {deleteMessage}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Password Change Form */}
         <form onSubmit={handlePasswordChange} className="space-y-5">

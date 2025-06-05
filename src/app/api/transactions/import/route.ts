@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import connectDB from '@/lib/dbConnect';
 import Transaction from '@/models/Transaction';
+import { encrypt } from '@/utils/crypto'; // ⬅️ make sure this exists
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
@@ -58,19 +59,18 @@ export async function POST(req: Request) {
         !type ||
         !date
       ) {
-        // Skip invalid transaction
         continue;
       }
 
       await Transaction.create({
         userId,
-        title,
-        amount,
+        title: encrypt(title),
+        amount: encrypt(amount.toString()),
         category,
         type,
         date: new Date(date),
-        comment: comment || '',
-        paymentMode: paymentMode || 'Cash', // default to 'cash' if not provided
+        comment: encrypt(comment || ''),
+        paymentMode: paymentMode || 'Cash',
       });
 
       importedCount++;

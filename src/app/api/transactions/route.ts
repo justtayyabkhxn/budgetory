@@ -2,10 +2,10 @@
 import jwt from "jsonwebtoken";
 import connectDB from "@/lib/dbConnect";
 import Transaction from "@/models/Transaction";
+import { encrypt, decrypt } from "@/utils/crypto";
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret";
 
-// Helper: extract userId from “Authorization: Bearer <token>”
 function getUserId(authHeader?: string): string | null {
   if (!authHeader?.startsWith("Bearer ")) return null;
   const token = authHeader.split(" ")[1];
@@ -29,19 +29,21 @@ export async function POST(req: Request) {
 
   const { title, amount, category, type, date, comment, paymentMode } =
     await req.json();
+
   await connectDB();
 
   try {
     const tx = await Transaction.create({
       userId,
-      title,
-      amount: Number(amount),
+      title: encrypt(title),
+      amount: encrypt(amount.toString()),
       category,
       type,
       date: new Date(date),
-      comment,
-      paymentMode, // include only if exists
+      comment: encrypt(comment || ""),
+      paymentMode,
     });
+
     return new Response(JSON.stringify({ transaction: tx }), {
       status: 201,
       headers: { "Content-Type": "application/json" },
@@ -71,11 +73,19 @@ export async function GET(req: Request) {
 
   try {
     const transactions = await Transaction.find({ userId }).sort({ date: -1 });
-    return new Response(JSON.stringify({ transactions }), {
+
+    const decryptedTxns = transactions.map(txn => ({
+      ...txn.toObject(),
+      title: decrypt(txn.title),
+      amount: parseFloat(decrypt(txn.amount)),
+      comment: decrypt(txn.comment),
+    }));
+
+    return new Response(JSON.stringify({ transactions: decryptedTxns }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  } catch {
+  } catch (err) {
     return new Response(
       JSON.stringify({ error: "Failed to fetch transactions" }),
       { status: 500, headers: { "Content-Type": "application/json" } }
@@ -83,7 +93,6 @@ export async function GET(req: Request) {
   }
 }
 
-// DELETE /api/transactions
 export async function DELETE(req: Request) {
   const auth = req.headers.get("authorization") || "";
   const userId = getUserId(auth);

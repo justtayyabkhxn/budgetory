@@ -3,7 +3,9 @@ import { getUserFromToken } from "@/utils/getUserFromToken";
 import Transaction from "@/models/Transaction";
 import dbConnect from "@/lib/dbConnect";
 import mongoose from "mongoose";
+import { encrypt, decrypt } from "@/utils/crypto";
 
+// DELETE /api/transactions/:id
 export async function DELETE(req: NextRequest) {
   const user = await getUserFromToken(req);
   if (!user) {
@@ -12,7 +14,6 @@ export async function DELETE(req: NextRequest) {
 
   await dbConnect();
 
-  // Extract transaction ID from the URL
   const id = req.nextUrl.pathname.split("/").pop();
 
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
@@ -42,7 +43,7 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-
+// GET /api/transactions/:id
 export async function GET(req: NextRequest) {
   const user = await getUserFromToken(req);
   if (!user) {
@@ -64,7 +65,14 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Transaction not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, transaction }, { status: 200 });
+    const decryptedTxn = {
+      ...transaction.toObject(),
+      title: decrypt(transaction.title),
+      amount: parseFloat(decrypt(transaction.amount)),
+      comment: decrypt(transaction.comment || ""),
+    };
+
+    return NextResponse.json({ success: true, transaction: decryptedTxn }, { status: 200 });
   } catch (err) {
     console.error("GET /transactions/:id error:", err);
     return NextResponse.json(
@@ -86,19 +94,32 @@ export async function PATCH(req: NextRequest) {
   const id = req.nextUrl.pathname.split("/").pop();
 
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-    return NextResponse.json(
-      { error: "Invalid transaction ID" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Invalid transaction ID" }, { status: 400 });
   }
 
   try {
     const body = await req.json();
-    const { title, amount, category, type, date } = body;
+    const {
+      title,
+      amount,
+      category,
+      type,
+      date,
+      comment,
+      paymentMode,
+    } = body;
 
     const updated = await Transaction.findOneAndUpdate(
       { _id: id, userId: user._id },
-      { title, amount, category, type, date },
+      {
+        ...(title && { title: encrypt(title) }),
+        ...(amount && { amount: encrypt(amount.toString()) }),
+        ...(comment && { comment: encrypt(comment) }),
+        ...(category && { category }),
+        ...(type && { type }),
+        ...(date && { date: new Date(date) }),
+        ...(paymentMode && { paymentMode }),
+      },
       { new: true }
     );
 
@@ -109,8 +130,15 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
+    const decryptedTxn = {
+      ...updated.toObject(),
+      title: decrypt(updated.title),
+      amount: parseFloat(decrypt(updated.amount)),
+      comment: decrypt(updated.comment || ""),
+    };
+
     return NextResponse.json(
-      { success: true, message: "Transaction updated", transaction: updated },
+      { success: true, message: "Transaction updated", transaction: decryptedTxn },
       { status: 200 }
     );
   } catch (err) {
