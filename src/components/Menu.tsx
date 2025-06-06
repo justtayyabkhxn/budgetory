@@ -29,7 +29,7 @@ export default function MenuButton() {
 
   const linkClasses = (path) =>
     `text-left cursor-pointer hover:underline ${
-      pathname === path ? "text-green-400 font-semibold" : ""
+      pathname === path ? "text-gray-600 font-semibold" : ""
     }`;
 
   const handleLogout = async () => {
@@ -63,9 +63,7 @@ export default function MenuButton() {
           {menuOpen ? <X size={18} /> : <Menu size={18} />}
         </motion.span>
 
-        <span className="tracking-wide">
-          {menuOpen ? "Menu" : "Menu"}
-        </span>
+        <span className="tracking-wide">{menuOpen ? "Menu" : "Menu"}</span>
 
         {/* Glowing ring effect on hover */}
         <span className="absolute inset-0 rounded-xl ring-1 ring-white/10 group-hover:ring-white/20 transition duration-300" />
@@ -87,26 +85,26 @@ export default function MenuButton() {
       >
         <div className="flex flex-col h-full p-6 space-y-10  mb-5">
           <div className="flex justify-start mb-5">
-            
             <button
               onClick={toggleMenu}
               className="text-md text-white cursor-pointer font-extrabold"
             >
-              <Menu/>
+              <Menu />
             </button>
           </div>
           <Link
             href="/dashboard"
             className={`${linkClasses("/dashboard")} flex items-center gap-2`}
           >
-            <FileDigit />
+            <FileDigit color="#4f46e5" /> {/* Indigo */}
             Dashboard
           </Link>
+
           <Link
             href="/debt-lent"
             className={`${linkClasses("/debt-lent")} flex items-center gap-2`}
           >
-            <WalletMinimal />
+            <WalletMinimal color="#9333ea" /> {/* Purple */}
             Debt Tracker
           </Link>
 
@@ -114,53 +112,59 @@ export default function MenuButton() {
             href="/transactions"
             className={`${linkClasses(
               "/transactions"
-            )} flex items-center gap-2 `}
+            )} flex items-center gap-2`}
           >
-            <BadgeIndianRupee />
+            <BadgeIndianRupee color="#16a34a" /> {/* Green */}
             Transactions
           </Link>
+
           <Link
             href="/expenses"
-            className={`${linkClasses("/expenses")} flex items-center gap-2 `}
+            className={`${linkClasses("/expenses")} flex items-center gap-2`}
           >
-            <BanknoteArrowDown />
+            <BanknoteArrowDown color="#dc2626" /> {/* Red */}
             Expenses
           </Link>
+
           <Link
             href="/inflow"
-            className={`${linkClasses("/inflow")} flex items-center gap-2 `}
+            className={`${linkClasses("/inflow")} flex items-center gap-2`}
           >
-            <Wallet /> Income
+            <Wallet color="#059669" /> {/* Emerald */}
+            Income
           </Link>
 
           <Link
             href="/charts"
-            className={`${linkClasses("/charts")} flex items-center gap-2 `}
+            className={`${linkClasses("/charts")} flex items-center gap-2`}
           >
-            <ChartCandlestick />
+            <ChartCandlestick color="#0ea5e9" /> {/* Sky Blue */}
             Charts
           </Link>
+
           <Link
             href="/stats"
-            className={`${linkClasses("/stats")} flex items-center gap-2 `}
+            className={`${linkClasses("/stats")} flex items-center gap-2`}
           >
-            <ChartNoAxesCombined />
+            <ChartNoAxesCombined color="#f59e0b" /> {/* Amber */}
             Stats
           </Link>
+
           <Link
             href="/advanced-search"
             className={`${linkClasses(
               "/advanced-search"
-            )} flex items-center gap-2 `}
+            )} flex items-center gap-2`}
           >
-            <TextSearch />
+            <TextSearch color="#a855f7" /> {/* Violet */}
             Advanced Search
           </Link>
+
           <Link
             href="/profile"
-            className={`${linkClasses("/profile")} flex items-center gap-2 `}
+            className={`${linkClasses("/profile")} flex items-center gap-2`}
           >
-            <CircleUserRound />
+            <CircleUserRound color="#3b82f6" /> {/* Blue */}
             Profile
           </Link>
 
@@ -172,7 +176,7 @@ export default function MenuButton() {
               href="/login"
               className="flex items-center gap-2 hover:underline text-red-500"
             >
-              <LogIn />
+              <LogIn color="#ef4444" /> {/* Bright Red */}
               Logout
             </a>
           </button>
