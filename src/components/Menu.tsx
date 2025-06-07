@@ -57,7 +57,7 @@ export default function MenuButton() {
       {/* Toggle Button */}
       <button
         onClick={toggleMenu}
-        className="group relative inline-flex items-center justify-center gap-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-2 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
+        className="group relative inline-flex items-center cursor-pointer justify-center gap-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-2 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
       >
         <motion.span
           initial={{ rotate: 0 }}
