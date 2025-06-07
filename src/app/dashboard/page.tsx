@@ -211,7 +211,7 @@ export default function Dashboard() {
             {/* Left side: Heading and welcome text */}
             <div className="mt-0">
               <div className="flex items-center gap-2">
-                <FileDigit />
+                <FileDigit color="#00d138" />
                 <h1 className="text-4xl font-extrabold tracking-tight">
                   Dashboard
                 </h1>
@@ -235,13 +235,13 @@ export default function Dashboard() {
           </div>
 
           <div className="flex items-center gap-2 text-2xl font-extrabold tracking-tight mb-4">
-            <CalendarClock />
+            <CalendarClock color="#ec4899" />
             Today :{" "}
             <span className={`text-gray-300 ${loading ? "animate-pulse" : ""}`}>
               {loading ? "Loading..." : `₹ ${today}.00`}
             </span>{" "}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 overflow-x-auto mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 tracking-tight overflow-x-auto mb-4">
             <Link href="/inflow" className="cursor-pointer">
               <TxnCard
                 title={`Total Inflow (${new Date().toLocaleString("default", {
@@ -280,7 +280,7 @@ export default function Dashboard() {
           {/* Recent Transactions */}
           <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 rounded-xl p-6 shadow-lg ">
             <div className="flex items-center gap-2 mb-4">
-              <RefreshCcwDot />
+              <RefreshCcwDot color="#ec4899" />
               <h2 className="text-xl font-semibold ">Recent Transactions</h2>
             </div>
 

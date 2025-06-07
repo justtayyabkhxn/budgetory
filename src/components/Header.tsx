@@ -22,14 +22,14 @@ export default function Header() {
       </Link>
 
       <motion.p
-        className="text-lg text-gray-500 dark:text-gray-300 font-bold mt-2 flex items-center gap-2"
+        className="text-lg text-gray-500 dark:text-gray-300 font-bold tracking-tight mt-2 flex items-center gap-1 mb-3"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        <CreditCard />
+        <CreditCard color="#4f46e5" /> {/* Indigo */}
         Your Budget.
-        <ScrollText />
+        <ScrollText color="#ec4899" /> {/* Pink */}
         Your Story.
       </motion.p>
     </motion.div>

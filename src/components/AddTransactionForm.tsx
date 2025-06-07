@@ -132,7 +132,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
   return (
     <div className="mb-4 bg-[#111]/80  rounded-xl p-6 ">
       <div className="flex items-center gap-2 mb-4">
-        <Plus />
+        <Plus color="#00d138" />
         <h2 className="text-xl font-bold ">Add New Transaction</h2>
       </div>
       <form
@@ -181,7 +181,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
         <div className="flex items-center gap-2">
           {(() => {
             const Icon = categoryIcons[form.category] || BanknoteArrowUp;
-            return <Icon className="w-5 h-5 text-gray-400" />;
+            return <Icon className="w-5 h-5 text-pink-600 " />;
           })()}
 
           <select
@@ -217,7 +217,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
 
         <input
           name="comment"
-          placeholder="Comment"
+          placeholder="Comment (Optional)"
           value={form.comment}
           onChange={handleChange}
           className="p-2 rounded bg-black border border-gray-900 text-white resize-none"

@@ -1,3 +1,4 @@
+"use client";
 import { motion } from "framer-motion";
 import {
   BadgeIndianRupee,
@@ -16,20 +17,24 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import router from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function MenuButton() {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
   const pathname = usePathname();
 
-  const linkClasses = (path) =>
-    `text-left cursor-pointer hover:underline ${
-      pathname === path ? "text-gray-600 font-semibold" : ""
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  const linkClasses = (path: string) =>
+    `text-center cursor-pointer transition-all duration-200 ${
+      pathname === path ? "bg-white/10 font-semibold rounded-2xl p-2" : ""
     }`;
 
   const handleLogout = async () => {
@@ -49,11 +54,10 @@ export default function MenuButton() {
 
   return (
     <div className="relative z-50">
-      {/* Menu Toggle Button */}
-
+      {/* Toggle Button */}
       <button
         onClick={toggleMenu}
-        className="group relative inline-flex items-center justify-center gap-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-2 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none cursor-pointer"
+        className="group relative inline-flex items-center justify-center gap-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-2 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
       >
         <motion.span
           initial={{ rotate: 0 }}
@@ -62,124 +66,71 @@ export default function MenuButton() {
         >
           {menuOpen ? <X size={18} /> : <Menu size={18} />}
         </motion.span>
-
-        <span className="tracking-wide">{menuOpen ? "Menu" : "Menu"}</span>
-
-        {/* Glowing ring effect on hover */}
+        <span className="tracking-wide">Menu</span>
         <span className="absolute inset-0 rounded-xl ring-1 ring-white/10 group-hover:ring-white/20 transition duration-300" />
       </button>
 
-      {/* Overlay (optional, for dimming background) */}
+      {/* Dimmed Overlay */}
       {menuOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm transition-opacity duration-300 z-40"
+          className="fixed inset-0 backdrop-blur-xs bg-black/30 z-40"
           onClick={toggleMenu}
         />
       )}
 
-      {/* Side Menu */}
+      {/* Glass Side Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-gradient-to-br from-white to-gray-100 dark:from-gray-900 dark:to-black text-gray-800 dark:text-gray-200 shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+        className={`fixed top-0 right-0 h-full w-64 backdrop-blur-sm bg-white/10 dark:bg-black/20 border-l border-white/20 dark:border-white/10 text-gray-100 dark:text-white shadow-2xl transition-transform duration-300 ease-in-out z-50 rounded-l-3xl ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex flex-col h-full p-6 space-y-10  mb-5">
-          <div className="flex justify-start mb-5">
+        <div className="flex flex-col h-full px-6 py-8 space-y-6">
+          <div className="flex justify-start">
             <button
               onClick={toggleMenu}
-              className="text-md text-white cursor-pointer font-extrabold"
+              className="text-md text-white font-bold"
             >
               <Menu />
             </button>
           </div>
-          <Link
-            href="/dashboard"
-            className={`${linkClasses("/dashboard")} flex items-center gap-2`}
-          >
-            <FileDigit color="#4f46e5" /> {/* Indigo */}
-            Dashboard
-          </Link>
 
-          <Link
-            href="/debt-lent"
-            className={`${linkClasses("/debt-lent")} flex items-center gap-2`}
-          >
-            <WalletMinimal color="#9333ea" /> {/* Purple */}
-            Debt Tracker
-          </Link>
+          {/* Navigation Links */}
+          <nav className="space-y-8 mt-4">
+            <Link href="/dashboard" className={`${linkClasses("/dashboard")} flex items-center gap-2`}>
+              <FileDigit color="#818cf8" /> Dashboard
+            </Link>
+            <Link href="/debt-lent" className={`${linkClasses("/debt-lent")} flex items-center gap-2`}>
+              <WalletMinimal color="#a78bfa" /> Debt Tracker
+            </Link>
+            <Link href="/transactions" className={`${linkClasses("/transactions")} flex items-center gap-2`}>
+              <BadgeIndianRupee color="#4ade80" /> Transactions
+            </Link>
+            <Link href="/expenses" className={`${linkClasses("/expenses")} flex items-center gap-2`}>
+              <BanknoteArrowDown color="#f87171" /> Expenses
+            </Link>
+            <Link href="/inflow" className={`${linkClasses("/inflow")} flex items-center gap-2`}>
+              <Wallet color="#34d399" /> Income
+            </Link>
+            <Link href="/charts" className={`${linkClasses("/charts")} flex items-center gap-2`}>
+              <ChartCandlestick color="#38bdf8" /> Charts
+            </Link>
+            <Link href="/stats" className={`${linkClasses("/stats")} flex items-center gap-2`}>
+              <ChartNoAxesCombined color="#fbbf24" /> Stats
+            </Link>
+            <Link href="/advanced-search" className={`${linkClasses("/advanced-search")} flex items-center gap-2`}>
+              <TextSearch color="#d946ef" /> Advanced Search
+            </Link>
+            <Link href="/profile" className={`${linkClasses("/profile")} flex items-center gap-2`}>
+              <CircleUserRound color="#60a5fa" /> Profile
+            </Link>
+          </nav>
 
-          <Link
-            href="/transactions"
-            className={`${linkClasses(
-              "/transactions"
-            )} flex items-center gap-2`}
-          >
-            <BadgeIndianRupee color="#16a34a" /> {/* Green */}
-            Transactions
-          </Link>
-
-          <Link
-            href="/expenses"
-            className={`${linkClasses("/expenses")} flex items-center gap-2`}
-          >
-            <BanknoteArrowDown color="#dc2626" /> {/* Red */}
-            Expenses
-          </Link>
-
-          <Link
-            href="/inflow"
-            className={`${linkClasses("/inflow")} flex items-center gap-2`}
-          >
-            <Wallet color="#059669" /> {/* Emerald */}
-            Income
-          </Link>
-
-          <Link
-            href="/charts"
-            className={`${linkClasses("/charts")} flex items-center gap-2`}
-          >
-            <ChartCandlestick color="#0ea5e9" /> {/* Sky Blue */}
-            Charts
-          </Link>
-
-          <Link
-            href="/stats"
-            className={`${linkClasses("/stats")} flex items-center gap-2`}
-          >
-            <ChartNoAxesCombined color="#f59e0b" /> {/* Amber */}
-            Stats
-          </Link>
-
-          <Link
-            href="/advanced-search"
-            className={`${linkClasses(
-              "/advanced-search"
-            )} flex items-center gap-2`}
-          >
-            <TextSearch color="#a855f7" /> {/* Violet */}
-            Advanced Search
-          </Link>
-
-          <Link
-            href="/profile"
-            className={`${linkClasses("/profile")} flex items-center gap-2`}
-          >
-            <CircleUserRound color="#3b82f6" /> {/* Blue */}
-            Profile
-          </Link>
-
-          <button
-            onClick={handleLogout}
-            className="text-left text-red-500 hover:underline font-semibold mt-auto cursor-pointer"
-          >
-            <a
-              href="/login"
-              className="flex items-center gap-2 hover:underline text-red-500"
-            >
-              <LogIn color="#ef4444" /> {/* Bright Red */}
-              Logout
-            </a>
-          </button>
+          {/* Logout Button */}
+          <div className="mt-auto">
+            <button onClick={handleLogout} className="flex items-center gap-2 bg-white/3 p-3 rounded-3xl hover:underline font-semibold">
+              <LogIn color="#ef4444" /> Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>
