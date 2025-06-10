@@ -83,14 +83,7 @@ const ChartsPage = () => {
         });
 
         // ✅ Cash and UPI calculation
-        const cashAmt = monthlyTxs
-          .filter((tx) => tx.paymentMode === "Cash")
-          .reduce((sum, tx) => sum + Number(tx.amount), 0);
-
-        const upiAmt = monthlyTxs
-          .filter((tx) => tx.paymentMode === "UPI")
-          .reduce((sum, tx) => sum + Number(tx.amount), 0);
-
+      
 
         const inflowAmt = monthlyTxs
           .filter((tx) => tx.type === "income")
