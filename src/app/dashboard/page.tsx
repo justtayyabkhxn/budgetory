@@ -273,7 +273,7 @@ export default function Dashboard() {
 
             <div>
               <TxnCard
-                title={`Net (${new Date().toLocaleString("default", {
+                title={`Savings (${new Date().toLocaleString("default", {
                   month: "long",
                 })})`}
                 amount={loading ? "Loading..." : `₹ ${net.toLocaleString()}.00`}
