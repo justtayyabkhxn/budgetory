@@ -83,18 +83,20 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
   }, [form.type]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
-    setLoading(true);
+  e.preventDefault();
+  setError("");
+  setSuccess("");
+  setLoading(true);
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("You must be logged in");
-      setLoading(false);
-      return;
-    }
+  const token = localStorage.getItem("token");
+  if (!token) {
+    setError("You must be logged in");
+    setLoading(false);
+    return;
+  }
 
+  try {
+    // First add the transaction
     const res = await fetch("/api/transactions", {
       method: "POST",
       headers: {
@@ -104,30 +106,56 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
       body: JSON.stringify(form),
     });
 
-    if (res.ok) {
-      setSuccess("Transaction added!");
-      setForm({
-        title: "",
-        amount: "",
-        category: "Food",
-        type: "income",
-        date: "",
-        comment: "",
-        paymentMode: "Cash",
-      });
-      onAdd();
-
-      const updated = await fetch("/api/transactions", {
-        headers: { Authorization: `Bearer ${token}` },
-      }).then((r) => r.json());
-      if (updated.transactions) setTxs(updated.transactions);
-    } else {
+    if (!res.ok) {
       const data = await res.json();
-      setError(data.error || "Something went wrong");
+      throw new Error(data.error || "Failed to add transaction");
     }
 
+    // Then update the bank balance
+    const amount = parseFloat(form.amount);
+    const adjustment = form.type === "income" ? amount : -amount;
+
+    const balanceRes = await fetch("/api/networth/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        adjustment, // Pass the amount to adjust (positive or negative)
+        paymentMode: form.paymentMode // Optional: track payment method
+      }),
+    });
+
+    if (!balanceRes.ok) {
+      throw new Error("Failed to update bank balance");
+    }
+
+    // On success
+    setSuccess("Transaction added and balance updated!");
+    setForm({
+      title: "",
+      amount: "",
+      category: "Food",
+      type: "income",
+      date: "",
+      comment: "",
+      paymentMode: "Cash",
+    });
+    onAdd();
+
+    // Refresh transactions list
+    const updated = await fetch("/api/transactions", {
+      headers: { Authorization: `Bearer ${token}` },
+    }).then((r) => r.json());
+    if (updated.transactions) setTxs(updated.transactions);
+
+  } catch (err) {
+    setError(err.message || "Something went wrong");
+  } finally {
     setLoading(false);
-  };
+  }
+};
 
   return (
     <div className="mb-4 bg-[#111]/80  rounded-xl p-6 ">
