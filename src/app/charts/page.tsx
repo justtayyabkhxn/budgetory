@@ -11,7 +11,6 @@ import {
   TrendingUp,
   TrendingDown,
   BarChartBig,
-  ChartCandlestick,
 } from "lucide-react";
 
 type Transaction = {
@@ -27,8 +26,6 @@ type Transaction = {
 const ChartsPage = () => {
   const [inflow, setInflow] = useState(0);
   const [expense, setExpense] = useState(0);
-  const [cashAmount, setCashAmount] = useState(0);
-  const [upiAmount, setUpiAmount] = useState(0);
 
   const [dailyBarData, setDailyBarData] = useState<{
     categories: string[];
@@ -94,8 +91,6 @@ const ChartsPage = () => {
           .filter((tx) => tx.paymentMode === "UPI")
           .reduce((sum, tx) => sum + Number(tx.amount), 0);
 
-        setCashAmount(cashAmt);
-        setUpiAmount(upiAmt);
 
         const inflowAmt = monthlyTxs
           .filter((tx) => tx.type === "income")

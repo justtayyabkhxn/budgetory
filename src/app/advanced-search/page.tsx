@@ -20,11 +20,8 @@ type User = {
 
 import {
   Utensils,
-  Shirt,
-  Briefcase,
   HeartPulse,
-  ReceiptText,
-  Clapperboard,
+
   Plane,
   BanknoteArrowUp,
   TextSearch,
