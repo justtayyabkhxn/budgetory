@@ -1,5 +1,5 @@
 "use client";
-import { JSX, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Menu from "@/components/Menu";
@@ -18,7 +18,7 @@ type User = {
   email: string;
 };
 
-import { categoryIcons, fallbackIcon } from "@/lib/categoryIcons"
+import { categoryIcons } from "@/lib/categoryIcons"
 import Header from "@/components/Header";
 import { ArrowUp, BanknoteArrowUp, Search, TextSearch } from "lucide-react";
 
