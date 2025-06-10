@@ -2,7 +2,7 @@
 
 import { TxnCard } from "@/components/TxnCard";
 import { useEffect, useState } from "react";
-import { Coins, Landmark, PiggyBank, Check, Pencil } from "lucide-react";
+import { Coins, Landmark, PiggyBank, Check, Pencil, X } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingTransactionButton from "@/components/FloatingTransactionButton";
@@ -15,6 +15,11 @@ export default function NetWorthPage() {
   const [editMode, setEditMode] = useState(false);
   const [bankBalance, setBankBalance] = useState<number>(0);
   const [newBalance, setNewBalance] = useState<string>("");
+
+  const handleCancelEdit = () => {
+    setEditMode(false);
+    setNewBalance(""); // Reset the input field
+  };
 
   useEffect(() => {
     let isMounted = true; // To prevent state updates after component unmounts
@@ -129,15 +134,33 @@ export default function NetWorthPage() {
         />
 
         {/* Edit / Save Icon */}
+        {/* Edit / Save/Cancel Buttons */}
         <div className="absolute top-4 right-4">
           {!editMode ? (
-            <button onClick={() => setEditMode(true)} title="Edit">
+            <button
+              onClick={() => setEditMode(true)}
+              title="Edit"
+              className=" p-1 rounded cursor-pointer"
+            >
               <Pencil className="w-5 h-5 mt-10 text-orange-600 hover:text-yellow-400" />
             </button>
           ) : (
-            <button onClick={handleUpdateBalance} title="Save">
-              <Check className="w-5 h-5 mt-10 text-green-400 hover:text-green-500" />
-            </button>
+            <div className="flex gap-1">
+              <button
+                onClick={handleUpdateBalance}
+                title="Save"
+                className=" p-1 rounded cursor-pointer"
+              >
+                <Check className="w-5 h-5 mt-10 text-green-400 hover:text-green-500" />
+              </button>
+              <button
+                onClick={handleCancelEdit}
+                title="Cancel"
+                className="mt-10 p-1 rounded cursor-pointer"
+              >
+                <X className="w-5 h-5 text-red-400 hover:text-red-500" />
+              </button>
+            </div>
           )}
         </div>
 

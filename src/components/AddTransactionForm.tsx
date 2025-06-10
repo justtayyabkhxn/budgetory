@@ -143,7 +143,6 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
       paymentMode: "Cash",
     });
     onAdd();
-
     // Refresh transactions list
     const updated = await fetch("/api/transactions", {
       headers: { Authorization: `Bearer ${token}` },
