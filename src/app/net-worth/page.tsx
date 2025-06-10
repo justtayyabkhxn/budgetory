@@ -6,6 +6,7 @@ import { Coins, Landmark, PiggyBank, Check, Pencil } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingTransactionButton from "@/components/FloatingTransactionButton";
+import MenuButton from "@/components/Menu";
 
 export default function NetWorthPage() {
   const [netWorth, setNetWorth] = useState<number>(0);
@@ -102,10 +103,15 @@ export default function NetWorthPage() {
     <div className="min-h-screen p-6 sm:p-10 max-w-4xl mx-auto text-white">
       <Header />
 
-      <h1 className="text-3xl font-bold mb-6 flex items-center gap-3">
-        <PiggyBank className="text-yellow-400 w-7 h-7" />
-        Net Worth
-      </h1>
+      <div className="flex justify-between items-center mb-5">
+        <div className="flex items-center gap-2">
+          <PiggyBank className="text-yellow-400 w-7 h-7" />
+          <h1 className="text-4xl font-extrabold tracking-tight mb-0 text-white">
+            Net Worth
+          </h1>
+        </div>
+        <MenuButton />
+      </div>
 
       {/* Bank Balance Card with Editable Input */}
       <div className="relative mb-6">

@@ -9,6 +9,7 @@ import {
   FileDigit,
   LogIn,
   Menu,
+  PiggyBank,
   TextSearch,
   Wallet,
   WalletMinimal,
@@ -99,6 +100,10 @@ export default function MenuButton() {
             <Link href="/dashboard" className={`${linkClasses("/dashboard")} flex items-center gap-2`}>
               <FileDigit color="#818cf8" /> Dashboard
             </Link>
+            <Link href="/net-worth" className={`${linkClasses("/net-worth")} flex items-center gap-2`}>
+              <PiggyBank color="#fcba03" /> Net Worth
+            </Link>
+
             <Link href="/debt-lent" className={`${linkClasses("/debt-lent")} flex items-center gap-2`}>
               <WalletMinimal color="#a78bfa" /> Debt Tracker
             </Link>
