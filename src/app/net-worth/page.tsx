@@ -2,7 +2,15 @@
 
 import { TxnCard } from "@/components/TxnCard";
 import { useEffect, useState } from "react";
-import { Coins, Landmark, PiggyBank, Check, Pencil, X } from "lucide-react";
+import {
+  Coins,
+  Landmark,
+  PiggyBank,
+  Check,
+  Pencil,
+  X,
+  RefreshCw,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingTransactionButton from "@/components/FloatingTransactionButton";
@@ -22,56 +30,54 @@ export default function NetWorthPage() {
   };
 
   useEffect(() => {
-    let isMounted = true; // To prevent state updates after component unmounts
+    let isMounted = true;
 
-    async function fetchNetWorth() {
-      try {
-        // Get token from localStorage
-        const token = localStorage.getItem("token");
+    fetchNetWorth(isMounted);
 
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-
-        const res = await fetch("/api/networth", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-
-        const data = await res.json();
-
-        // Only update state if component is still mounted
-        if (isMounted) {
-          setBankBalance(data.bankBalance || 0); // Default to 0 if undefined
-          setLoading(false); // Set loading to false after data is loaded
-          setNetWorth(data.bankBalance || 0);
-        }
-      } catch (error) {
-        console.error("Failed to fetch net worth:", error);
-        if (isMounted) {
-          setBankBalance(0); // Reset to 0 on error
-          setNetWorth(0);
-
-          setLoading(false); // Set loading to false after data is loaded
-        }
-      }
-    }
-
-    fetchNetWorth();
-
-    // Cleanup function
     return () => {
       isMounted = false;
     };
-  }, []); //
+  }, []);
+
+  async function fetchNetWorth(isMounted = true) {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+
+      const res = await fetch("/api/networth", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      if (isMounted) {
+        setBankBalance(data.bankBalance || 0);
+        setNetWorth(data.bankBalance || 0);
+      }
+    } catch (error) {
+      console.error("Failed to fetch net worth:", error);
+      if (isMounted) {
+        setBankBalance(0);
+        setNetWorth(0);
+      }
+    } finally {
+      if (isMounted) {
+        setLoading(false);
+      }
+    }
+  }
 
   async function handleUpdateBalance() {
     try {
@@ -103,7 +109,6 @@ export default function NetWorthPage() {
       console.error("Update failed", error);
     }
   }
-
   return (
     <div className="min-h-screen p-6 sm:p-10 max-w-4xl mx-auto text-white">
       <Header />
@@ -114,6 +119,15 @@ export default function NetWorthPage() {
           <h1 className="text-4xl font-extrabold tracking-tight mb-0 text-white">
             Net Worth
           </h1>
+          <button
+            onClick={() => fetchNetWorth()}
+            className="ml-2 mt-1 p-1 rounded hover:bg-gray-700"
+            title="Refresh Data"
+          >
+            <RefreshCw
+              className={`w-5 h-5 text-green-400 ${loading ? "animate-spin" : ""}`}
+            />
+          </button>
         </div>
         <MenuButton />
       </div>
