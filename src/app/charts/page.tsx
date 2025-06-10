@@ -3,10 +3,16 @@
 import { useEffect, useState } from "react";
 import Charts from "@/components/Charts";
 import Menu from "@/components/Menu";
-import { ChartCandlestick } from "lucide-react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import FloatingTransactionButton from "@/components/FloatingTransactionButton";
+
+import {
+  TrendingUp,
+  TrendingDown,
+  BarChartBig,
+  ChartCandlestick,
+} from "lucide-react";
 
 type Transaction = {
   _id: string;
@@ -15,7 +21,7 @@ type Transaction = {
   date: string;
   category: string;
   type: "income" | "expense";
-  paymentMode:"Cash" | "UPI";
+  paymentMode: "Cash" | "UPI";
 };
 
 const ChartsPage = () => {
@@ -206,38 +212,64 @@ const ChartsPage = () => {
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-5">
       <div className="max-w-5xl mx-auto">
-        <Header/>
+        <Header />
 
-        <div>
-          <div className="flex justify-between items-center mb-5">
-            <div className="flex items-center gap-2">
-              <ChartCandlestick />
-              <h1 className="text-4xl font-extrabold tracking-tight mb-0">
-                Charts
-              </h1>
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-3">
+            <BarChartBig className="w-7 h-7 text-indigo-400" />
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              Charts
+            </h1>
+          </div>
+          <Menu />
+        </div>
+
+        {/* Inflow/Expense Overview */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          <div className="bg-gray-900 p-5 rounded-xl shadow flex items-center gap-4">
+            <div className="bg-green-800/80 p-3 rounded-full">
+              <TrendingUp className="text-white w-6 h-6" />
             </div>
-            <Menu />
+            <div>
+              <p className="text-md font-bold text-gray-300">Total Inflow</p>
+              <p className="text-lg font-bold text-green-300">₹{inflow}</p>
+            </div>
+          </div>
+
+          <div className="bg-gray-900  p-5 rounded-xl shadow flex items-center gap-4">
+            <div className="bg-red-800/80 p-3 rounded-full">
+              <TrendingDown className="text-white w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-md font-bold text-gray-300">Total Expense</p>
+              <p className="text-lg font-bold text-red-300">₹{expense}</p>
+            </div>
           </div>
         </div>
 
-        {/* Charts */}
+        {/* Charts Section */}
         <div className="grid grid-cols-1 gap-8">
-          <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-900 rounded-xl shadow-lg p-6 space-y-4">
+          <div className="bg-[#111]/80 backdrop-blur-md border border-gray-800 rounded-xl shadow-xl p-6 space-y-6">
+            <h2 className="text-2xl tracking-tight font-bold text-white flex items-center gap-2">
+              <BarChartBig className="w-8 h-8 text-indigo-400" />
+              Visual Summary
+            </h2>
             <Charts
               inflow={inflow}
               expense={expense}
               dailyBarData={dailyBarData}
               monthlyBarData={monthlyBarData}
-              categoryWiseMonthlyData={categoryWiseMonthlyData} // 👈 Pass to Charts
-              categoryWiseYearlyData={yearlyCategoryExpenseData} // 👈 Pass to Charts
-              cashAmount={cashAmount}
-              upiAmount={upiAmount}
+              categoryWiseMonthlyData={categoryWiseMonthlyData}
+              categoryWiseYearlyData={yearlyCategoryExpenseData}
+              cashAmount={0}
+              upiAmount={0}
             />
           </div>
         </div>
       </div>
-      <FloatingTransactionButton/>
-      <Footer/>
+
+      <FloatingTransactionButton />
+      <Footer />
     </main>
   );
 };

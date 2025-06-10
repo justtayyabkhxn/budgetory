@@ -31,6 +31,7 @@ import {
   BanknoteArrowUp,
   BadgeIndianRupee,
   ArrowDownWideNarrow,
+  Search,
 } from "lucide-react";
 import Header from "@/components/Header";
 import FloatingTransactionButton from "@/components/FloatingTransactionButton";
@@ -50,8 +51,7 @@ export default function Transactions() {
   const [user, setUser] = useState<User | null>(null);
   const [txs, setTxs] = useState<Transaction[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-    const [loading, setLoading] = useState<boolean>(true);
-
+  const [loading, setLoading] = useState<boolean>(true);
 
   const router = useRouter();
 
@@ -150,11 +150,11 @@ export default function Transactions() {
     <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-800 text-white p-4 sm:p-8">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <Header/>
+        <Header />
         <div>
           <div className="flex justify-between items-center mb-5">
-            <div className="flex items-center gap-2">
-              <BadgeIndianRupee />
+            <div className="flex items-center gap-1">
+              <BadgeIndianRupee className="text-green-300" size={30} />
               <h1 className="text-4xl font-extrabold tracking-tight mb-0">
                 Transactions
               </h1>
@@ -164,43 +164,49 @@ export default function Transactions() {
         </div>
         {/* Recent Transactions */}
         <div className="bg-[#111]/80 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-lg ">
-          <div className="flex items-center justify-between gap-5 mb-4">
-            <div className="flex items-center gap-0 text-xl font-semibold">
-              <ArrowDownWideNarrow size={25} /> <span>All Transactions</span>
+          <div className="flex items-center justify-between gap-2 mb-4">
+            <div className="flex items-center gap-0 text-2xl font-bold tracking-tight">
+              <ArrowDownWideNarrow size={30} className="text-pink-400" />{" "}
+              <span>All Transactions</span>
             </div>
             <button
               onClick={handleExportCSV}
-              className="whitespace-nowrap cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors mr-4"
+              className="whitespace-nowrap cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-bold transition-colors mr-1"
             >
               Export CSV
             </button>
           </div>
 
           {loading ? (
-              <p className="text-gray-400 animate-pulse">
-                Loading transactions...
-              </p>
-            ) : txs.length === 0 ? (
+            <p className="text-gray-400 animate-pulse">
+              Loading transactions...
+            </p>
+          ) : txs.length === 0 ? (
             <p className="text-gray-400">No transactions yet.</p>
           ) : (
             <ul className="space-y-3">
               <div className="flex items-center gap-4 mb-4">
-                <input
-                  type="text"
-                  placeholder="Search by title or comment..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-grow px-4 py-3 rounded-md bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-                <div className="flex items-center gap-4 mb-4">
+                {/* Search input with icon */}
+                <div className="relative flex-grow">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 pointer-events-none text-blue-400" />
+                  <input
+                    type="text"
+                    placeholder="Search by title or comment..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-md bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  />
+                </div>
+
+                {/* See More button */}
+                <div className="mb-1">
                   <Link href="/advanced-search">
-                    <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-3 rounded-md text-sm font-bold transition-colors whitespace-nowrap mt-4 cursor-pointer">
+                    <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-3 rounded-md text-sm font-bold transition-colors whitespace-nowrap cursor-pointer">
                       See More
                     </button>
                   </Link>
                 </div>
               </div>
-
               {txs
                 .filter(
                   (tx) =>
@@ -213,46 +219,48 @@ export default function Transactions() {
                   const Icon = categoryIcons[tx.category] || BanknoteArrowUp;
 
                   return (
-                     <Link
+                    <Link
                       href={`/transactions/${tx._id}`}
                       key={tx._id}
                       className="block"
                     >
-                    <li
-                      key={tx._id}
-                      className="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="bg-white/10 p-2 rounded-full">
-                          <Icon className="w-5 h-5 text-indigo-400" />
+                      <li
+                        key={tx._id}
+                        className="flex justify-between items-center p-3 bg-white/5 rounded-md hover:bg-white/10"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="bg-white/10 p-2 rounded-full">
+                            <Icon className="w-5 h-5 text-indigo-400" />
+                          </div>
+                          <div>
+                            <p className="font-medium">{tx.title}</p>
+                            <p className="text-sm text-gray-400">
+                              {new Date(tx.date).toLocaleDateString()} •{" "}
+                              {tx.category}
+                            </p>
+                            <p className="text-sm text-gray-400">
+                              {tx.comment}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium">{tx.title}</p>
-                          <p className="text-sm text-gray-400">
-                            {new Date(tx.date).toLocaleDateString()} •{" "}
-                            {tx.category}
+                        <div className="text-right">
+                          <p
+                            className={`font-bold ${
+                              tx.type === "income"
+                                ? "text-green-400"
+                                : "text-red-400"
+                            }`}
+                          >
+                            {tx.type === "income" ? "+ " : "- "}₹ {tx.amount}
                           </p>
-                          <p className="text-sm text-gray-400">{tx.comment}</p>
+                          <button
+                            onClick={() => handleDelete(tx._id)}
+                            className="text-sm text-red-500 hover:text-red-700 ml-4 cursor-pointer"
+                          >
+                            Delete
+                          </button>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <p
-                          className={`font-bold ${
-                            tx.type === "income"
-                              ? "text-green-400"
-                              : "text-red-400"
-                          }`}
-                        >
-                          {tx.type === "income" ? "+ " : "- "}₹ {tx.amount}
-                        </p>
-                        <button
-                          onClick={() => handleDelete(tx._id)}
-                          className="text-sm text-red-500 hover:text-red-700 ml-4 cursor-pointer"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </li>
+                      </li>
                     </Link>
                   );
                 })}
@@ -260,7 +268,7 @@ export default function Transactions() {
           )}
         </div>
       </div>
-      <FloatingTransactionButton/>
+      <FloatingTransactionButton />
     </div>
   );
 }

@@ -178,10 +178,10 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
           <option value="UPI">UPI</option>
         </select>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           {(() => {
             const Icon = categoryIcons[form.category] || BanknoteArrowUp;
-            return <Icon className="w-5 h-5 text-pink-600 " />;
+            return <Icon className=" text-pink-600 " />;
           })()}
 
           <select
@@ -203,6 +203,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
         </div>
 
         <div className="relative w-full md:w-80 lg:w-94 xl:w-120">
+          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white w-5 h-5 pointer-events-none" />
           <input
             type="date"
             name="date"
@@ -212,7 +213,6 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
             required
             className="p-2 pl-10 rounded bg-black border border-gray-900 text-white w-full"
           />
-          <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white w-5 h-5 pointer-events-none" />
         </div>
 
         <input

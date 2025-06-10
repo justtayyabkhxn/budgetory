@@ -17,6 +17,9 @@ import {
   FileDigit,
   RefreshCcwDot,
   CalendarClock,
+  ArrowDownCircle,
+  ArrowUpCircle,
+  Wallet,
 } from "lucide-react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -204,7 +207,7 @@ export default function Dashboard() {
       <div className={menuOpen ? "overflow-hidden h-screen" : ""}>
         <div className="max-w-5xl mx-auto">
           {/* Header */}
-          <Header/>
+          <Header />
 
           {/* Dashboard and Transactions */}
           <div className="mb-5 mt-4 flex items-center justify-between">
@@ -251,8 +254,10 @@ export default function Dashboard() {
                   loading ? "Loading..." : `₹ ${inflow.toLocaleString()}.00`
                 }
                 color="text-green-400"
+                icon={<ArrowDownCircle className="w-6 h-6 text-green-400" />}
               />
             </Link>
+
             <Link href="/expenses" className="cursor-pointer">
               <TxnCard
                 title={`Total Expenses (${new Date().toLocaleString("default", {
@@ -262,8 +267,10 @@ export default function Dashboard() {
                   loading ? "Loading..." : `₹ ${expense.toLocaleString()}.00`
                 }
                 color="text-red-500"
+                icon={<ArrowUpCircle className="w-6 h-6 text-red-500" />}
               />
             </Link>
+
             <div>
               <TxnCard
                 title={`Net (${new Date().toLocaleString("default", {
@@ -271,9 +278,11 @@ export default function Dashboard() {
                 })})`}
                 amount={loading ? "Loading..." : `₹ ${net.toLocaleString()}.00`}
                 color="text-gray-300"
+                icon={<Wallet className="w-6 h-6 text-gray-300" />}
               />
             </div>
           </div>
+
           {/* Add Transaction Form (kept above recent list) */}
           <AddTransactionForm onAdd={fetchTransactions} />
 
