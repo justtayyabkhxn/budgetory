@@ -20,6 +20,7 @@ import {
   ArrowDownCircle,
   ArrowUpCircle,
   Wallet,
+  RefreshCw,
 } from "lucide-react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -218,6 +219,17 @@ export default function Dashboard() {
                 <h1 className="text-4xl font-extrabold tracking-tight">
                   Dashboard
                 </h1>
+                <button
+                  onClick={() => fetchTransactions()}
+                  className="ml-2 mt-1 p-1 rounded cursor-pointer"
+                  title="Refresh Data"
+                >
+                  <RefreshCw
+                    className={`w-6 h-6 text-green-400 ${
+                      loading ? "animate-spin" : ""
+                    }`}
+                  />
+                </button>
               </div>
               <p className="text-gray-400 mt-1">
                 Welcome back 👋, {user?.email || "User"}
