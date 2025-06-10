@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Menu from "@/components/Menu";
@@ -18,41 +18,10 @@ type User = {
   email: string;
 };
 
-import {
-  Utensils,
-  HeartPulse,
-
-  Plane,
-  BanknoteArrowUp,
-  TextSearch,
-  ArrowUp,
-  Search,
-  ShoppingCart,
-  GraduationCap,
-  Car,
-  Wallet,
-  Banknote,
-  Shield,
-  Bitcoin,
-  Gift,
-  Building2,
-} from "lucide-react";
+import { categoryIcons, fallbackIcon } from "@/lib/categoryIcons"
 import Header from "@/components/Header";
+import { ArrowUp, BanknoteArrowUp, Search, TextSearch } from "lucide-react";
 
-export const categoryIcons: Record<string, React.ReactNode> = {
-  Food: <Utensils className="w-6 h-6 text-orange-400" />,
-  Shopping: <ShoppingCart className="w-6 h-6 text-pink-400" />,
-  Health: <HeartPulse className="w-6 h-6 text-red-500" />,
-  Education: <GraduationCap className="w-6 h-6 text-blue-400" />,
-  Travel: <Plane className="w-6 h-6 text-teal-400" />,
-  Transport: <Car className="w-6 h-6 text-yellow-400" />,
-  Bills: <Wallet className="w-6 h-6 text-gray-300" />,
-  Salary: <Banknote className="w-6 h-6 text-green-400" />,
-  Insurance: <Shield className="w-6 h-6 text-indigo-400" />,
-  Investment: <Bitcoin className="w-6 h-6 text-amber-500" />,
-  Gift: <Gift className="w-6 h-6 text-violet-400" />,
-  Rent: <Building2 className="w-6 h-6 text-fuchsia-500" />,
-};
 
 const AdvancedSearchPage = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -356,9 +325,11 @@ const AdvancedSearchPage = () => {
           ) : (
             <ul className="space-y-3">
               {filteredTxs.map((tx) => {
-                const icon = categoryIcons[
-                  tx.category as keyof typeof categoryIcons
-                ] || <BanknoteArrowUp className="w-6 h-6 text-indigo-400" />;
+                const Icon =
+                  categoryIcons[tx.category as keyof typeof categoryIcons] ||
+                  (() => (
+                    <BanknoteArrowUp className="w-6 h-6 text-indigo-400" />
+                  ));
 
                 return (
                   <Link
@@ -367,7 +338,9 @@ const AdvancedSearchPage = () => {
                     className="block"
                   >
                     <li className="p-3 bg-white/4 hover:bg-white/10 rounded-lg flex items-center gap-5 transition-all duration-300 cursor-pointer">
-                      <div className="bg-white/10 p-2 rounded-full">{icon}</div>
+                      <div className="bg-white/10 p-2 rounded-full">
+                        <Icon />
+                      </div>
                       <div className="flex-1">
                         <h3 className="text-white font-semibold">{tx.title}</h3>
                         <p className="text-sm text-gray-400">{tx.comment}</p>
