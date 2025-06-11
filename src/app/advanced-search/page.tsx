@@ -1,5 +1,5 @@
 "use client";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Menu from "@/components/Menu";
@@ -18,10 +18,9 @@ type User = {
   email: string;
 };
 
-import { categoryIcons } from "@/lib/categoryIcons"
+import { categoryIcons } from "@/lib/categoryIcons";
 import Header from "@/components/Header";
-import { ArrowUp, BanknoteArrowUp, Search, TextSearch } from "lucide-react";
-
+import { ArrowUp, BanknoteArrowUp, RefreshCw, Search, TextSearch } from "lucide-react";
 
 const AdvancedSearchPage = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -36,8 +35,25 @@ const AdvancedSearchPage = () => {
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("date-desc");
+  const [loading, setLoading] = useState<boolean>(true);
 
   const router = useRouter();
+
+  const fetchTransactions = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    setLoading(true); // start loading
+    fetch("/api/transactions", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.transactions) setTransactions(data.transactions);
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false)); // stop loading
+  };
 
   const exportToCSV = () => {
     if (!filteredTxs.length) return;
@@ -78,6 +94,7 @@ const AdvancedSearchPage = () => {
       localStorage.removeItem("token");
       router.push("/login");
     }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -182,9 +199,20 @@ const AdvancedSearchPage = () => {
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-2">
             <TextSearch className="text-green-400" />
-            <h1 className="text-3xl font-extrabold tracking-tight mb-0">
+            <h1 className="text-2xl font-extrabold tracking-tight mb-0">
               Advanced Search
             </h1>
+            <button
+              onClick={() => fetchTransactions()}
+              className="ml-2 mt-1 p-1 rounded cursor-pointer"
+              title="Refresh Data"
+            >
+              <RefreshCw
+                className={`w-6 h-6 text-green-400 ${
+                  loading ? "animate-spin" : ""
+                }`}
+              />
+            </button>
           </div>
           <Menu />
         </div>
