@@ -7,11 +7,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import FloatingTransactionButton from "@/components/FloatingTransactionButton";
 
-import {
-  TrendingUp,
-  TrendingDown,
-  BarChartBig,
-} from "lucide-react";
+import { TrendingUp, TrendingDown, BarChartBig } from "lucide-react";
 
 type Transaction = {
   _id: string;
@@ -26,6 +22,8 @@ type Transaction = {
 const ChartsPage = () => {
   const [inflow, setInflow] = useState(0);
   const [expense, setExpense] = useState(0);
+  const [cashStats, setCashStats] = useState({ inflow: 0, expense: 0 });
+  const [upiStats, setUpiStats] = useState({ inflow: 0, expense: 0 });
 
   const [dailyBarData, setDailyBarData] = useState<{
     categories: string[];
@@ -82,8 +80,23 @@ const ChartsPage = () => {
           );
         });
 
-        // ✅ Cash and UPI calculation
-      
+        let cashInflow = 0,
+          cashExpense = 0;
+        let upiInflow = 0,
+          upiExpense = 0;
+
+        monthlyTxs.forEach((tx) => {
+          if (tx.paymentMode === "Cash") {
+            if (tx.type === "income") cashInflow += tx.amount;
+            else if (tx.type === "expense") cashExpense += tx.amount;
+          } else if (tx.paymentMode === "UPI") {
+            if (tx.type === "income") upiInflow += tx.amount;
+            else if (tx.type === "expense") upiExpense += tx.amount;
+          }
+        });
+
+        setCashStats({ inflow: cashInflow, expense: cashExpense });
+        setUpiStats({ inflow: upiInflow, expense: upiExpense });
 
         const inflowAmt = monthlyTxs
           .filter((tx) => tx.type === "income")
@@ -249,8 +262,8 @@ const ChartsPage = () => {
               monthlyBarData={monthlyBarData}
               categoryWiseMonthlyData={categoryWiseMonthlyData}
               categoryWiseYearlyData={yearlyCategoryExpenseData}
-              cashAmount={0}
-              upiAmount={0}
+              cashAmount={cashStats.expense}
+              upiAmount={upiStats.expense}
             />
           </div>
         </div>
