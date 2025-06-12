@@ -403,6 +403,7 @@ export default function StatsPage() {
         </div>
       )}
       <Footer/>
+      <FloatingTransactionButton/>
     </div>
   );
 }
@@ -426,7 +427,7 @@ function StatCard({
       <div className="text-xl font-extrabold text-blue-300 group-hover:text-blue-400 transition duration-200">
         {value}
       </div>
-      <FloatingTransactionButton/>
+      
     </div>
   );
 }
