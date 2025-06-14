@@ -21,12 +21,12 @@ export async function POST(req: NextRequest) {
   try {
     await connectDB();
 
-    const { adjustment, paymentMode } = await req.json();
-    const amount = parseFloat(adjustment);
+    const { newBalance, paymentMode } = await req.json();
+    const newAmount = parseFloat(newBalance);
 
-    if (isNaN(amount)) {
+    if (isNaN(newAmount)) {
       return NextResponse.json(
-        { error: "Invalid adjustment amount" },
+        { error: "Invalid balance amount" },
         { status: 400 }
       );
     }
@@ -40,27 +40,34 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Find and update the net worth document
-    const userNetWorth = await NetWorth.findOneAndUpdate(
+    // Fetch current balance first
+    const userNetWorth = await NetWorth.findOne({ userId });
+
+    const oldBalance = userNetWorth?.bankBalance || 0;
+    const adjustment = newAmount - oldBalance;
+
+    const updatedNetWorth = await NetWorth.findOneAndUpdate(
       { userId },
-      { 
-        $inc: { bankBalance: amount }, // Increment/decrement the balance
-        $set: { lastUpdated: new Date() },
-        $push: { 
+      {
+        $set: {
+          bankBalance: newAmount,
+          lastUpdated: new Date(),
+        },
+        $push: {
           transactions: {
-            amount: Math.abs(amount),
-            type: amount >= 0 ? "credit" : "debit",
+            amount: Math.abs(adjustment),
+            type: adjustment >= 0 ? "credit" : "debit",
             paymentMode,
-            date: new Date()
-          }
-        }
+            date: new Date(),
+          },
+        },
       },
       { new: true, upsert: true }
     );
 
-    return NextResponse.json({ 
-      bankBalance: userNetWorth.bankBalance,
-      message: "Balance updated successfully"
+    return NextResponse.json({
+      bankBalance: updatedNetWorth.bankBalance,
+      message: "Balance updated successfully",
     });
 
   } catch (err) {
