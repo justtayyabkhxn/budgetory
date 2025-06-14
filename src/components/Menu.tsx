@@ -17,13 +17,13 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import router from "next/router";
 import React, { useEffect, useState } from "react";
 
 export default function MenuButton() {
+
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-
+  
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   useEffect(() => {
@@ -39,19 +39,21 @@ export default function MenuButton() {
     }`;
 
   const handleLogout = async () => {
-    try {
-      const res = await fetch("/api/logout", { method: "POST" });
-      if (res.ok) {
-        localStorage.removeItem("token");
-        setMenuOpen(false);
-        router.push("/login");
-      } else {
-        console.error("Logout failed:", await res.text());
-      }
-    } catch (err) {
-      console.error("Error logging out:", err);
+  try {
+    const res = await fetch("/api/logout", { method: "POST" });
+    if (res.ok) {
+      localStorage.removeItem("token");
+      setMenuOpen(false);
+      window.location.href = "/login"; // ✅ Redirect to login
+    } else {
+      console.error("Logout failed:", await res.text());
+      window.location.href = "/login";
     }
-  };
+  } catch (err) {
+    console.error("Error logging out:", err);
+  }
+};
+
 
   return (
     <div className="relative z-50">
@@ -132,7 +134,7 @@ export default function MenuButton() {
 
           {/* Logout Button */}
           <div className="mt-auto">
-            <button onClick={handleLogout} className="flex items-center gap-2 bg-white/3 p-3 rounded-3xl hover:underline font-semibold">
+            <button onClick={handleLogout} className="flex items-center gap-2 bg-white/3 p-3 rounded-3xl hover:underline font-semibold cursor-pointer">
               <LogIn color="#ef4444" /> Logout
             </button>
           </div>
