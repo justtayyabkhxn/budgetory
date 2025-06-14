@@ -96,7 +96,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
   }
 
   try {
-    // First add the transaction
+    // Step 1: Add the transaction
     const res = await fetch("/api/transactions", {
       method: "POST",
       headers: {
@@ -111,10 +111,22 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
       throw new Error(data.error || "Failed to add transaction");
     }
 
-    // Then update the bank balance
+    // Step 2: Fetch current balance
+    const balanceFetch = await fetch("/api/networth", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const balanceData = await balanceFetch.json();
+
+    if (!balanceFetch.ok) {
+      throw new Error(balanceData.error || "Failed to fetch current balance");
+    }
+
+    const currentBalance = balanceData.bankBalance || 0;
     const amount = parseFloat(form.amount);
     const adjustment = form.type === "income" ? amount : -amount;
+    const newBalance = currentBalance + adjustment;
 
+    // Step 3: Update net worth using newBalance
     const balanceRes = await fetch("/api/networth/update", {
       method: "POST",
       headers: {
@@ -122,16 +134,17 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        adjustment, // Pass the amount to adjust (positive or negative)
-        paymentMode: form.paymentMode // Optional: track payment method
+        newBalance,
+        paymentMode: form.paymentMode,
       }),
     });
 
     if (!balanceRes.ok) {
-      throw new Error("Failed to update bank balance");
+      const data = await balanceRes.json();
+      throw new Error(data.error || "Failed to update bank balance");
     }
 
-    // On success
+    // Step 4: Reset form and update UI
     setSuccess("Transaction added and balance updated!");
     setForm({
       title: "",
@@ -142,19 +155,24 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
       comment: "",
       paymentMode: "Cash",
     });
+
     onAdd();
-    // Refresh transactions list
+
+    // Step 5: Refresh transactions list
     const updated = await fetch("/api/transactions", {
       headers: { Authorization: `Bearer ${token}` },
     }).then((r) => r.json());
+
     if (updated.transactions) setTxs(updated.transactions);
 
-  } catch (err) {
+  } catch (err: any) {
     setError(err.message || "Something went wrong");
   } finally {
     setLoading(false);
   }
 };
+
+
 
   return (
     <div className="mb-4 bg-[#111]/80  rounded-xl p-6 ">
