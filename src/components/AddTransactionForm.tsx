@@ -29,7 +29,7 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
     amount: "",
     category: "Food",
     type: "income",
-    date: "",
+    date: new Date().toISOString().split("T")[0],
     comment: "",
     paymentMode: "Cash", // 👈 new field
   });
@@ -83,97 +83,97 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
   }, [form.type]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError("");
-  setSuccess("");
-  setLoading(true);
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    setLoading(true);
 
-  const token = localStorage.getItem("token");
-  if (!token) {
-    setError("You must be logged in");
-    setLoading(false);
-    return;
-  }
-
-  try {
-    // Step 1: Add the transaction
-    const res = await fetch("/api/transactions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(form),
-    });
-
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.error || "Failed to add transaction");
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("You must be logged in");
+      setLoading(false);
+      return;
     }
 
-    // Step 2: Fetch current balance
-    const balanceFetch = await fetch("/api/networth", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const balanceData = await balanceFetch.json();
+    try {
+      // Step 1: Add the transaction
+      const res = await fetch("/api/transactions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(form),
+      });
 
-    if (!balanceFetch.ok) {
-      throw new Error(balanceData.error || "Failed to fetch current balance");
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to add transaction");
+      }
+
+      // Step 2: Fetch current balance
+      const balanceFetch = await fetch("/api/networth", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const balanceData = await balanceFetch.json();
+
+      if (!balanceFetch.ok) {
+        throw new Error(balanceData.error || "Failed to fetch current balance");
+      }
+
+      const currentBalance = balanceData.bankBalance || 0;
+      const amount = parseFloat(form.amount);
+      const adjustment = form.type === "income" ? amount : -amount;
+      const newBalance = currentBalance + adjustment;
+
+      // Step 3: Update net worth using newBalance
+      
+      const balanceRes = await fetch("/api/networth/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          newBalance,
+          paymentMode: form.paymentMode,
+        }),
+      });
+
+      if (!balanceRes.ok) {
+        const data = await balanceRes.json();
+        throw new Error(data.error || "Failed to update bank balance");
+      }
+
+      // Step 4: Reset form and update UI
+      setSuccess("Transaction added and balance updated!");
+
+      setForm({
+        title: "",
+        amount: "",
+        category: "Food",
+        type: "expense",
+        date: new Date().toISOString().split("T")[0], // 👈 today's date in DD-MM-YYYY
+        comment: "",
+        paymentMode: "Cash",
+      });
+
+      onAdd();
+
+      // Step 5: Refresh transactions list
+      const updated = await fetch("/api/transactions", {
+        headers: { Authorization: `Bearer ${token}` },
+      }).then((r) => r.json());
+
+      if (updated.transactions) setTxs(updated.transactions);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong");
+      }
     }
-
-    const currentBalance = balanceData.bankBalance || 0;
-    const amount = parseFloat(form.amount);
-    const adjustment = form.type === "income" ? amount : -amount;
-    const newBalance = currentBalance + adjustment;
-
-    // Step 3: Update net worth using newBalance
-    const balanceRes = await fetch("/api/networth/update", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        newBalance,
-        paymentMode: form.paymentMode,
-      }),
-    });
-
-    if (!balanceRes.ok) {
-      const data = await balanceRes.json();
-      throw new Error(data.error || "Failed to update bank balance");
-    }
-
-    // Step 4: Reset form and update UI
-    setSuccess("Transaction added and balance updated!");
-    setForm({
-      title: "",
-      amount: "",
-      category: "Food",
-      type: "income",
-      date: "",
-      comment: "",
-      paymentMode: "Cash",
-    });
-
-    onAdd();
-
-    // Step 5: Refresh transactions list
-    const updated = await fetch("/api/transactions", {
-      headers: { Authorization: `Bearer ${token}` },
-    }).then((r) => r.json());
-
-    if (updated.transactions) setTxs(updated.transactions);
-
-  } catch (err: any) {
-    setError(err.message || "Something went wrong");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-
+  };
   return (
     <div className="mb-4 bg-[#111]/80  rounded-xl p-6 ">
       <div className="flex items-center gap-2 mb-4">
