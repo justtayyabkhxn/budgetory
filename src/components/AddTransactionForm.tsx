@@ -74,7 +74,6 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
       [name]: value,
     }));
   };
-
   // Auto-set category to "Other" when type is income
   useEffect(() => {
     if (form.type === "income") {
@@ -87,14 +86,12 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
     setError("");
     setSuccess("");
     setLoading(true);
-
     const token = localStorage.getItem("token");
     if (!token) {
       setError("You must be logged in");
       setLoading(false);
       return;
     }
-
     try {
       // Step 1: Add the transaction
       const res = await fetch("/api/transactions", {
@@ -105,18 +102,15 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
         },
         body: JSON.stringify(form),
       });
-
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Failed to add transaction");
       }
-
       // Step 2: Fetch current balance
       const balanceFetch = await fetch("/api/networth", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const balanceData = await balanceFetch.json();
-
       if (!balanceFetch.ok) {
         throw new Error(balanceData.error || "Failed to fetch current balance");
       }
@@ -146,8 +140,9 @@ export function AddTransactionForm({ onAdd }: { onAdd: () => void }) {
       }
 
       // Step 4: Reset form and update UI
+      
       setSuccess("Transaction added and balance updated!");
-
+      setLoading(false);
       setForm({
         title: "",
         amount: "",
